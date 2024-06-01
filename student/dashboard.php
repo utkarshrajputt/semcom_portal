@@ -1,3 +1,16 @@
+<?php 
+      require('../includes/loader.php');
+      require('../includes/session.php');
+
+
+        $enroll = $_SESSION['enroll'];
+
+        if(!isset($enroll)){
+        header('location:student_login.php');
+        }
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,34 +34,34 @@
 
 
 <body id="body-pd">
-<?php include '../includes/sidebar-student.php' ?>
+<?php require '../includes/sidebar-student.php' ?>
 
 <!-- Container Main start -->
     <div class="height-auto pt-3 pb-5" style="color: black;">
         <!-- PERSONAL DETAILS -->
         <div id="dashboard" class="content active text-dark">
             <h4>Personal Details</h4>
-            <?php require '/forms/personal-details.php'; ?>
+            <?php require './forms/personal-details.php'; ?>
         </div>
         <!-- ADDRSSS -->
         <div id="users" class="content  text-dark">
             <h4>Address</h4>
-            <?php require '/forms/address.php'; ?>
+            <?php require './forms/address.php'; ?>
         </div>
         <!-- BASIC DETAILS -->
         <div id="messages" class="content text-dark">
             <h4>Basic Details</h4>
-            <?php require '/forms/basic-details.php'; ?>
+            <?php require './forms/basic-details.php'; ?>
         </div>
         <!-- PARENTS DETAILS -->
         <div id="bookmark" class="content text-dark">
             <h4>Parents Details</h4>
-            <?php require '/forms/parents-details.php'; ?>
+            <?php require './forms/parents-details.php'; ?>
         </div>
         <!-- ACCEDEMIC DETAILS -->
         <div id="files" class="content text-dark">
             <h4>Academic Details</h4>
-            <?php require '/forms/academic-details.php'; ?>
+            <?php require './forms/academic-details.php'; ?>
         </div>
     </div>
 <!-- Container Main end -->

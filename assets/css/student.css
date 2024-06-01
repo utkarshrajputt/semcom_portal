@@ -114,17 +114,23 @@ a {
     font-weight: 700;
 }
 
-.nav_link {
+.nav_link,.lg{
     position: relative;
     color: var(--first-color-light);
     margin-bottom: 1.5rem;
     transition: .3s;
 }
 
-.nav_link:hover {
+.nav_link:hover,.lg:hover {
     color: var(--white-color);
 }
-
+.lg{
+    margin-left:20px;
+}
+.lg span
+{
+    margin-left:20px;
+}
 .nav_icon {
     font-size: 1.25rem;
 }
