@@ -215,6 +215,8 @@ a {
     h4{
         font-size: 15px;
         transition: 1s;
+        background-color: #4723d9;
+        color: white;
     }
     .span-lines{
         display: none;
