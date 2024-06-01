@@ -25,29 +25,30 @@
 
 <!-- Container Main start -->
     <div class="height-auto pt-3 pb-5" style="color: black;">
+        <!-- PERSONAL DETAILS -->
         <div id="dashboard" class="content active text-dark">
             <h4>Personal Details</h4>
             <?php require '/forms/personal-details.php'; ?>
         </div>
-        <div id="users" class="content text-dark">
-            <h4>Users</h4>
-            <p>Kushal Chutmarino</p>
+        <!-- ADDRSSS -->
+        <div id="users" class="content  text-dark">
+            <h4>Address</h4>
+            <?php require '/forms/address.php'; ?>
         </div>
+        <!-- BASIC DETAILS -->
         <div id="messages" class="content text-dark">
-            <h4>Messages</h4>
-            <p>Kunj Chutyo</p>
+            <h4>Basic Details</h4>
+            <?php require '/forms/basic-details.php'; ?>
         </div>
+        <!-- PARENTS DETAILS -->
         <div id="bookmark" class="content text-dark">
-            <h4>Bookmark</h4>
-            <p>Aman Lodo</p>
+            <h4>Parents Details</h4>
+            <?php require '/forms/parents-details.php'; ?>
         </div>
+        <!-- ACCEDEMIC DETAILS -->
         <div id="files" class="content text-dark">
-            <h4>Files</h4>
-            <p>Litti Litti ( mitho salo )</p>
-        </div>
-        <div id="stats" class="content text-dark">
-            <h4>Stats</h4>
-            <p>Diya tu bhai hai mera</p>
+            <h4>Academic Details</h4>
+            <?php require '/forms/academic-details.php'; ?>
         </div>
     </div>
 <!-- Container Main end -->

@@ -1,4 +1,4 @@
-<div class="container fluid pt-3">
+<div class="container-fluid pt-3">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7 w-100">
             <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">

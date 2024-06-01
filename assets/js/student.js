@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function colorLink() {
         if (linkColor) {
-            linkColor.forEach(l => l.classList.remove('active'))
+            linkColor.forEach(l => l.classList.remove(  'active'))
             this.classList.add('active')
         }
     }
@@ -54,23 +54,43 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
+/*
+*
+*
+*  ***********   PERSONAL DETAILS FROM  ************
+*
+*/
+
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-    'use strict'
-  
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.personal-details-form')
-  
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
-  
-          form.classList.add('was-validated')
-        }, false)
-      })
-  })()
+(function() {
+    'use strict';
+
+    function applyValidation(forms) {
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }
+
+    var personalDetailsForms = document.querySelectorAll('.personal-details-form');
+    applyValidation(personalDetailsForms);
+
+    var addressForms = document.querySelectorAll('.address-form');
+    applyValidation(addressForms);
+
+    var basicDetailForm = document.querySelectorAll('.basic-details-form');
+    applyValidation(basicDetailForm);
+
+    var parentsDetails = document.querySelectorAll('.parents-details-form');
+    applyValidation(parentsDetails);
+
+    var academicDetails = document.querySelectorAll('.academic-details-form');
+    applyValidation(academicDetails);
+
+})();
