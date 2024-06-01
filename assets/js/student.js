@@ -49,6 +49,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
             document.getElementById(targetId).classList.add('active');
         });
     });
+
+    /*===== HIDE SIDEBAR ON LINK CLICK =====*/
+    const hideSidebar = () => {
+        const nav = document.getElementById('nav-bar');
+        if (nav.classList.contains('show')) {
+            nav.classList.remove('show');
+            document.getElementById('header-toggle').classList.remove('bx-x');
+            document.getElementById('body-pd').classList.remove('body-pd');
+            document.getElementById('header').classList.remove('body-pd');
+        }
+    };
+
+    document.querySelectorAll('.nav_link').forEach(link => {
+        link.addEventListener('click', hideSidebar);
+    });
+
+    /*===== CLOSE BUTTON TOGGLE SIDEBAR =====*/
+    const closeBtn = document.getElementById('nav-close-btn');
+    closeBtn.addEventListener('click', () => {
+        const nav = document.getElementById('nav-bar');
+        nav.classList.remove('show');
+        document.getElementById('header-toggle').classList.remove('bx-x');
+        document.getElementById('body-pd').classList.remove('body-pd');
+        document.getElementById('header').classList.remove('body-pd');
+    });
+
 });
 
 

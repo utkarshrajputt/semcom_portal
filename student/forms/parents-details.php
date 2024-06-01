@@ -7,7 +7,7 @@
                     <form class="parents-details-form" novalidate>
                         <div class="row text-center">
                             <div class="col-md-12">
-                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span>-----</span> FATHER'S DETAILS <span>-----</span> </h4><br>
+                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span class="span-lines">-----</span> FATHER'S DETAILS <span class="span-lines">-----</span> </h4><br>
                             </div>
                         </div>
                         <div class="row">
@@ -110,7 +110,7 @@
 
                         <div class="row text-center">
                             <div class="col-md-12">
-                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span>-----</span> MOTHER'S DETAILS <span>-----</span> </h4><br>
+                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span class="span-lines">-----</span> MOTHER'S DETAILS <span class="span-lines">-----</span> </h4><br>
                             </div>
                         </div>
                         
@@ -210,7 +210,7 @@
 
                         <div class="row text-center">
                             <div class="col-md-12">
-                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span>-----</span> EMERGENCY'S DETAILS <span>-----</span> </h4><br>
+                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span class="span-lines">-----</span> EMERGENCY'S DETAILS <span class="span-lines">-----</span> </h4><br>
                             </div>
                         </div>
                         

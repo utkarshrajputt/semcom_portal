@@ -5,6 +5,8 @@
 </header>
 
 <div class="l-navbar" id="nav-bar">
+    <!-- close button under 768px screen width -->
+    <i class='bx bx-x nav_close-btn' id="nav-close-btn"></i>
     <nav class="nav">
         <div>
             <!-- SEMCOM  -->

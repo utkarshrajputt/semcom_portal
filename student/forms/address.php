@@ -25,7 +25,7 @@
 
                         <div class="row text-center">
                             <div class="col-md-12">
-                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span>-----</span> PERMENANT ADDRESS <span>-----</span> </h4><br>
+                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span class="span-lines">-----</span> PERMENANT ADDRESS <span class="span-lines">-----</span> </h4><br>
                             </div>
                         </div>
 
@@ -68,7 +68,7 @@
 
                         <div class="row text-center">
                             <div class="col-md-12">
-                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span>-----</span> PRESENT ADDRESS <span>-----</span> </h4><br>
+                                <br><h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span class="span-lines">-----</span> PRESENT ADDRESS <span class="span-lines">-----</span> </h4><br>
                             </div>
                         </div>
 
