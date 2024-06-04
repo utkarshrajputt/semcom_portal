@@ -1,17 +1,6 @@
 <?php
-    if(isset($_POST['basic_submit']))
-    {  
-        $eng="";
-        if(!empty($_POST['eng']))
-        {
-            foreach($_POST['eng'] as $eng_check)
-            {
-                $eng=$eng .",". $eng_check;
-            }
-        }
-        $eng=substr($eng,1);
-        
-    }
+ 
+
 ?>
 <div class="container-fluid pt-3">
     <div class="row justify-content-center align-items-center h-100">
@@ -19,13 +8,13 @@
             <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                 <div class="card-body p-4 p-md-5">
                     <!-- FORM START -->
-                    <form method="post" class="basic-details-form" novalidate>
+                    <form class="basic-details-form" novalidate>
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <!-- Birth Date -->
                                 <div class="form-outline">
                                     <label class="form-label" for="birthDate">Birth Date</label>
-                                    <input type="date" name="birthdate" class="form-control form-control-lg"  />
+                                    <input type="date" name="birthdate" class="form-control form-control-lg" required />
 
 
                                 </div>
@@ -34,7 +23,7 @@
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                 <label class="form-label" for="category">Blood Group</label>
-                                    <select name="bloodgroup" class="form-control form-control-lg" >
+                                    <select name="bloodgroup" class="form-control form-control-lg" required>
                                         <option value="" disabled selected hidden>-- Select Blood Group --</option>
                                         <option value="general">O-</option>
                                         <option value="sc">O+</option>
@@ -55,21 +44,21 @@
                             <div class="col-md-4 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="height">Height (cm)</label>
-                                    <input type="text" name="height" class="form-control form-control-lg" maxlength="7" pattern="[0-9.]*" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\./g, '$1');"  />
+                                    <input type="text" name="height" class="form-control form-control-lg" maxlength="7" pattern="[0-9.]*" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\./g, '$1');" required />
                                     <div class="invalid-feedback">Please fill height !</div>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="weight">Weight (kg)</label>
-                                    <input type="text" name="weight" class="form-control form-control-lg" maxlength="7" pattern="[0-9.]*" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\./g, '$1');"  />
+                                    <input type="text" name="weight" class="form-control form-control-lg" maxlength="7" pattern="[0-9.]*" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\./g, '$1');" required />
                                     <div class="invalid-feedback">Please fill weight !</div>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="hobbies">Hobbies</label>
-                                    <input type="text" name="hobbies" class="form-control form-control-lg"  />
+                                    <input type="text" name="hobbies" class="form-control form-control-lg" required />
                                     <div class="invalid-feedback">Please fill hobbies with comma ( , ) !</div>
                                 </div>
                             </div>
@@ -80,7 +69,7 @@
                             <div class="col-md-4 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="category">Category</label>
-                                    <select name="category" class="form-control form-control-lg" >
+                                    <select name="category" class="form-control form-control-lg" required>
                                         <option value="" disabled selected hidden>-- Select Category --</option>
                                         <option value="general">General</option>
                                         <option value="sc">SC</option>
@@ -93,7 +82,7 @@
                             <div class="col-md-4 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="religion">Religion</label>
-                                    <select name="religion" class="form-control form-control-lg" >
+                                    <select name="religion" class="form-control form-control-lg" required>
                                         <option value="" disabled selected hidden>-- Select Category --</option>
                                         <option value="Hinduism">Hindu</option>
                                         <option value="Christianity">Christianity</option>
@@ -120,7 +109,7 @@
                             <div class="col-md-4 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="caste">Caste</label>
-                                    <input type="text" name="caste" class="form-control form-control-lg"  />
+                                    <input type="text" name="caste" class="form-control form-control-lg" required />
                                     <div class="invalid-feedback">Please fill caste !</div>
                                 </div>
                             </div>
@@ -133,11 +122,11 @@
                                 <div class="col mb-4 d-flex gap-5">
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="lastName">English</label><br>
-                                        <input type="checkbox" name="eng[]" name="padd" value="Read" class="form-check-input">
+                                        <input type="checkbox" name="eng" name="padd" value="Read" class="form-check-input">
                                         <label class="form-label" for="emailAddress">Read</label><br>
-                                        <input type="checkbox" name="eng[]" name="padd" value="Write" class="form-check-input">
+                                        <input type="checkbox" name="eng" name="padd" value="Write" class="form-check-input">
                                         <label class="form-label" for="emailAddress">Write</label><br>
-                                        <input type="checkbox" name="eng[]" name="padd" value="Speak" class="form-check-input">
+                                        <input type="checkbox" name="eng" name="padd" value="Speak" class="form-check-input">
                                         <label class="form-label" for="emailAddress">Speak</label>
                                     </div>
 
@@ -166,7 +155,7 @@
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="otherLanguage">Other Language</label>
-                                    <input type="text" id="otherLanguage" class="form-control form-control-lg"  />
+                                    <input type="text" id="otherLanguage" class="form-control form-control-lg" required />
                                     <div class="invalid-feedback">Write NA if not !</div>
                                 </div>
                             </div>
@@ -175,7 +164,7 @@
                         <!-- Submit Button -->
                         <div class="row mt-4 pt-1">
                             <div class="col">
-                                <input class="btn btn-primary btn-lg" name="basic_submit" type="submit" value="Save & Next" />
+                                <input class="btn btn-primary btn-lg" name="submit" type="submit" value="Save & Next" />
                             </div>
                         </div>
 
