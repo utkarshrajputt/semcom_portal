@@ -43,7 +43,7 @@ else
 
     if ($select_user->rowCount() > 0) {
       $_SESSION['enroll'] = $row['enroll_no'];
-      header('location:dashboard.php');
+      header('location:profile_dashboard.php');
 
       if(isset($_POST['remember'])) {
         setcookie('enroll',$_POST['enroll'] , time() + (60*60*24)) ;

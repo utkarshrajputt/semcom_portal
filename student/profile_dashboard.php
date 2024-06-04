@@ -8,12 +8,18 @@ $enroll = $_SESSION['enroll'];
 if (!isset($enroll)) {
     header('location:student_login.php');
 } else {
-    
+    $row=mysqli_fetch_row(mysqli_query($conn,"select complete_register from stud_login where enroll_no=$enroll"));
+    $bool=$row[0];
+    if($bool=='yes')
+    {
+        header("location:dashboard.php");
+    }
     $personalDetails = fetchData('stud_personal_details', $enroll, $conn);
     $address=fetchData('stud_address', $enroll, $conn);
     $basic_dtl=fetchData('stud_other_details', $enroll, $conn);
     $parent_dtl=fetchData('stud_parents_details', $enroll, $conn);
     $academic_dtl=fetchData('stud_academic_details', $enroll, $conn);
+
 }
 ?>
 <!DOCTYPE html>
@@ -38,13 +44,14 @@ if (!isset($enroll)) {
     <link rel="stylesheet" href="../assets/css/student.css">
     <style>
         /* Additional CSS */
-        .disable-form input {
+        .disable-form input, .disable-form select {
             pointer-events: none;
             background: #dddddd;
         }
 
         .form-navigation-buttons {
             margin-left: 85%;
+            padding-bottom: 10px;
         }
         @media screen and (max-width: 1080px) {
             .form-navigation-buttons {
@@ -64,6 +71,13 @@ if (!isset($enroll)) {
 
     <?php
     require '../includes/sidebar-student.php';
+   
+        if($personalDetails && $address && $basic_dtl && $parent_dtl && $academic_dtl)  
+        {
+    ?>
+           <form method="post" class="form-navigation-buttons"><input type="submit" name="final" class="btn btn-primary" value="Complete Submission"></form>
+    <?php
+        }
     ?>
     <!-- Form Sections -->
     <div id="dashboard" class="content active text-dark">
@@ -131,8 +145,13 @@ if (!isset($enroll)) {
     <script src="../assets/js/student.js"></script>
     <script type="text/javascript">
     <?php
-    
-        if(!$address) {
+        if(!$personalDetails)
+        {
+            ?>
+            document.getElementById('dashboard').classList.add('active');
+            <?php            
+        }
+        else if(!$address) {
             ?>
                 document.getElementById('dashboard').classList.remove('active');
                 document.getElementById('users').classList.add('active');
@@ -159,6 +178,17 @@ if (!isset($enroll)) {
         }
     ?>
     </script>
+
+    <?php
+        if(isset($_POST['final']))
+        {
+            $qry=mysqli_query($conn,"update stud_login set complete_register='yes' where enroll_no=$enroll");
+            if($qry)
+            {
+                echo "<script>location.reload(true);</script>";
+            }
+        }
+    ?>
 </body>
 
 </html>
