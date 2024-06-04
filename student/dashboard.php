@@ -1,73 +1,159 @@
-<?php 
-      require('../includes/loader.php');
-      require('../includes/session.php');
+<?php
+require('../includes/loader.php');
+require('../includes/session.php');
+require('../config/mysqli_db.php');
+require('../includes/fetchTableData.php');
+$enroll = $_SESSION['enroll'];
 
-
-        $enroll = $_SESSION['enroll'];
-
-        if(!isset($enroll)){
-        header('location:student_login.php');
-        }
-
-
+if (!isset($enroll)) {
+    header('location:student_login.php');
+} else {
+    
+    $personalDetails = fetchData('stud_personal_details', $enroll, $conn);
+    $address=fetchData('stud_address', $enroll, $conn);
+    $basic_dtl=fetchData('stud_other_details', $enroll, $conn);
+    $parent_dtl=fetchData('stud_parents_details', $enroll, $conn);
+    $academic_dtl=fetchData('stud_academic_details', $enroll, $conn);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <title>SEMCOM</title>
 
     <!-- BOOTSTRAP & JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/a79beb4099.js" crossorigin="anonymous"></script>
-    
+
     <!-- BOXICON -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
     <!-- MAIN STUDENT CSS -->
     <link rel="stylesheet" href="../assets/css/student.css">
+    <style>
+        /* Additional CSS */
+        .disable-form input {
+            pointer-events: none;
+            background: #dddddd;
+        }
 
+        .form-navigation-buttons {
+            margin-left: 85%;
+        }
+        @media screen and (max-width: 1080px) {
+            .form-navigation-buttons {
+                margin-left: 70%;
+            }
+        }
+        @media screen and (max-width: 586px) {
+            .form-navigation-buttons {
+                margin-left: 50%;
+            }
+        }
+    </style>
 </head>
 
 
 <body id="body-pd">
-<?php require '../includes/sidebar-student.php' ?>
 
-<!-- Container Main start -->
-    <div class="height-auto pt-3 pb-5" style="color: black;">
-        <!-- PERSONAL DETAILS -->
-        <div id="dashboard" class="content active text-dark">
-            <h4>Personal Details</h4>
-            <?php require './forms/personal-details.php'; ?>
+    <?php
+    require '../includes/sidebar-student.php';
+    ?>
+    <!-- Form Sections -->
+    <div id="dashboard" class="content active text-dark">
+        <h4>Personal Details</h4>
+        <!-- Personal Details Form -->
+        <div class="form-navigation-buttons">
+            <button type="button" class="previous-button btn btn-secondary">Previous</button>
+            <button type="button" class="next-button btn btn-primary">Next</button>
         </div>
-        <!-- ADDRSSS -->
-        <div id="users" class="content  text-dark">
-            <h4>Address</h4>
-            <?php require './forms/address.php'; ?>
-        </div>
-        <!-- BASIC DETAILS -->
-        <div id="messages" class="content text-dark">
-            <h4>Basic Details</h4>
-            <?php require './forms/basic-details.php'; ?>
-        </div>
-        <!-- PARENTS DETAILS -->
-        <div id="bookmark" class="content text-dark">
-            <h4>Parents Details</h4>
-            <?php require './forms/parents-details.php'; ?>
-        </div>
-        <!-- ACCEDEMIC DETAILS -->
-        <div id="files" class="content text-dark">
-            <h4>Academic Details</h4>
-            <?php require './forms/academic-details.php'; ?>
-        </div>
+        <?php
+        require './forms/personal-details.php';
+        ?>
+
     </div>
-<!-- Container Main end -->
+    <div id="users" class="content text-dark">
+        <h4>Address</h4>
+        <!-- Address Form -->
+        <div class="form-navigation-buttons">
+            <button type="button" class="previous-button btn btn-secondary">Previous</button>
+            <button type="button" class="next-button btn btn-primary">Next</button>
+        </div>
+        <?php
+        require './forms/address.php';
+        ?>
+    </div>
+    <div id="messages" class="content text-dark">
+        <h4>Basic Details</h4>
+        <!-- Basic Details Form -->
+        <div class="form-navigation-buttons">
+            <button type="button" class="previous-button btn btn-secondary">Previous</button>
+            <button type="button" class="next-button btn btn-primary">Next</button>
+        </div>
+        <?php
+        require './forms/basic-details.php';
+        ?>
+    </div>
+    <div id="bookmark" class="content text-dark">
+        <h4>Parents Details</h4>
+        <!-- Parents Details Form -->
+        <div class="form-navigation-buttons">
+            <button type="button" class="previous-button btn btn-secondary">Previous</button>
+            <button type="button" class="next-button btn btn-primary">Next</button>
+        </div>
+        <?php
+        require './forms/parents-details.php';
+        ?>
+    </div>
+    <div id="files" class="content text-dark">
+        <h4>Academic Details</h4>
+        <!-- Parents Details Form -->
+        <div class="form-navigation-buttons">
+            <button type="button" class="previous-button btn btn-secondary">Previous</button>
+            <button type="button" class="next-button btn btn-primary">Next</button>
+        </div>
+        <?php
+        require './forms/academic-details.php';
+        ?>
+    </div>
+    <!-- MAIN STUDENT JS -->
+    <script src="../assets/js/student.js"></script>
+    <script type="text/javascript">
+    <?php
+    
+        if(!$address) {
+            ?>
+                document.getElementById('dashboard').classList.remove('active');
+                document.getElementById('users').classList.add('active');
 
-<!-- MAIN STUDENT JS -->
-<script src="../assets/js/student.js"></script>
-
+            <?php
+        }
+        else if(!$basic_dtl) {
+            ?>
+                document.getElementById('dashboard').classList.remove('active');
+                document.getElementById('messages').classList.add('active');
+            <?php
+        }
+        else if(!$parent_dtl) {
+            ?>
+                document.getElementById('dashboard').classList.remove('active');
+                document.getElementById('bookmark').classList.add('active');
+            <?php
+        }
+        else if(!$academic_dtl) {
+            ?>
+                document.getElementById('dashboard').classList.remove('active');
+                document.getElementById('files').classList.add('active');
+            <?php
+        }
+    ?>
+    </script>
 </body>
+
 </html>

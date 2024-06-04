@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vast+Shadow&display=swap');
 *{
   margin: 0;
   padding: 0;
@@ -18,6 +20,9 @@ height: 100vh;
   backdrop-filter: blur(3px);
   padding: 30px;
 }
+
+
+
 .container{
   position: relative;
   max-width: 950px;
@@ -59,7 +64,7 @@ height: 100vh;
   position: absolute;
   height: 100%;
   width: 100%;
-  background: #1d83c4;
+  background: #346ed4;
   opacity: 0.5;
   z-index: 12;
 }
@@ -91,10 +96,20 @@ height: 100vh;
   font-weight: 600;
   color: #fff;
   text-align: center;
-  font-family: "Comfortaa", sans-serif;
-  text-transform: uppercase;
+  font-family: "Holtwood One SC", serif;
+  font-weight: 100;
   font-size: 40px;
-  font-weight: 700;
+  font-style: normal;
+  /* font-family: "Comfortaa", sans-serif; */
+  text-transform: uppercase;
+ 
+}
+.think{
+  font-family: "Vast Shadow", serif;
+  font-weight: 900;
+  font-style: normal;
+  color: #000000;
+  text-transform: capitalize;
   
 }
 .container .forms{

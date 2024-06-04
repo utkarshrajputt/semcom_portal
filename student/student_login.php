@@ -69,8 +69,8 @@ else
     <div class="cover">
       <div class="front">
         <img src="../assets/images/frontImg.jpg" alt="">
-        <div class="text">
-          <span class="text-1">"What we <span style="color: black;">Think</span> <br> Other's Don't"</span>
+        <div class="text quote"><br><br>
+          <span class="text-1">"What  <span class="think"><br>we Think</span> <br> Other's Don't"</span>
 
         </div>
       </div>

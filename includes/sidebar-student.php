@@ -1,7 +1,7 @@
 <header class="header" id="header">
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
     <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
-    <div id="link-title"></div>
+    <div id="link-title">Enroll : <?php echo $enroll; ?></div>
 </header>
 
 <div class="l-navbar" id="nav-bar">
@@ -44,7 +44,7 @@
             </div>
         </div>
  
-    <a class="lg" href="../includes/s_logout.php" onclick="return confirm('Do You Really Want TO LogOut?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+    <a class="lg" href="../includes/s_logout.php" onclick="return confirm('Do you really want to Logout?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
     </nav>
 </div>
 <script>
