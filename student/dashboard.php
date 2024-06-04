@@ -72,7 +72,8 @@ if (!isset($enroll)) {
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div>
+        </div><br>
+        <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/personal-details.php';
         ?>
@@ -84,7 +85,8 @@ if (!isset($enroll)) {
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div>
+        </div><br>
+        <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/address.php';
         ?>
@@ -95,7 +97,8 @@ if (!isset($enroll)) {
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div>
+        </div><br>
+        <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/basic-details.php';
         ?>
@@ -106,7 +109,8 @@ if (!isset($enroll)) {
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div>
+        </div><br>
+        <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/parents-details.php';
         ?>
@@ -117,7 +121,8 @@ if (!isset($enroll)) {
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div>
+        </div><br>
+        <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/academic-details.php';
         ?>

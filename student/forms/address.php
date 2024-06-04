@@ -90,7 +90,7 @@ try {
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="permanentPincode">Permanent Pincode</label>
-                                    <input type="text" name="permanentpincode" class="form-control form-control-lg" pattern="\d{6}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" required />
+                                    <input type="text" name="permanentpincode" class="form-control form-control-lg" pattern="\d{6}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6" required />
                                     <div class="invalid-feedback">Please fill pincode !</div>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@ try {
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <label class="form-label" for="presentPincode">Present Pincode</label>
-                                    <input type="tel" name="presentpincode" class="form-control form-control-lg" pattern="\d{6}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" required />
+                                    <input type="tel" name="presentpincode" class="form-control form-control-lg" pattern="\d{6}" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6" required />
                                     <div class="invalid-feedback">Please fill pincode !</div>
                                 </div>
                             </div>

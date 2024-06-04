@@ -1,5 +1,7 @@
 <header class="header" id="header">
-    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>&nbsp;&nbsp;
+    
     <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
     <div id="link-title">Enroll : <?php echo $enroll; ?></div>
 </header>
@@ -38,7 +40,7 @@
                 <!-- ACCADEMIC DETAILS -->
                 <a href="#" class="nav_link" data-target="files" data-title="Academic details">
                     <i class="fa-solid fa-book"></i>
-                    <span class="nav_name">Accademic details</span>
+                    <span class="nav_name">Academic details</span>
                 </a>
                 
             </div>

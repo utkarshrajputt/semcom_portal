@@ -46,14 +46,6 @@
                              
                             echo "<script>alert('Data Saved Successfully Go to next module!!');</script>";
                             echo "<script>location.reload(true);</script>";
-                            
-                          
-                        ?>
-                        <script>
-        
-                        </script>
-                        <?php
-                            // header('location:../student/dashboard.php');
                         }
                     
                 }
