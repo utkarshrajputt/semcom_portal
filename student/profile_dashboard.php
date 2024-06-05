@@ -70,12 +70,13 @@ if (!isset($enroll)) {
 <body id="body-pd">
 
     <?php
-    require '../includes/sidebar-student.php';
+    require '../includes/sidebar-profile-student.php';
    
         if($personalDetails && $address && $basic_dtl && $parent_dtl && $academic_dtl)  
         {
     ?>
-           <form method="post" class="form-navigation-buttons"><input type="submit" name="final" class="btn btn-primary" value="Complete Submission"></form>
+           <br><form method="post" class="form-navigation-buttons"><input type="submit" name="final" class="btn btn-primary" value="Complete Submission"></form>
+    <br>
     <?php
         }
     ?>
