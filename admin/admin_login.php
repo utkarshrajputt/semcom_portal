@@ -2,19 +2,7 @@
 require('../includes/loader.php');
 require('../config/pdo_db.php');
 require('../includes/session.php');
-if(isset($_COOKIE['enroll']) && isset($_COOKIE['pass']))
-{
-  $enroll=$_COOKIE['enroll'];
-  $pass=$_COOKIE['pass'];
-  $checked="checked";
-  // echo "<script>document.getElementById('remember').value = 'True'; </script>";       
-}
-else
-{
-  $enroll="";
-  $pass= "";
-  $checked="";
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -30,40 +18,7 @@ else
 </head>
 
 <body>
-  <?php
 
-  if (isset($_POST['login'])) {
-    $enroll = $_POST['enroll'];
-    $pass = $_POST['pass'];
-
-
-    $select_user = $conn->prepare("SELECT * FROM stud_login WHERE enroll_no = ? AND password = ?");
-    $select_user->execute([$enroll, $pass]);
-    $row = $select_user->fetch(PDO::FETCH_ASSOC);
-
-    if ($select_user->rowCount() > 0) {
-      $_SESSION['enroll'] = $row['enroll_no'];
-      header('location:profile_dashboard.php');
-
-      if(isset($_POST['remember'])) {
-        setcookie('enroll',$_POST['enroll'] , time() + (60*60*24)) ;
-        setcookie('pass',$_POST['pass'] , time() + (60*60*24)) ;
-
-      }
-      else
-      {
-        setcookie('enroll','' , time() - (60*60*24)) ;
-        setcookie('pass','' , time() - (60*60*24)) ;
-      }
-
-    } else {
-      echo "<script>alert('Incorrect Enrollment Number OR Password!!')</script>";
-      // $message[] = 'incorrect username or password!';
-    }
-  }
-
-
-  ?>
   <div class="container">
     <input type="checkbox" id="flip">
     <div class="cover">
@@ -80,7 +35,7 @@ else
         <div class="login-form">
           <div class="title"><img src="../assets/images/semcom-logo.png" height="100px" width="300px"></div>
           <form method="post" action="">
-          <center><br>-- Login To Your Student Dashboard --</center>
+          <center><br>-- Login To Your Admin Dashboard --</center>
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
