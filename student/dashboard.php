@@ -109,7 +109,7 @@ if (!isset($enroll)) {
                                     <img src="../assets/images/uploaded_images/<?php echo $personalDetails['pro_pic'] ?>" alt="Admin" class="rounded-circle" width="150">
                                     <div class="mt-3">
                                         <h4><?php echo $personalDetails['f_name']." ".$personalDetails['l_name'] ?></h4>
-                                        <p class="text-secondary mb-3">Class</p>
+                                        <p class="text-secondary mb-3"><b>Course :</b> <?php echo $personalDetails['stud_course'] ?></p>
                                         
                                         <p class="text-muted font-size-sm"><b>SPID. :</b> <?php echo $personalDetails['spid'] ?></p>
                                         <p class="text-muted font-size-sm"><b>Enroll No. :</b> <?php echo $personalDetails['enroll_no'] ?></p>
@@ -202,7 +202,7 @@ if (!isset($enroll)) {
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bxs-city' ></i>
+                                        <i class="fa-solid fa-tree-city"></i>
                                         <h6 class="mb-0">City</h6>
                                     </div>
                                     <span class="text-secondary"><?php echo $address['present_city'] ?></span>
@@ -238,7 +238,7 @@ if (!isset($enroll)) {
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bxs-city' ></i>
+                                        <i class="fa-solid fa-tree-city"></i>
                                         <h6 class="mb-0">City</h6>
                                     </div>
                                     <span class="text-secondary"><?php echo $address['permanent_city'] ?></span>
@@ -327,28 +327,28 @@ if (!isset($enroll)) {
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-detail' ></i>
+                                        <i class="fa-solid fa-language"></i>
                                         <h6 class="mb-0">English Knowledge</h6>
                                     </div>
                                     <br><br><span class="text-secondary"><?php echo $basic_dtl['eng_know'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-detail' ></i>
+                                        <i class="fa-solid fa-language"></i>
                                         <h6 class="mb-0">Hindi Knowledge</h6>
                                     </div>
                                     <br><br><span class="text-secondary"><?php echo $basic_dtl['hindi_know'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-detail' ></i>
+                                        <i class="fa-solid fa-language"></i>
                                         <h6 class="mb-0">Gujarati Knowledge</h6>
                                     </div>
                                     <br><br><span class="text-secondary"><?php echo $basic_dtl['guj_know'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-detail' ></i>
+                                        <i class="fa-solid fa-language"></i>
                                         <h6 class="mb-0">Other Languages</h6>
                                     </div>
                                     <br><br><span class="text-secondary"><?php echo $basic_dtl['other_know'] ?></span>
@@ -382,7 +382,7 @@ if (!isset($enroll)) {
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-phone' ></i>
+                                    <i class="fa-solid fa-language"></i>
                                         <h6 class="mb-0">Languages Known By Father</h6>
                                     </div>
                                     <span class="text-secondary"><?php echo $parent_dtl['lang_father'] ?></span>
@@ -452,7 +452,7 @@ if (!isset($enroll)) {
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-phone' ></i>
+                                    <i class="fa-solid fa-language"></i>
                                         <h6 class="mb-0">Languages Known By Mother</h6>
                                     </div>
                                     <span class="text-secondary"><?php echo $parent_dtl['lang_mother'] ?></span>
@@ -513,90 +513,7 @@ if (!isset($enroll)) {
                 </div>
             </div>
         </div>
-        <div id="academicDetails" class="content text-dark mt-5">
-        <div class="col-md-10 mb-5">    
-                <h4>Academic Details</h4>
-            </div>
-            <!-- academic Details Form Content Here -->
-            <div class="container-fluid">
-                <div class="main-body">
-                    <div class="row gutters-sm">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">Course / Year</h6>
-                                    </div>
-                                    <span class="text-secondary">date</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">Course Duration</h6>
-                                    </div>
-                                    <span class="text-secondary">blood</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">SSC Percentile</h6>
-                                    </div>
-                                    <span class="text-secondary">height</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div><!-- permenant close -->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">HSC Percentile</h6>
-                                    </div>
-                                    <span class="text-secondary">hobby</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">Diploma Percentile</h6>
-                                    </div>
-                                    <span class="text-secondary">cate</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">CET Score</h6>
-                                    </div>
-                                    <span class="text-secondary">region</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div><!-- permenant close -->
-                    <div class="col-md-4">
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">CET Percentile</h6>
-                                    </div>
-                                    <span class="text-secondary">date</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">JEE Percentile</h6>
-                                    </div>
-                                    <span class="text-secondary">blood</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <h6 class="mb-0">Previous Semester Percentile</h6>
-                                    </div>
-                                    <span class="text-secondary">height</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div><!-- permenant close -->
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         <div id="emergDetails" class="content text-dark mt-5">
             <div class="col-md-10 mb-5">    
                 <h4>Emergency Details</h4>
@@ -611,14 +528,14 @@ if (!isset($enroll)) {
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-user'></i>
+                                        <i class='bx bx-phone' ></i>
                                         <h6 class="mb-0">Emergency Contact No. </h6>
                                     </div>
                                     <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_mob'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-phone' ></i>
+                                    <i class='bx bx-user'></i>
                                         <h6 class="mb-0">Emergency Person Name </h6>
                                     </div>
                                     <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_name'] ?></span>
@@ -639,7 +556,7 @@ if (!isset($enroll)) {
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-briefcase' ></i>
+                                    <i class="fa-solid fa-tree-city"></i>
                                         <h6 class="mb-0">Emergency Person City </h6>
                                     </div>
                                     <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_city'] ?></span>
@@ -660,6 +577,109 @@ if (!isset($enroll)) {
         </div>
     </div>
     
+
+    <!-- Academic Details -->
+     <div id="academicDetails" class="content text-dark mt-5">
+        <div class="col-md-10 mb-5">    
+                <h4>Academic Details</h4>
+            </div>
+            <!-- academic Details Form Content Here -->
+            <div class="container-fluid">
+                <div class="main-body">
+                    <div class="row gutters-sm">
+                    <div class="col-md-6">
+                    <h5 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">SSC Details</i></h5>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                        <h6 class="mb-0">SSC Board Name</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['ssc_board']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-regular fa-calendar-days"></i>
+                                        <h6 class="mb-0">SSC month & year</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['ssc_month_year']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-solid fa-percent"></i>
+                                        <h6 class="mb-0">SSC Percentage</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['ssc_percentage']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-solid fa-school-flag"></i>
+                                        <h6 class="mb-0">SSC School</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['ssc_school']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-brands fa-medium"></i>
+                                        <h6 class="mb-0">SSC Medium</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['ssc_medium']; ?></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- permenant close -->
+                  
+                    <div class="col-md-6">
+                    <h5 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">HSC Details</i></h5>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                        <h6 class="mb-0">HSC Board Name</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['hsc_board']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-regular fa-calendar-days"></i>
+                                        <h6 class="mb-0">HSC month & year</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['hsc_month_year']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-solid fa-percent"></i>
+                                        <h6 class="mb-0">HSC Percentage</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['hsc_percentage']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-solid fa-school-flag"></i>
+                                        <h6 class="mb-0">HSC School</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['hsc_school']; ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                    <i class="fa-brands fa-medium"></i>
+                                        <h6 class="mb-0">HSC Medium</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $academic_dtl['hsc_medium']; ?></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+          
+        </div>
+
+        </div>
     
     <!-- MAIN STUDENT JS -->
     <script src="../assets/js/main.js"></script>        

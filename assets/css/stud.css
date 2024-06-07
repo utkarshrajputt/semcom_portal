@@ -227,6 +227,9 @@ body{
     body{
         background-size: 1000px 110%;
     }
+    .container{
+      width: 95%;
+    }
   .container .cover{
     display: none;
   }
@@ -245,7 +248,7 @@ body{
   }
   .title img{
     height: 90px;
-    width: 260px;
+    width: 250px;
   }
   .check{
     margin-left: 7%;
