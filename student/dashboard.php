@@ -106,12 +106,14 @@ if (!isset($enroll)) {
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                    <img src="../assets/images/uploaded_images/<?php echo $personalDetails['pro_pic'] ?>" alt="Admin" class="rounded-circle" width="150">
                                     <div class="mt-3">
-                                        <h4>John Doe</h4>
+                                        <h4><?php echo $personalDetails['f_name']." ".$personalDetails['l_name'] ?></h4>
                                         <p class="text-secondary mb-3">Class</p>
-                                        <p class="text-muted font-size-sm">ER number</p>
-                                        <p class="text-muted font-size-sm mb-4">Admission Date</p>
+                                        
+                                        <p class="text-muted font-size-sm"><b>SPID. :</b> <?php echo $personalDetails['spid'] ?></p>
+                                        <p class="text-muted font-size-sm"><b>Enroll No. :</b> <?php echo $personalDetails['enroll_no'] ?></p>
+                                        <p class="text-muted font-size-sm mb-4"><b>Admission Date : </b><?php echo $personalDetails['adm_date'] ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -125,35 +127,35 @@ if (!isset($enroll)) {
                                         <i class='bx bx-male-female'></i>
                                         <h6 class="mb-0">Gender</h6>
                                     </div>
-                                    <span class="text-secondary">Gender</span>
+                                    <span class="text-secondary" style="text-transform:capitalize;"><?php echo $personalDetails['gender'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-phone'></i>
                                         <h6 class="mb-0">Phone Number</h6>
                                     </div>
-                                    <span class="text-secondary">123456789</span>
+                                    <span class="text-secondary"><?php echo $personalDetails['mob_no'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-envelope' ></i>
                                         <h6 class="mb-0">Email ID</h6>
                                     </div>
-                                    <span class="text-secondary">abc@gmail.com</span>
+                                    <span class="text-secondary"><?php echo $personalDetails['email_id'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-id-card' ></i>
                                         <h6 class="mb-0">Aadhar Number</h6>
                                     </div>
-                                    <span class="text-secondary">1231 1231 1231</span>
+                                    <span class="text-secondary"><?php echo $personalDetails['aadhar_no'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-credit-card-front' ></i>
                                         <h6 class="mb-0">ABC ID</h6>
                                     </div>
-                                    <span class="text-secondary">123 123 123</span>
+                                    <span class="text-secondary"><?php echo $personalDetails['abc_id'] ?></span>
                                 </li>
                             </ul>
                         </div>
@@ -174,12 +176,14 @@ if (!isset($enroll)) {
             <div class="col-md-10 mb-5">
                 <h4>Address Details</h4>
             </div>
-
+            
             <div class="container-fluid">
                 <div class="main-body">
                     <div class="row gutters-sm">
                     <!-- address Card -->
-                    <div class="col-md-12">
+                    
+                    <div class="col-md-6 mt-3">
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Current Address</i></h6>
                         <div class="card">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
@@ -187,35 +191,71 @@ if (!isset($enroll)) {
                                         <i class='bx bx-home'></i>
                                         <h6 class="mb-0">Address Line 1</h6>
                                     </div>
-                                    <span class="text-secondary">address</span>
+                                    <br><br><span class="text-secondary"><?php echo $address['present_add'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-home'></i>
                                         <h6 class="mb-0">Address Line 2</h6>
                                     </div>
-                                    <span class="text-secondary">address</span>
+                                    <span class="text-secondary"><?php echo $address['present_add2'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bxs-city' ></i>
                                         <h6 class="mb-0">City</h6>
                                     </div>
-                                    <span class="text-secondary">city</span>
+                                    <span class="text-secondary"><?php echo $address['present_city'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-code' ></i>
                                         <h6 class="mb-0">Pincode</h6>
                                     </div>
-                                    <span class="text-secondary">1231123</span>
+                                    <span class="text-secondary"><?php echo $address['present_pincode'] ?></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- permenant close -->
+                    
+                    <div class="col-md-6 mt-3">
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Permanent Address</i></h6>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-home'></i>
+                                        <h6 class="mb-0">Address Line 1</h6>
+                                    </div>
+                                    <br><br><span class="text-secondary"><?php echo $address['permanent_add'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-home'></i>
+                                        <h6 class="mb-0">Address Line 2</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $address['permanent_add2'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bxs-city' ></i>
+                                        <h6 class="mb-0">City</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $address['permanent_city'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-code' ></i>
+                                        <h6 class="mb-0">Pincode</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $address['permanent_pincode'] ?></span>
                                 </li>
                             </ul>
                         </div>
                     </div><!-- permenant close -->
                 </div>
             </div>
-        </div>
+            </div>
         </div>
         <div id="basicDetails" class="content text-dark mt-5">
             <div class="col-md-10 mb-5">    
@@ -233,28 +273,44 @@ if (!isset($enroll)) {
                                         <i class='bx bx-calendar' ></i>
                                         <h6 class="mb-0">Birth Date</h6>
                                     </div>
-                                    <span class="text-secondary">date</span>
+                                    <span class="text-secondary"><?php echo $basic_dtl['dob'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-donate-blood' ></i>
                                         <h6 class="mb-0">Blood Group</h6>
                                     </div>
-                                    <span class="text-secondary">blood</span>
+                                    <span class="text-secondary"><?php echo $basic_dtl['blood_grp'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-ruler' ></i>
                                         <h6 class="mb-0">Height</h6>
                                     </div>
-                                    <span class="text-secondary">height</span>
+                                    <span class="text-secondary"><?php echo $basic_dtl['stud_height'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-food-menu'></i>
                                         <h6 class="mb-0">Weight</h6>
                                     </div>
-                                    <span class="text-secondary">weight</span>
+                                    <span class="text-secondary"><?php echo $basic_dtl['stud_weight'] ?></span>
+                                </li>
+                                
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-detail' ></i>
+                                        <h6 class="mb-0">Hobbies</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $basic_dtl['stud_hobbies'] ?></span>
+                                </li>
+                                
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-category' ></i>
+                                        <h6 class="mb-0">Category</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $basic_dtl['stud_category'] ?></span>
                                 </li>
                             </ul>
                         </div>
@@ -265,30 +321,37 @@ if (!isset($enroll)) {
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-detail' ></i>
-                                        <h6 class="mb-0">hobbies</h6>
-                                    </div>
-                                    <span class="text-secondary">hobby</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-category' ></i>
-                                        <h6 class="mb-0">Category</h6>
-                                    </div>
-                                    <span class="text-secondary">cate</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
-                                    <div class="d-flex justify-content-center align-items-center gap-3">
-                                        <i class='bx bx-detail' ></i>
                                         <h6 class="mb-0">Religion</h6>
                                     </div>
-                                    <span class="text-secondary">region</span>
+                                    <span class="text-secondary"><?php echo $basic_dtl['stud_religion'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-detail' ></i>
-                                        <h6 class="mb-0">Caste</h6>
+                                        <h6 class="mb-0">English Knowledge</h6>
                                     </div>
-                                    <span class="text-secondary">cast</span>
+                                    <br><br><span class="text-secondary"><?php echo $basic_dtl['eng_know'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-detail' ></i>
+                                        <h6 class="mb-0">Hindi Knowledge</h6>
+                                    </div>
+                                    <br><br><span class="text-secondary"><?php echo $basic_dtl['hindi_know'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-detail' ></i>
+                                        <h6 class="mb-0">Gujarati Knowledge</h6>
+                                    </div>
+                                    <br><br><span class="text-secondary"><?php echo $basic_dtl['guj_know'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-detail' ></i>
+                                        <h6 class="mb-0">Other Languages</h6>
+                                    </div>
+                                    <br><br><span class="text-secondary"><?php echo $basic_dtl['other_know'] ?></span>
                                 </li>
                             </ul>
                         </div>
@@ -306,7 +369,7 @@ if (!isset($enroll)) {
             <div class="container-fluid">
                 <div class="main-body">
                     <div class="row gutters-sm">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mt-3">
                     <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Father Details</i></h6>
                         <div class="card">
                             <ul class="list-group list-group-flush">
@@ -315,39 +378,67 @@ if (!isset($enroll)) {
                                         <i class='bx bx-user'></i>
                                         <h6 class="mb-0">Father's Name</h6>
                                     </div>
-                                    <span class="text-secondary">date</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['fathers_name'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-phone' ></i>
+                                        <h6 class="mb-0">Languages Known By Father</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $parent_dtl['lang_father'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-phone' ></i>
                                         <h6 class="mb-0">Mobile Number</h6>
                                     </div>
-                                    <span class="text-secondary">blood</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['fathers_mob'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-phone' ></i>
+                                        <h6 class="mb-0">Is Father Using whatsapp?</h6>
+                                    </div>
+                                    <br><br><span class="text-secondary"><?php if($parent_dtl['father_wp']=='yes'){echo "<i class='fa-solid fa-check'></i>";}else{echo "<i class='fa-solid fa-xmark'></i>";}  ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-envelope' ></i>
                                         <h6 class="mb-0">Email Id</h6>
                                     </div>
-                                    <span class="text-secondary">height</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['fathers_email'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bxs-business' ></i>
                                         <h6 class="mb-0">Occupation</h6>
                                     </div>
-                                    <span class="text-secondary">weight</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['fathers_occup'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-briefcase' ></i>
                                         <h6 class="mb-0">Company Name</h6>
                                     </div>
-                                    <span class="text-secondary">weight</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['fathers_co'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-briefcase' ></i>
+                                        <h6 class="mb-0">Designation</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $parent_dtl['fathers_desig'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-briefcase' ></i>
+                                        <h6 class="mb-0">Father's Annual Income</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $parent_dtl['fathers_co'] ?></span>
                                 </li>
                             </ul>
                         </div>
-                    </div><!-- permenant close -->
+                    </div><!-- father close -->
                     <div class="col-md-6 mt-3">
                     <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">Mother Details</i></h6>
                         <div class="card">
@@ -357,35 +448,63 @@ if (!isset($enroll)) {
                                         <i class='bx bx-user'></i>
                                         <h6 class="mb-0">Mother's Name</h6>
                                     </div>
-                                    <span class="text-secondary">hobby</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['mothers_name'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-phone' ></i>
+                                        <h6 class="mb-0">Languages Known By Mother</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $parent_dtl['lang_mother'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-phone' ></i>
                                         <h6 class="mb-0">Mobile Number</h6>
                                     </div>
-                                    <span class="text-secondary">cate</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['mothers_mob'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-phone' ></i>
+                                        <h6 class="mb-0">Is Mother Using whatsapp?</h6>
+                                    </div>
+                                    <br><br><span class="text-secondary"><?php if($parent_dtl['mother_wp']=='yes'){echo "<i class='fa-solid fa-check'></i>";}else{echo "<i class='fa-solid fa-xmark'></i>";}  ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-envelope' ></i>
                                         <h6 class="mb-0">Email Id</h6>
                                     </div>
-                                    <span class="text-secondary">region</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['mothers_email'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bxs-business' ></i>
                                         <h6 class="mb-0">Occupation</h6>
                                     </div>
-                                    <span class="text-secondary">cast</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['mothers_occup'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-briefcase' ></i>
                                         <h6 class="mb-0">Company Name</h6>
                                     </div>
-                                    <span class="text-secondary">weight</span>
+                                    <span class="text-secondary"><?php echo $parent_dtl['mothers_co'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-briefcase' ></i>
+                                        <h6 class="mb-0">Designation</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $parent_dtl['mothers_desig'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-briefcase' ></i>
+                                        <h6 class="mb-0">Mother's Annual Income</h6>
+                                    </div>
+                                    <span class="text-secondary"><?php echo $parent_dtl['mothers_co'] ?></span>
                                 </li>
                             </ul>
                         </div>
@@ -483,46 +602,54 @@ if (!isset($enroll)) {
                 <h4>Emergency Details</h4>
             </div>
             <!-- parents Details Form Content Here -->
+            
             <div class="container-fluid">
                 <div class="main-body">
-                    <div class="row gutters-sm">
-                    <div class="col-md-12">
+                    <div class="row justify-content-center gutters-sm">
+                    <div class="col-md-6">
                         <div class="card">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-user'></i>
-                                        <h6 class="mb-0">Father's Name</h6>
+                                        <h6 class="mb-0">Emergency Contact No. </h6>
                                     </div>
-                                    <span class="text-secondary">date</span>
+                                    <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_mob'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-phone' ></i>
-                                        <h6 class="mb-0">Mobile Number</h6>
+                                        <h6 class="mb-0">Emergency Person Name </h6>
                                     </div>
-                                    <span class="text-secondary">blood</span>
+                                    <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_name'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-envelope' ></i>
-                                        <h6 class="mb-0">Email Id</h6>
+                                        <h6 class="mb-0">Emergency Person Relationship </h6>
                                     </div>
-                                    <span class="text-secondary">height</span>
+                                    <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_relationship'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bxs-business' ></i>
-                                        <h6 class="mb-0">Occupation</h6>
+                                        <h6 class="mb-0">Emergency Person Address </h6>
                                     </div>
-                                    <span class="text-secondary">weight</span>
+                                    <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_add'] ?></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-briefcase' ></i>
-                                        <h6 class="mb-0">Company Name</h6>
+                                        <h6 class="mb-0">Emergency Person City </h6>
                                     </div>
-                                    <span class="text-secondary">weight</span>
+                                    <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_city'] ?></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class='bx bx-briefcase' ></i>
+                                        <h6 class="mb-0">Emergency Person Pincode </h6>
+                                    </div>
+                                    <br><br><span class="text-secondary"><?php echo $parent_dtl['emergency_pincode'] ?></span>
                                 </li>
                             </ul>
                         </div>
