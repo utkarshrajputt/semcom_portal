@@ -2,8 +2,6 @@
     
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>&nbsp;&nbsp;
     
-    <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
-    <div id="link-title">Enroll : <?php echo $enroll; ?></div>
 </header>
 
 <div class="l-navbar" id="nav-bar">
@@ -16,18 +14,27 @@
                 <img src="../assets/images/semcom.png" class="img-fluid" style="width: 25px;" alt="">
                 <span class="nav_logo-name">SEMCOM</span>
             </a>
+            
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <a href="../student/dashboard.php" class="nav_link">
+                <p class="nav_link">Login Credential</p>
+                <a href="" class="nav_link">
                     <i class="fa-solid fa-address-card"></i>
-                    <span class="nav_name">Profile</span>
+                    <span class="nav_name">Staff</span>
                 </a>
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <a href="../student/changepass.php" class="nav_link">
+                <a href="" class="nav_link">
                     <i class="fa-solid fa-user-lock"></i>
-                    <span class="nav_name">Change Password</span>
+                    <span class="nav_name">Admin</span>
+                </a>
+            </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
+                <a href="" class="nav_link">
+                    <i class="fa-solid fa-user-lock"></i>
+                    <span class="nav_name">Student</span>
                 </a>
             </div>
         </div>

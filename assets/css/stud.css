@@ -15,13 +15,11 @@ body{
   justify-content: center;
   /*background: #1d83c4;*/
   width: 100vw;
-height: 100vh;
-  background: url("../images/backsc.jpg") no-repeat center center/cover;
-  backdrop-filter: blur(3px);
-  padding: 30px;
+  height: 100vh;
+  background: url("../images/backsc.jpg") no-repeat center/cover;
+  backdrop-filter: blur(2px);  
+  background-size: 100% 900px;
 }
-
-
 
 .container{
   position: relative;
@@ -226,6 +224,9 @@ height: 100vh;
     margin-left: 35%;
 }
 @media (max-width: 730px) {
+    body{
+        background-size: 1000px 110%;
+    }
   .container .cover{
     display: none;
   }
