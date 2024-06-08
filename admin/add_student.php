@@ -3,19 +3,6 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$enroll = $_SESSION['enroll'];
-
-if (!isset($enroll)) {
-    header('location:student_login.php');
-} else {
-    $row=mysqli_fetch_row(mysqli_query($conn,"select complete_register from stud_login where enroll_no=$enroll"));
-    $bool=$row[0];
-    if($bool=='no')
-    {
-        header("location:profile_dashboard.php");
-    }    
-    
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
