@@ -18,21 +18,21 @@
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
                 <p class="nav_link">Login Credential</p>
-                <a href="" class="nav_link">
+                <a href="../admin/add_staff.php" class="nav_link">
                     <i class="fa-solid fa-address-card"></i>
                     <span class="nav_name">Staff</span>
                 </a>
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <a href="" class="nav_link">
+                <a href="../admin/add_admin.php" class="nav_link">
                     <i class="fa-solid fa-user-lock"></i>
                     <span class="nav_name">Admin</span>
                 </a>
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <a href="" class="nav_link">
+                <a href="../admin/add_student.php" class="nav_link">
                     <i class="fa-solid fa-user-lock"></i>
                     <span class="nav_name">Student</span>
                 </a>

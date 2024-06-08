@@ -78,9 +78,9 @@ else
     <div class="forms">
       <div class="form-content">
         <div class="login-form">
-          <div class="title"><img src="../assets/images/semcom-logo.png" height="100px" width="300px"></div>
+          <div class="title"><img src="../assets/images/semcom-logo.png" height="80px" width="260px"></div>
           <form method="post" action="">
-          <center><br>-- Login To Your Student Dashboard --</center>
+          <center><br>Login To Your Student Dashboard</center>
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>

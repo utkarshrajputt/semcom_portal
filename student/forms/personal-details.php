@@ -1,62 +1,54 @@
 <?php
-    try{
-    $sql= "SELECT * FROM stud_personal_details WHERE enroll_no = '$enroll'";
+try {
+    $sql = "SELECT * FROM stud_personal_details WHERE enroll_no = '$enroll'";
     $stmt = mysqli_query($conn, $sql);
-    
+
     if (mysqli_num_rows($stmt) == 0) {
-        if(isset($_POST["pers_submit"]))
-        {
-            $adm_status=$_POST["adm_status"];
-            $adm_date=$_POST["ad_date"];
-            $spid=$_POST["spid"];
-            $roll=$_POST["roll"];
-            $f_name=$_POST["fname"];
-            $m_name=$_POST["mname"];
-            $l_name=$_POST["lname"];
-            $gender=$_POST["gender"];
-            $phone=$_POST["phone"];
-            $email=$_POST["email"];
-            $aadhar=$_POST["aadhar"];
-            $abcid=$_POST["abcid"];
-            
-            
-            if(isset($_FILES['pfp']))
-            {
+        if (isset($_POST["pers_submit"])) {
+            $adm_status = $_POST["adm_status"];
+            $adm_date = $_POST["ad_date"];
+            $spid = $_POST["spid"];
+            $course = $_POST["course"];
+            $roll = $_POST["roll"];
+            $f_name = $_POST["fname"];
+            $m_name = $_POST["mname"];
+            $l_name = $_POST["lname"];
+            $gender = $_POST["gender"];
+            $phone = $_POST["phone"];
+            $email = $_POST["email"];
+            $aadhar = $_POST["aadhar"];
+            $abcid = $_POST["abcid"];
+
+
+            if (isset($_FILES['pfp'])) {
                 $uploads_dir = '../assets/images/uploaded_images/';
                 $tmp_name = $_FILES["pfp"]["tmp_name"];
                 $name = basename($_FILES["pfp"]["name"]);
-                $file=$uploads_dir.$name;
-        
-                if($file=='../assets/images/uploaded_images/')
-                {
+                $file = $uploads_dir . $name;
+
+                if ($file == '../assets/images/uploaded_images/') {
                     echo "<script>alert('Upload Image Again')</script>";
-                }
-                else
-                {
+                } else {
                     $temp = explode(".", $_FILES["pfp"]["name"]);
                     $extension = end($temp);
-                    $filename = $enroll.".".$extension;                
-                        $move=move_uploaded_file($tmp_name, "$uploads_dir/$filename");
-                        
-                        if($move==true)
-                        {
+                    $filename = $enroll . "." . $extension;
+                    $move = move_uploaded_file($tmp_name, "$uploads_dir/$filename");
 
-                            $insert=mysqli_query($conn,"insert into stud_personal_details(adm_status, adm_date, spid, enroll_no, roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic) values('$adm_status', '$adm_date', '$spid','$enroll', '$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename')");
-                            
-                             
-                            echo "<script>alert('Data Saved Successfully Go to next module!!');</script>";
-                            echo "<script>location.reload(true);</script>";
-                        }
-                    
+                    if ($move == true) {
+
+                        $insert = mysqli_query($conn, "insert into stud_personal_details(adm_status, adm_date, spid, enroll_no,stud_course, roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic) values('$adm_status', '$adm_date', '$spid','$enroll','$course', '$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename')");
+
+
+                        echo "<script>alert('Data Saved Successfully Go to next module!!');</script>";
+                        echo "<script>location.reload(true);</script>";
+                    }
                 }
+            }
         }
-        }
     }
-    
-    }
-    catch(Exception $e){
-        echo "Failed Input! Please Refresh or Contact College!";
-    }
+} catch (Exception $e) {
+    echo "Failed Input! Please Refresh or Contact College!";
+}
 ?>
 <div class="container-fluid pt-3">
     <div class="row justify-content-center align-items-center h-100">
@@ -64,18 +56,26 @@
             <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                 <div class="card-body p-4 p-md-5">
                     <!-- FORM START -->
-                    <form class="personal-details-form <?php echo isset($personalDetails['adm_status'])?'disable-form':''; ?>" method="post" enctype="multipart/form-data" novalidate>
+                    <form class="personal-details-form <?php echo isset($personalDetails['adm_status']) ? 'disable-form' : ''; ?>" method="post" enctype="multipart/form-data" novalidate>
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <!-- ADMISSION STATUS -->
                                 <h6 class="mb-2 pb-1">Admission Status:</h6>
                                 <div class="form-group">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="adm_status" value="regular" required <?php if(isset($personalDetails['adm_status'])){if($personalDetails['adm_status']=="regular"){echo "checked";}} ?> />
+                                        <input class="form-check-input" type="radio" name="adm_status" value="regular" required <?php if (isset($personalDetails['adm_status'])) {
+                                                                                                                                    if ($personalDetails['adm_status'] == "regular") {
+                                                                                                                                        echo "checked";
+                                                                                                                                    }
+                                                                                                                                } ?> />
                                         <label class="form-check-label" for="regular">Regular</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="adm_status" value="prov_admission" <?php if(isset($personalDetails['adm_status'])){if($personalDetails['adm_status']=="prov_admission"){echo "checked";}} ?> required />
+                                        <input class="form-check-input" type="radio" name="adm_status" value="prov_admission" <?php if (isset($personalDetails['adm_status'])) {
+                                                                                                                                    if ($personalDetails['adm_status'] == "prov_admission") {
+                                                                                                                                        echo "checked";
+                                                                                                                                    }
+                                                                                                                                } ?> required />
                                         <label class="form-check-label" for="prov_admission">Provisional Admission</label>
                                     </div>
                                     <div class="invalid-feedback">Please select any of them!</div>
@@ -88,7 +88,7 @@
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="ad_date">Admission Date</label>
                                     <input type="Date" name="ad_date" class="form-control form-control-lg" value="<?php echo isset($personalDetails['adm_date']) ? $personalDetails['adm_date'] : ''; ?>" required />
-                                    <div class="invalid-feedback">Please select the date !</div>
+                                    <div class="    invalid-feedback">Please select the date !</div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-4">
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <!-- CVM ENROLLMENT ID -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="enrol_id">CVM Enrollment ID</label>
@@ -110,7 +110,30 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-4 mb-4">
+                                <!-- ROLL NUMBER -->
+                                <div data-mdb-input-init class="form-outline">
+                                    <label class="form-label" for="roll">Course</label>
+                                    <br><span style='font-size:1.3rem;font-weight:bold'><?php echo isset($personalDetails['stud_course']) ? $personalDetails['stud_course'] : ''; ?></span>
+                                    <?php
+                                    if (!(isset($personalDetails['stud_course']))) {
+
+                                    ?>
+                                        <select name="course" class="form-control form-control-lg" required>
+                                            <option value="" disabled selected hidden>-- Select Course --</option>
+                                            <option value="BCA">BCA</option>
+                                            <option value="BCOM">BCOM</option>
+                                            <option value="BBA">BBA</option>
+                                            <option value="BBA-ITM">BBA-ITM</option>
+                                            <option value="MCOM">MCOM</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please fill roll number !</div>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
                                 <!-- ROLL NUMBER -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="roll">Roll Number</label>
@@ -150,15 +173,27 @@
                                 <!-- GENDER -->
                                 <h6 class="mb-2 pb-1">Gender:</h6>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" value="male" <?php if(isset($personalDetails['gender'])){if($personalDetails['gender']=="male"){echo "checked";}} ?> required />
+                                    <input class="form-check-input" type="radio" name="gender" value="male" <?php if (isset($personalDetails['gender'])) {
+                                                                                                                if ($personalDetails['gender'] == "male") {
+                                                                                                                    echo "checked";
+                                                                                                                }
+                                                                                                            } ?> required />
                                     <label class="form-check-label" for="maleGender">Male</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" value="female" <?php if(isset($personalDetails['gender'])){if($personalDetails['gender']=="female"){echo "checked";}} ?> required />
+                                    <input class="form-check-input" type="radio" name="gender" value="female" <?php if (isset($personalDetails['gender'])) {
+                                                                                                                    if ($personalDetails['gender'] == "female") {
+                                                                                                                        echo "checked";
+                                                                                                                    }
+                                                                                                                } ?> required />
                                     <label class="form-check-label" for="femaleGender">Female</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" value="other" <?php if(isset($personalDetails['gender'])){if($personalDetails['gender']=="other"){echo "checked";}} ?> required />
+                                    <input class="form-check-input" type="radio" name="gender" value="other" <?php if (isset($personalDetails['gender'])) {
+                                                                                                                    if ($personalDetails['gender'] == "other") {
+                                                                                                                        echo "checked";
+                                                                                                                    }
+                                                                                                                } ?> required />
                                     <label class="form-check-label" for="otherGender">Other</label>
                                 </div>
                             </div>
@@ -203,20 +238,17 @@
                             <div data-mdb-input-init class="form-outline">
                                 <label class="form-label" for="filelbl">Upload Your Profile Picture</label>
                                 <?php
-                                    if(isset($personalDetails['pro_pic']))
-                                    {
-                                        $src="../assets/images/uploaded_images/".$personalDetails['pro_pic'];
+                                if (isset($personalDetails['pro_pic'])) {
+                                    $src = "../assets/images/uploaded_images/" . $personalDetails['pro_pic'];
                                 ?>
-                                        <div><img src="<?php echo $src;?>" height="120" width="120"></div>
-                                <?php       
-                                    }
-                                    else
-                                    {
-                                    
-                                ?>
-                                <input type="file" name="pfp" class="form-control" accept=".jpg, .jpeg" id="inputGroupFile02" required>
+                                    <div><img src="<?php echo $src; ?>" height="120" width="120"></div>
                                 <?php
-                                    }
+                                } else {
+
+                                ?>
+                                    <input type="file" name="pfp" class="form-control" accept=".jpg, .jpeg" id="inputGroupFile02" required>
+                                <?php
+                                }
                                 ?>
                             </div>
                         </div>

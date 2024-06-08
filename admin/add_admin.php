@@ -172,21 +172,21 @@ if (isset($_POST['change_pass_btn'])) {
 
 <body id="body-pd">
     <?php
-    require '../includes/sidebar-student.php';
+    require '../includes/sidebar-admin.php';
     ?>
 
     <div class="form-container">
         <div class="logo-container">
-            Change Password
+            New Admin Credential
         </div>
 
         <form class="form" id="change-password-form" method="post">
             <div class="form-group">
-                <label for="old-password">Old Password</label>
+                <label for="old-password">Email</label>
                 <input type="password" id="old-password" name="old-password" required>
             </div>
             <div class="form-group">
-                <label for="new-password">New Password</label>
+                <label for="new-password">Password</label>
                 <input type="password" id="new-password" name="new-password" required>
             </div>
             <div class="form-group">
@@ -194,7 +194,7 @@ if (isset($_POST['change_pass_btn'])) {
                 <input type="password" id="retype-password" name="retype-password" required>
             </div>
             <div class="error-message" id="error-message">*Passwords do not match.</div>
-            <button class="form-submit-btn" name="change_pass_btn" type="submit">Change Password</button>
+            <button class="form-submit-btn" name="change_pass_btn" type="submit">Add Admin</button>
         </form>
     </div>
 

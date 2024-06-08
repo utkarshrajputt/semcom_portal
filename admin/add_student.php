@@ -1,14 +1,42 @@
 <?php
-    require '..\vendor\autoload.php';
-    use PhpOffice\PhpSpreadsheet\IOFactory;
+require('../includes/loader.php');
+require('../includes/session.php');
+require('../config/mysqli_db.php');
+require('../includes/fetchTableData.php');
+$enroll = $_SESSION['enroll'];
+
+if (!isset($enroll)) {
+    header('location:student_login.php');
+} else {
+    $row=mysqli_fetch_row(mysqli_query($conn,"select complete_register from stud_login where enroll_no=$enroll"));
+    $bool=$row[0];
+    if($bool=='no')
+    {
+        header("location:profile_dashboard.php");
+    }    
+    
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <title>SEMCOM</title>
-    <!-- Bootstrap CSS -->
+
+    <!-- BOOTSTRAP & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a79beb4099.js" crossorigin="anonymous"></script>
+
+    <!-- BOXICON -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!-- MAIN STUDENT CSS -->
+    <link rel="stylesheet" href="../assets/css/student.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .form-section {
@@ -19,8 +47,12 @@
             display: block;
         }
     </style>
+   
 </head>
-<body>
+<body id="body-pd">
+    <?php
+        require '../includes/sidebar-admin.php';
+    ?>
     <?php
         if(isset($_POST['submit']))
         {
@@ -82,7 +114,12 @@
            
         }
     ?>
-    <div class="container mt-5">
+
+    <div id="dashboard" class="text-dark">
+        
+        <!-- PERSONAL DETIALS -->
+        <div id="personalDetails" class="content active text-dark mt-5">
+                <div class="container mt-5">
         <h2 class="text-center">Credential Entry Form</h2>
         <!-- <div class="text-center mb-4">
             <label class="mr-3">
@@ -126,8 +163,14 @@
                 <button name="submit" type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
+
+            </div>
+        </div>
     </div>
-    <!-- Bootstrap JS and dependencies -->
+    
+    
+    <!-- MAIN STUDENT JS -->
+    <script src="../assets/js/main.js"></script>   
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -158,6 +201,8 @@
                 document.getElementById(role + 'RangeEntry').style.display = 'none';
             }
         }
-    </script>
+    </script>     
+
 </body>
+
 </html>
