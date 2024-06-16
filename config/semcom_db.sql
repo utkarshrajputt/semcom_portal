@@ -1,3 +1,11 @@
+-- Create the user 'semcom' with the password 'semcom'
+CREATE USER 'semcom'@'%' IDENTIFIED BY 'semcom';
+
+-- Grant all privileges to the user 'semcom' on all databases and tables
+GRANT ALL PRIVILEGES ON *.* TO 'semcom'@'%';
+
+-- Apply the changes
+FLUSH PRIVILEGES;
 Drop database if exists 'semcom_db';
 CREATE DATABASE semcom_db;
 USE semcom_db;
