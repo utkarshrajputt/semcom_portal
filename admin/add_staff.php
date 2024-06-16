@@ -141,7 +141,7 @@ require('../includes/fetchTableData.php');
                     <form class="personal-details-form <?php echo isset($personalDetails['adm_status']) ? 'disable-form' : ''; ?>" method="post" enctype="multipart/form-data" novalidate>
                         
                         <div class="row">
-                        <div class="col-md-1 mb-4">
+                        <div class="col-md-2 mb-4">
                                 <!-- ROLL NUMBER -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="roll">Prefix</label>
