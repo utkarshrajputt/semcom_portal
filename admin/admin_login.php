@@ -2,6 +2,19 @@
 require('../includes/loader.php');
 require('../config/pdo_db.php');
 require('../includes/session.php');
+if(isset($_COOKIE['admin_email']) && isset($_COOKIE['pass']))
+{
+  $admin_email=$_COOKIE['admin_email'];
+  $admin_pass=$_COOKIE['pass'];
+  $checked="checked";
+  // echo "<script>document.getElementById('remember').value = 'True'; </script>";       
+}
+else
+{
+  $admin_email="";
+  $admin_pass= "";
+  $checked="";
+}
 
 ?>
 
@@ -18,6 +31,40 @@ require('../includes/session.php');
 </head>
 
 <body>
+<?php
+
+if (isset($_POST['admin_login'])) {
+  $admin_email = $_POST['admin_email'];
+  $admin_pass = $_POST['pass'];
+
+
+  $select_user = $conn->prepare("SELECT * FROM admin_login WHERE admin_email = ? AND password = ?");
+  $select_user->execute([$admin_email, $admin_pass]);
+  $row = $select_user->fetch(PDO::FETCH_ASSOC);
+
+  if ($select_user->rowCount() > 0) {
+    $_SESSION['admin_email'] = $row['admin_email'];
+    header('location:admin_dashboard.php');
+
+    if(isset($_POST['remember'])) {
+      setcookie('admin_email',$_POST['admin_email'] , time() + (60*60*24)) ;
+      setcookie('pass',$_POST['pass'] , time() + (60*60*24)) ;
+
+    }
+    else
+    {
+      setcookie('admin_email','' , time() - (60*60*24)) ;
+      setcookie('pass','' , time() - (60*60*24)) ;
+    }
+
+  } else {
+    echo "<script>alert('Incorrect Email OR Password!!')</script>";
+    // $message[] = 'incorrect username or password!';
+  }
+}
+
+
+?>
 
   <div class="container">
     <input type="checkbox" id="flip">
@@ -35,15 +82,15 @@ require('../includes/session.php');
         <div class="login-form">
           <div class="title"><img src="../assets/images/semcom-logo.png" height="100px" width="300px"></div>
           <form method="post" action="">
-          <center><br>-- Login To Your Admin Dashboard --</center>
+          <center><br>Login To Your Admin Dashboard</center>
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" name="enroll" value="<?php echo $enroll ?>" placeholder="Enter Your Enrollment Number" maxlength="14" pattern="\d{14}" title="Enrollment Number Should Be of 14 Digits Only" required>
+                <input type="email" name="admin_email" value="<?php echo $admin_email ?>" placeholder="Admin Email" required>
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="pass" value="<?php echo $pass ?>" placeholder="Enter Your password" required>
+                <input type="password" name="pass" value="<?php echo $admin_pass ?>" placeholder="Enter Your password" required>
               </div>
 
               <div class="text"></div>
@@ -53,7 +100,7 @@ require('../includes/session.php');
               </div>
               <div class="button input-box">
 
-                <input type="submit" name="login" value="LOGIN">
+                <input type="submit" name="admin_login" value="LOGIN">
               </div>
               <div class="text sign-up-text">Designed by BCA(2021-2024)
                 <!-- <label for="flip">Sigup now</label></div> -->
