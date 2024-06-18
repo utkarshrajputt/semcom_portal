@@ -30,6 +30,20 @@
                     <span class="nav_name">Change Password</span>
                 </a>
             </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
+                <a href="../student/result.php" class="nav_link">
+                    <i class="fa-solid fa-chart-bar"></i>
+                    <span class="nav_name">Result</span>
+                </a>
+            </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
+                <a href="../student/achievement.php" class="nav_link">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span class="nav_name">Achievement</span>
+                </a>
+            </div>
         </div>
  
     <a class="lg" href="../includes/s_logout.php" onclick="return confirm('Do you really want to Logout?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>

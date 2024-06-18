@@ -17,17 +17,18 @@
             
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <p class="nav_link">Login Credential</p>
-                <a href="../admin/add_staff.php" class="nav_link">
+               
+                <a href="../admin/admin_dashboard.php" class="nav_link">
                     <i class="fa-solid fa-address-card"></i>
-                    <span class="nav_name">Staff</span>
+                    <span class="nav_name">Dashboard</span>
                 </a>
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <a href="../admin/add_admin.php" class="nav_link">
-                    <i class="fa-solid fa-user-lock"></i>
-                    <span class="nav_name">Admin</span>
+               
+                <a href="../admin/add_staff.php" class="nav_link">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span class="nav_name">Staff</span>
                 </a>
             </div>
             <div class="nav_list">
@@ -39,7 +40,7 @@
             </div>
         </div>
  
-    <a class="lg" href="../includes/s_logout.php" onclick="return confirm('Do you really want to Logout?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+    <a class="lg" href="../includes/a_logout.php" onclick="return confirm('Do you really want to Logout?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
     </nav>
 </div>
 <script>
