@@ -3,6 +3,12 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
+$admin_email = $_SESSION['admin_email'];
+
+if (!isset($admin_email)) {
+    header('location:admin_login.php');
+}
+
 function displayAddedNumbers($numbers) {
     echo '<div class="alert alert-success mt-3" role="alert">';
     echo 'Enrollment numbers added successfully: ';

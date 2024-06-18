@@ -38,108 +38,146 @@ if (!isset($enroll)) {
         .content {
             display: none;
         }
+
         .content.active {
             display: block;
         }
+
         .thead-custom {
-          background-color: #f8f9fa; /* Change this to your desired color */
+            background-color: #f8f9fa;
+            /* Change this to your desired color */
         }
-         
+
         @media (max-width: 450px) {
-          .btn {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.875rem;
-          }
+            .btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.875rem;
+            }
         }
     </style>
 </head>
+
 <body id="body-pd">
     <?php
-        require '../includes/sidebar-student.php';
+    require '../includes/sidebar-student.php';
     ?>
-<!-- Results Module -->
-<div class="container mt-5 pt-5">
-    <div class="d-flex justify-content-end mb-4">
-        <button class="btn btn-success add-new" onclick="showAddForm()">Add New</button>
-    </div>
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <button class="btn btn-primary mr-2" onclick="showContent('myResults')">My Results</button>
-            <button class="btn btn-secondary" onclick="showContent('pendingStatus')">Pending Status</button>
+    <!-- Results Module -->
+    <div class="container mt-5 pt-5">
+        <div class="d-flex justify-content-end mb-4">
+            <button class="btn btn-success add-new" onclick="showAddForm()">Add New</button>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <button class="btn btn-primary mr-2" onclick="showContent('myResults')">My Results</button>
+                <button class="btn btn-secondary" onclick="showContent('pendingStatus')">Pending Status</button>
+            </div>
+        </div>
+
+        <div id="myResults" class="content active">
+            <h2 class="text-dark">My Results</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-custom">
+                        <tr>
+                            <th>Course</th>
+                            <th>Semester</th>
+                            <th>CGPA</th>
+                            <th>SGPA</th>
+                            <th>View File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamically filled with user's results -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="pendingStatus" class="content">
+            <h2 class="text-dark">Pending Status</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-custom">
+                        <tr>
+                            <th>Course</th>
+                            <th>Semester</th>
+                            <th>CGPA</th>
+                            <th>SGPA</th>
+                            <th>Status</th>
+                            <th>View File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamically filled with user's pending results -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="addResultForm" class="content">
+            <h2 class="text-dark">Add New Result</h2>
+            <form>
+                <div class="container-fluid pt-4">
+                    <div class="row justify-content-center align-items-center h-100">
+                        <div class="col-12 col-lg-9 col-xl-7 w-70">
+                            <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                <div class="card-body p-4 p-md-5">
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-6 ">
+                                            <div class="form-group form-check-inline">
+                                                <label for="course" class="text-dark">Course</label>
+                                                <input type="text" class="form-control" id="course" name="course">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6 mb-6">
+                                            <div class="form-group form-check-inline">
+                                                <label for="semester" class="text-dark">Semester</label>
+                                                <input type="text" class="form-control" id="semester" name="semester">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-6">
+                                            <div class="form-group form-check-inline">
+                                                <label for="cgpa" class="text-dark">CGPA</label>
+                                                <input type="text" class="form-control" id="cgpa" name="cgpa">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6 mb-6">
+                                            <div class="form-group form-check-inline">
+                                                <label for="sgpa" class="text-dark">SGPA</label>
+                                                <input type="text" class="form-control" id="sgpa" name="sgpa">
+                                            </div>
+                                            <br>
+                                            <br>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="resultFile" class="text-dark">Add File</label>
+                                            <input type="file" class="form-control-file" id="resultFile" name="resultFile">
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary btn-lg float-end ">Submit</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>   
+                </div>
+            </form>
         </div>
     </div>
 
-    <div id="myResults" class="content active">
-        <h2 class="text-dark">My Results</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-custom">
-                    <tr>
-                        <th>Course</th>
-                        <th>Semester</th>
-                        <th>CGPA</th>
-                        <th>SGPA</th>
-                        <th>View File</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamically filled with user's results -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="pendingStatus" class="content">
-        <h2 class="text-dark">Pending Status</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-custom">
-                    <tr>
-                        <th>Course</th>
-                        <th>Semester</th>
-                        <th>CGPA</th>
-                        <th>SGPA</th>
-                        <th>Status</th>
-                        <th>View File</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamically filled with user's pending results -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="addResultForm" class="content">
-        <h2 class="text-dark">Add New Result</h2>
-        <form>
-            <div class="form-group">
-                <label for="course" class="text-dark">Course</label>
-                <input type="text" class="form-control" id="course" name="course">
-            </div>
-            <div class="form-group">
-                <label for="semester" class="text-dark">Semester</label>
-                <input type="text" class="form-control" id="semester" name="semester">
-            </div>
-            <div class="form-group">
-                <label for="cgpa" class="text-dark">CGPA</label>
-                <input type="text" class="form-control" id="cgpa" name="cgpa">
-            </div>
-            <div class="form-group">
-                <label for="sgpa" class="text-dark">SGPA</label>
-                <input type="text" class="form-control" id="sgpa" name="sgpa">
-            </div>
-            <div class="form-group">
-                <label for="resultFile" class="text-dark">Add File</label>
-                <input type="file" class="form-control-file" id="resultFile" name="resultFile">
-            </div>
-            <button type="button" class="btn btn-primary mt-2">Submit</button>
-        </form>
-    </div>
-</div>
-
-
-     <!-- MAIN STUDENT JS -->
+    <!-- MAIN STUDENT JS -->
     <script src="../assets/js/main.js"></script>
     <script>
         function showContent(contentId) {

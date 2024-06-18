@@ -143,33 +143,51 @@ if (isset($_POST['change_pass_btn'])) {
         <div id="addAchievementForm" class="content">
             <h2 class="text-dark">Add New Achievement</h2>
             <form>
-                <div class="form-group">
-                    <label for="semester" class="text-dark">Semester</label>
-                    <input type="text" class="form-control" id="semester" name="semester">
-                </div>
-                <div class="form-group">
-                    <label for="eventDate" class="text-dark">Event Date</label>
-                    <input type="date" class="form-control" id="eventDate" name="eventDate">
-                </div>
-                <div class="form-group">
-                    <label for="eventName" class="text-dark">Event Name</label>
-                    <select class="form-control" id="eventName" name="eventName">
-                        <option value="CVMU GYANOSTAV">CVMU GYANOSTAV</option>
-                        <option value="CVMU HACKATHON">CVMU HACKATHON</option>
-                        <option value="GREEN BUSINESS">GREEN BUSINESS</option>
-                        <option value="BBIC">BBIC</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <input type="text" class="form-control mt-2" id="otherEventName" name="otherEventName" placeholder="Enter other event name" style="display: none;">
-                </div>
-                <div class="form-group">
-                    <label for="description" class="text-dark">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                </div>
-                <button type="button" class="btn btn-primary">Submit</button>
+                <div class="container-fluid pt-4">
+                    <div class="row justify-content-center align-items-center h-100">
+                        <div class="col-12 col-lg-9 col-xl-7 w-70">
+                            <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                <div class="card-body p-4 p-md-5">
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-6 ">
+                                            <div class="form-group form-check-inline">
+                                                <label for="semester" class="text-dark">Semester</label>
+                                                <input type="text" class="form-control" id="semester" name="semester">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-6 ">
+                                            <div class="form-group form-check-inline">
+                                                <label for="eventDate" class="text-dark">Event Date</label>
+                                                <input type="date" class="form-control" id="eventDate" name="eventDate">
+                                                <br>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="eventName" class="text-dark">Event Name</label>
+                                            <select class="form-control" id="eventName" name="eventName">
+                                                <option value="CVMU GYANOSTAV">CVMU GYANOSTAV</option>
+                                                <option value="CVMU HACKATHON">CVMU HACKATHON</option>
+                                                <option value="GREEN BUSINESS">GREEN BUSINESS</option>
+                                                <option value="BBIC">BBIC</option>
+                                                <option value="other">Other</option>
+                                            </select><br>
+                                            <input type="text" class="form-control mt-2" id="otherEventName" name="otherEventName" placeholder="Enter other event name" style="display: none;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description" class="text-dark">Description</label>
+                                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <br>
+                                            <button type="button" class="btn btn-primary btn-md float-end">Submit</button>
+                                        </div>
             </form>
         </div>
-
 
     </div>
 
