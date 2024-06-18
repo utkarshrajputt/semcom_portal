@@ -1,7 +1,11 @@
 <?php
 // Database connection
 require("config/mysqli_db.php");
+<<<<<<< HEAD
 require 'vendor/autoload.php';
+=======
+require 'assets/libraries/vendor/autoload.php';
+>>>>>>> c35c06075302edaa2ef1b6ee90d7779c757458f5
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -184,7 +188,14 @@ function addDataToSheet($spreadsheet, $data, $sheetName) {
                 // Set row height based on image height
                 $sheet->getRowDimension($row)->setRowHeight($drawing->getHeight() + 10); // Add extra for padding
 
+<<<<<<< HEAD
             }else {
+=======
+            } elseif ($key === 'Enrollment Number') {
+                // Set enrollment number explicitly as text to avoid scientific notation
+                $sheet->setCellValueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            } else {
+>>>>>>> c35c06075302edaa2ef1b6ee90d7779c757458f5
                 $sheet->setCellValueByColumnAndRow($col, $row, $value);
                 $col++;
             }
