@@ -41,6 +41,14 @@ if (!isset($enroll)) {
 
     <!-- MAIN STUDENT CSS -->
     <link rel="stylesheet" href="../assets/css/student.css">
+    <style>
+        .icon-btn{
+            background-color:#1865A1;
+        }
+        .icon-btn:hover{
+            background-color:#1D83C4;
+        }
+    </style>
 </head>
 <body id="body-pd">
     <?php
@@ -122,6 +130,13 @@ if (!isset($enroll)) {
                     <div class="col-md-9 mb-3">
                         <div class="card">
                             <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <i class="fa-solid fa-list-ol"></i>
+                                        <h6 class="mb-0">Rol No</h6>
+                                    </div>
+                                    <span class="text-secondary" style="text-transform:capitalize;"><?php echo $personalDetails['roll_no'] ?></span>
+                                </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap py-4 mx-3">
                                     <div class="d-flex justify-content-center align-items-center gap-3">
                                         <i class='bx bx-male-female'></i>

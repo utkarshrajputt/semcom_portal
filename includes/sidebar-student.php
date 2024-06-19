@@ -6,7 +6,7 @@
     <div id="link-title">Enroll : <?php echo $enroll; ?></div>
 </header>
 
-<div class="l-navbar" id="nav-bar">
+<div class="l-navbar" id="nav-bar" style="background-color:#1865A1;">
     <!-- close button under 768px screen width -->
     <i class='bx bx-x nav_close-btn' id="nav-close-btn"></i>
     <nav class="nav">

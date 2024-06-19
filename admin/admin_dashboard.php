@@ -117,6 +117,14 @@ if (!isset($admin_email)) {
                         <td>1010</td>
                         <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
                     </tr>
+                    <tr>
+                        <td>Doe</td>
+                        <td><img src="path/to/photo.jpg" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
+                        <td>doe@example.com</td>
+                        <td>1001</td>
+                        <td>1010</td>
+                        <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
+                    </tr>
                     <!-- More rows will be added dynamically here -->
                 </tbody>
             </table>
@@ -157,14 +165,6 @@ if (!isset($admin_email)) {
             <button type="button" class="close-btn" onclick="closeForm('assignForm')">&times;</button>
             <h5>Assign Enrollment Numbers</h5>
             <form>
-                <div class="mb-3">
-                    <label for="assignName" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="assignName">
-                </div>
-                <div class="mb-3">
-                    <label for="assignPhoto" class="form-label">Photo</label>
-                    <input type="text" class="form-control" id="assignPhoto">
-                </div>
                 <div class="mb-3">
                     <label for="assignEmail" class="form-label">Email</label>
                     <input type="email" class="form-control" id="assignEmail">

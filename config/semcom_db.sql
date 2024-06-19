@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 18, 2024 at 12:11 PM
--- Server version: 8.3.0
+-- Generation Time: Jun 19, 2024 at 10:03 AM
+-- Server version: 8.0.37
 -- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -58,14 +58,21 @@ CREATE TABLE IF NOT EXISTS `staff_dtl` (
   `doj` date NOT NULL,
   `mob_no` varchar(11) NOT NULL,
   `hi_qualification` varchar(50) NOT NULL,
-  `exp` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `exp` varchar(5) NOT NULL,
   `skills` varchar(100) NOT NULL,
   `qualifications` varchar(100) NOT NULL,
   `clg_email` varchar(50) NOT NULL,
-  `clg_password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `password` varchar(50) NOT NULL,
   `staff_img` varchar(50) NOT NULL,
   PRIMARY KEY (`staff_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `staff_dtl`
+--
+
+INSERT INTO `staff_dtl` (`staff_id`, `prefix`, `full_name`, `gender`, `dob`, `doj`, `mob_no`, `hi_qualification`, `exp`, `skills`, `qualifications`, `clg_email`, `password`, `staff_img`) VALUES
+(1, 'Mrs.', 'Ami trivedi', 'Female', '1998-06-03', '2016-06-03', '9685741203', 'Graduate', '5 yrs', 'Teaching', 'MCA', 'ami@semcom.edu.in', '12345678', '');
 
 -- --------------------------------------------------------
 

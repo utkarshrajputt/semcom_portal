@@ -19,7 +19,7 @@
                 <!-- PERSONAL DETAILS -->
                
                 <a href="../admin/admin_dashboard.php" class="nav_link">
-                    <i class="fa-solid fa-address-card"></i>
+                    <i class="fa-solid fa-table-columns"></i>
                     <span class="nav_name">Dashboard</span>
                 </a>
             </div>
@@ -27,14 +27,14 @@
                 <!-- PERSONAL DETAILS -->
                
                 <a href="../admin/add_staff.php" class="nav_link">
-                    <i class="fa-solid fa-address-card"></i>
+                    <i class="fa-solid fa-users-gear"></i>
                     <span class="nav_name">Staff</span>
                 </a>
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
                 <a href="../admin/add_student.php" class="nav_link">
-                    <i class="fa-solid fa-user-lock"></i>
+                    <i class="fa-solid fa-children"></i>
                     <span class="nav_name">Student</span>
                 </a>
             </div>

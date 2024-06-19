@@ -280,7 +280,7 @@ if (!isset($admin_email)) {
                                     <div data-mdb-input-init class="form-outline">
                                         <label class="form-label" for="abc_id">Password</label>
                                         <input type="password" name="clg_pass" class="form-control form-control-lg" pattern=".{8,}" required />
-                                        <div class="invalid-feedback">Please fill Password !</div>
+                                        <div class="invalid-feedback">Password Must Be Minimum 8 Characters !</div>
                                     </div>
                                 </div>
                             </div>
