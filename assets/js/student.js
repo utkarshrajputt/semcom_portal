@@ -29,21 +29,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
     linkColor.forEach(l => l.addEventListener('click', colorLink));
 
-    // Navigation Links for Form Sections
-    const navLinks = document.querySelectorAll('.nav_link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('data-target');
-
-            const contents = document.querySelectorAll('.content');
-            contents.forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(targetId).classList.add('active');
-        });
-    });
-
     // Hide Sidebar on Link Click
     const hideSidebar = () => {
         const nav = document.getElementById('nav-bar');
@@ -97,7 +82,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         });
     });
+    
+    // Navigation Links for Form Sections
+    const navLinks = document.querySelectorAll('.nav_link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
 
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(targetId).classList.add('active');
+        });
+    });
     // Example form validation logic (if required)
     (function() {
         'use strict';

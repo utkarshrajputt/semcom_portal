@@ -23,7 +23,7 @@ else
 <head>
   <meta charset="UTF-8">
   <title> SEMCOM </title>
-  <link rel="stylesheet" href="../assets/css/logstud.css">
+  <link rel="stylesheet" href="../assets/css/stud.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +43,7 @@ else
 
     if ($select_user->rowCount() > 0) {
       $_SESSION['enroll'] = $row['enroll_no'];
-      header('location:dashboard.php');
+      header('location:profile_dashboard.php');
 
       if(isset($_POST['remember'])) {
         setcookie('enroll',$_POST['enroll'] , time() + (60*60*24)) ;
@@ -74,13 +74,13 @@ else
 
         </div>
       </div>
-
     </div>
     <div class="forms">
       <div class="form-content">
         <div class="login-form">
-          <div class="title"><img src="../assets/images/semcom-logo.png" height="100px" width="300px"></div>
+          <div class="title"><img src="../assets/images/semcom-logo.png" height="80px" width="260px"></div>
           <form method="post" action="">
+          <center><br>Login To Your Student Dashboard</center>
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
