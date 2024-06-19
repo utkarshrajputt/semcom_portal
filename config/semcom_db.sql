@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 19, 2024 at 10:03 AM
--- Server version: 8.0.37
+-- Generation Time: Jun 19, 2024 at 12:29 PM
+-- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -65,14 +65,15 @@ CREATE TABLE IF NOT EXISTS `staff_dtl` (
   `password` varchar(50) NOT NULL,
   `staff_img` varchar(50) NOT NULL,
   PRIMARY KEY (`staff_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff_dtl`
 --
 
 INSERT INTO `staff_dtl` (`staff_id`, `prefix`, `full_name`, `gender`, `dob`, `doj`, `mob_no`, `hi_qualification`, `exp`, `skills`, `qualifications`, `clg_email`, `password`, `staff_img`) VALUES
-(1, 'Mrs.', 'Ami trivedi', 'Female', '1998-06-03', '2016-06-03', '9685741203', 'Graduate', '5 yrs', 'Teaching', 'MCA', 'ami@semcom.edu.in', '12345678', '');
+(1, 'Mrs.', 'Ami trivedi', 'Female', '1998-06-03', '2016-06-03', '9685741203', 'Graduate', '5 yrs', 'Teaching', 'MCA', 'ami@semcom.edu.in', '12345678', ''),
+(9, 'Mr.', 'Utkarsh Rajput', 'male', '2024-06-04', '2024-06-07', '3253425435', 'Ph.D', '50', 'Beating', 'BCA', 'utkarshrajput1583@gmail.com', '12345678', 'Utkarsh20240619111951.jpg');
 
 -- --------------------------------------------------------
 
@@ -107,6 +108,32 @@ INSERT INTO `stud_academic_details` (`academic_id`, `enroll_no`, `ssc_board`, `s
 (1, '12101150801011', 'GSEB', '2018-03', '82.33', 'Shantiniketan', 'Gujarati', 'GSEB', '2020-03', '78', 'Narayan Vidhyalaya', 'Gujarati', 'Essay Competition Winner at School'),
 (2, '12101150801038', 'CBSE', '2018-12', '99', 'SHan', 'Guj', 'CBSE', '2020-03', '100', 'Shanti', 'Guj', 'CEO'),
 (3, '12101150801074', 'ICSE', '2024-01', '33.33', 'IB Patel', 'Charotari', 'NIOS', '2024-02', '33.34', 'Desi Public School', 'Nigerian', 'Principal Peon');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stud_achieve`
+--
+
+DROP TABLE IF EXISTS `stud_achieve`;
+CREATE TABLE IF NOT EXISTS `stud_achieve` (
+  `ach_id` int NOT NULL AUTO_INCREMENT,
+  `enroll_no` varchar(15) NOT NULL,
+  `semester` varchar(5) NOT NULL,
+  `event_date` date NOT NULL,
+  `event` varchar(60) NOT NULL,
+  `description` varchar(150) NOT NULL,
+  PRIMARY KEY (`ach_id`),
+  KEY `enroll_no` (`enroll_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `stud_achieve`
+--
+
+INSERT INTO `stud_achieve` (`ach_id`, `enroll_no`, `semester`, `event_date`, `event`, `description`) VALUES
+(1, '12101150801074', '4', '2024-06-17', 'BBIC', 'won first prize and cash prize of 1Lakh.'),
+(3, '12101150801074', '6', '2024-06-04', 'CVMU HACKATHON', 'won last prize and humiliation also.');
 
 -- --------------------------------------------------------
 
@@ -154,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `stud_login` (
   `complete_register` varchar(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`stud_id`),
   UNIQUE KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_login`
@@ -163,7 +190,11 @@ CREATE TABLE IF NOT EXISTS `stud_login` (
 INSERT INTO `stud_login` (`stud_id`, `enroll_no`, `password`, `complete_register`) VALUES
 (1, '12101150801011', '12345', 'yes'),
 (2, '12101150801038', '12345', 'yes'),
-(3, '12101150801074', '123', 'yes');
+(3, '12101150801074', '123', 'yes'),
+(4, '12101150801012', 'semcom@1012', 'no'),
+(5, '12101150801015', 'semcom@1015', 'no'),
+(6, '12101150801018', 'semcom@1018', 'no'),
+(7, '12101150801075', 'semcom@1075', 'no');
 
 -- --------------------------------------------------------
 
@@ -244,7 +275,7 @@ CREATE TABLE IF NOT EXISTS `stud_parents_details` (
 INSERT INTO `stud_parents_details` (`p_id`, `enroll_no`, `fathers_name`, `lang_father`, `fathers_mob`, `father_wp`, `fathers_email`, `fathers_occup`, `fathers_co`, `fathers_desig`, `fathers_annual_income`, `mothers_name`, `lang_mother`, `mothers_mob`, `mother_wp`, `mothers_email`, `mothers_occup`, `mothers_co`, `mothers_desig`, `mothers_annual_income`, `emergency_mob`, `emergency_name`, `emergency_relationship`, `emergency_add`, `emergency_city`, `emergency_pincode`) VALUES
 (1, '12101150801011', 'Jayeshkumar', 'Gujarati', '9426560053', 'yes', 'jayesh@gmail.com', 'Businessman', 'Shreenathji Trading CO.', 'NA', '2000000', 'Bhaminiben', 'Gujarati', '9685741023', 'no', 'bhamin@gmail.com', 'Homemaker', 'NA', 'NA', '0', '6352947011', 'Tanvi', 'Sister', 'Ahmedabad', 'Ahmedabad', '390001'),
 (2, '12101150801038', 'Miten', 'English,Gujarati', '1210115080', 'yes', 'j@gmail.com', 'adbhsl', 'sabs', 'fbjak', '215646', 'abhsf', 'Gujarati,Hindi', '1210115080', 'no', 'vhdshlJ@gmail.com', 'sdbjakl', 'djajbs', 'basjn', '2165451', '2156489781', 'xyz', 'xyz', 'avhsdj', 'dsbhav', '962551'),
-(3, '12101150801074', 'drgreghergtrgerdyhredyh', 'Gujarati', '3253425435', 'no', 'dryrdy@asdb.com', 'yjrtujrt', 'eryeryreyrsdf', 'dghndthgdr', '24123423', 'hsrthrt', '', '9054920165', 'no', 'hdrhrdh@ugd.in', 'Beating', 'eryeryreyrsdf', 'Homeminnisrter', '123456789', '3242342343', 'gfhdthdrg', 'ehgergrege', 'egdrghrgsrgse', 'hjfytfrhdthdr', '321321');
+(3, '12101150801074', 'drgreghergtrgerdyhredyh', 'Gujarati', '3253425435', 'no', 'dryrdy@asdb.com', 'yjrtujrt', 'eryeryreyrsdf', 'dghndthgdr', '24123423', 'hsrthrt', 'gujarati', '9054920165', 'no', 'hdrhrdh@ugd.in', 'Beating', 'eryeryreyrsdf', 'Homeminnisrter', '123456789', '3242342343', 'gfhdthdrg', 'ehgergrege', 'egdrghrgsrgse', 'hjfytfrhdthdr', '321321');
 
 -- --------------------------------------------------------
 
@@ -284,6 +315,32 @@ INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`
 (9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCOM', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
 (10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stud_result`
+--
+
+DROP TABLE IF EXISTS `stud_result`;
+CREATE TABLE IF NOT EXISTS `stud_result` (
+  `result_id` int NOT NULL AUTO_INCREMENT,
+  `enroll_no` varchar(15) NOT NULL,
+  `course` varchar(25) NOT NULL,
+  `semester` varchar(5) NOT NULL,
+  `sgpa` varchar(6) NOT NULL,
+  `cgpa` varchar(6) NOT NULL,
+  `result_img` varchar(50) NOT NULL,
+  PRIMARY KEY (`result_id`),
+  KEY `enroll_no` (`enroll_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `stud_result`
+--
+
+INSERT INTO `stud_result` (`result_id`, `enroll_no`, `course`, `semester`, `sgpa`, `cgpa`, `result_img`) VALUES
+(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg');
+
 --
 -- Constraints for dumped tables
 --
@@ -293,6 +350,12 @@ INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`
 --
 ALTER TABLE `stud_academic_details`
   ADD CONSTRAINT `stud_academic_details_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `stud_achieve`
+--
+ALTER TABLE `stud_achieve`
+  ADD CONSTRAINT `stud_achieve_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `stud_address`
@@ -317,6 +380,12 @@ ALTER TABLE `stud_parents_details`
 --
 ALTER TABLE `stud_personal_details`
   ADD CONSTRAINT `stud_personal_details_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `stud_result`
+--
+ALTER TABLE `stud_result`
+  ADD CONSTRAINT `stud_result_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

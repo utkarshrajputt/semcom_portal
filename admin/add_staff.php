@@ -9,6 +9,47 @@ if (!isset($admin_email)) {
     header('location:admin_login.php');
 }
 
+if (isset($_POST["pers_submit"])) {
+    $prefix = $_POST["prefix"];
+    $full_name = $_POST["name"];
+    $gender = $_POST["gender"];
+    $dob = $_POST["dob_date"];
+    $doj = $_POST["join_date"];
+    $mob = $_POST["phone"];
+    $h_qual = $_POST["hi_qualify"];
+    $exp = $_POST["exp"];
+    $skills = $_POST["skills"];
+    $qual = $_POST["qualify"];
+    $staff_email = $_POST["clg_email"];
+    $pass = $_POST["clg_pass"];
+
+    if (isset($_FILES['pfp'])) {
+        $uploads_dir = '../assets/images/staff_images/';
+        $tmp_name = $_FILES["pfp"]["tmp_name"];
+        $name = basename($_FILES["pfp"]["name"]);
+        $file = $uploads_dir . $name;
+
+        if ($file == '../assets/images/staff_images/') {
+            echo "<script>alert('Upload Image Again')</script>";
+        } else {
+            $temp = explode(".", $_FILES["pfp"]["name"]);
+            $extension = end($temp);
+            $filename = substr($_POST['name'], 0, strpos($_POST['name'], ' ')).date('YmdHis') . "." . $extension;
+            $move = move_uploaded_file($tmp_name, "$uploads_dir/$filename");
+
+            if ($move == true) {
+                $insert = mysqli_query($conn, "insert into staff_dtl(prefix, full_name, gender, dob, doj, mob_no, hi_qualification, exp, skills, qualifications, clg_email, password, staff_img) values('$prefix', '$full_name', '$gender','$dob','$doj', '$mob', '$h_qual', '$exp', '$skills', '$qual', '$staff_email', '$pass', '$filename')");
+
+
+                echo "<script>alert('Data Saved Successfully!!');</script>";
+                // echo "<script>location.reload(true);</script>";
+            }
+        }
+    
+    }
+
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -228,6 +269,7 @@ if (!isset($admin_email)) {
                                             <option>Graduate</option>
                                             <option>Post Graduate</option>
                                             <option>Ph.D</option>
+                                            <option>Diploma</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Highest Qualifaction !</div>
 
@@ -238,9 +280,9 @@ if (!isset($admin_email)) {
                             <div class="row">
                                 <div class="col-md-4 mb-4 pb-2">
                                     <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="emailAddress">Skills</label>
-                                        <input type="text" name="skills" pattern="[A-Za-z0.9\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ ]/g,'');" class="form-control form-control-lg" required />
-                                        <div class="invalid-feedback">Please fill Skills !</div>
+                                        <label class="form-label" for="emailAddress">Experience</label>
+                                        <input type="text" name="exp" pattern="[A-Za-z0.9\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ ]/g,'');" class="form-control form-control-lg" required />
+                                        <div class="invalid-feedback">Please fill Experience !</div>
                                     </div>
 
                                 </div>
@@ -248,9 +290,9 @@ if (!isset($admin_email)) {
                                     <!-- EMAIL -->
                                     <div data-mdb-input-init class="form-outline">
 
-                                        <label class="form-label" for="phoneNumber">Experience</label>
-                                        <input type="text" name="experience" pattern="[A-Za-z0-9\ \-]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ \-]/g,'');" class="form-control form-control-lg" required />
-                                        <div class="invalid-feedback">Please fill Experience !</div>
+                                        <label class="form-label" for="phoneNumber">Skills</label>
+                                        <input type="text" name="skills" pattern="[A-Za-z0-9\ \-]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ \-]/g,'');" class="form-control form-control-lg" required />
+                                        <div class="invalid-feedback">Please fill Skills !</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-4 pb-2">

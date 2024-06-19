@@ -15,43 +15,29 @@ if (!isset($enroll)) {
     }
 }
 
+if (isset($_POST['ach_submit'])) {
+    $semester=$_POST['semester'];
+    $event_date=$_POST['eventDate'];
+    $event=$_POST['eventName'];
+    $description=$_POST['description'];
 
+    try
+    {
+       
+            $stmt = mysqli_query($conn, "insert into stud_achieve(enroll_no, semester, event_date, event, description) values('$enroll','$semester','$event_date','$event','$description')");
 
-if (isset($_POST['change_pass_btn'])) {
-    $old_password = $_POST['old-password'];
-    $new_password = $_POST['new-password'];
-    $retype_password = $_POST['retype-password'];
-
-    // Retrieve the current password from the database
-    $stmt = $conn->prepare("SELECT password FROM stud_login WHERE enroll_no = ?");
-    $stmt->bind_param("s", $enroll);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows == 1) {
-        $stmt->bind_result($current_password);
-        $stmt->fetch();
-
-        // Verify the old password
-        if ($old_password === $current_password) {
-            // Update the password in the database
-            $update_stmt = $conn->prepare("UPDATE stud_login SET password = ? WHERE enroll_no = ?");
-            $update_stmt->bind_param("si", $new_password, $enroll);
-
-            if ($update_stmt->execute()) {
-                echo "<script>alert('Password succesfully changed.');</script>";
-            } else {
-                echo "<script>alert('Error updating password. Please try again.');</script>";
-            }
-        } else {
-            echo "<script>alert('Old password is incorrect.');</script>";
-        }
-    } else {
-        echo "<script>alert('User not found.');</script>";
+            echo "<script>alert('Data Saved Successfully!!');</script>";
+       
     }
-
-    $stmt->close();
+    catch(mysqli_sql_exception $e)
+    {
+        echo "". $e->getMessage() ."";
+    }
 }
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,7 +128,7 @@ if (isset($_POST['change_pass_btn'])) {
         </div>
         <div id="addAchievementForm" class="content">
             <h2 class="text-dark">Add New Achievement</h2>
-            <form>
+            <form method="post">
                 <div class="container-fluid pt-4">
                     <div class="row justify-content-center align-items-center h-100">
                         <div class="col-12 col-lg-9 col-xl-7 w-70">
@@ -184,7 +170,7 @@ if (isset($_POST['change_pass_btn'])) {
 
                                         <div class="form-group">
                                             <br>
-                                            <button type="button" class="btn btn-primary btn-md float-end">Submit</button>
+                                            <button type="submit" class="btn btn-primary btn-md float-end" name="ach_submit">Submit</button>
                                         </div>
             </form>
         </div>
