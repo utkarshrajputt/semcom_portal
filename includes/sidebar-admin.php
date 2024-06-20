@@ -28,14 +28,21 @@
                
                 <a href="../admin/add_staff.php" class="nav_link">
                     <i class="fa-solid fa-users-gear"></i>
-                    <span class="nav_name">Staff</span>
+                    <span class="nav_name">Add Staff</span>
                 </a>
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
                 <a href="../admin/add_student.php" class="nav_link">
                     <i class="fa-solid fa-children"></i>
-                    <span class="nav_name">Student</span>
+                    <span class="nav_name">Add Student</span>
+                </a>
+            </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
+                <a href="../admin/add_class.php" class="nav_link">
+                    <i class="fa-solid fa-children"></i>
+                    <span class="nav_name">Add Class</span>
                 </a>
             </div>
         </div>
