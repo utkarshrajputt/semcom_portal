@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 19, 2024 at 10:03 AM
+-- Generation Time: Jun 20, 2024 at 10:32 AM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.18
 
@@ -45,6 +45,50 @@ INSERT INTO `admin_login` (`admin_id`, `admin_email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `course_class`
+--
+
+DROP TABLE IF EXISTS `course_class`;
+CREATE TABLE IF NOT EXISTS `course_class` (
+  `class_id` int NOT NULL AUTO_INCREMENT,
+  `course_name` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `class_semester` char(1) NOT NULL,
+  `class_div` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
+  `class_enroll_start` varchar(17) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `class_enroll_end` varchar(17) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `result_request` char(3) NOT NULL DEFAULT 'no',
+  PRIMARY KEY (`class_id`),
+  UNIQUE KEY `unique_row` (`course_name`,`class_semester`,`class_div`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `course_class`
+--
+
+INSERT INTO `course_class` (`class_id`, `course_name`, `class_semester`, `class_div`, `class_enroll_start`, `class_enroll_end`, `result_request`) VALUES
+(9, 'BCA', '1', '-', '100000001', '100000002', 'no');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff_class_assign`
+--
+
+DROP TABLE IF EXISTS `staff_class_assign`;
+CREATE TABLE IF NOT EXISTS `staff_class_assign` (
+  `a_id` int NOT NULL AUTO_INCREMENT,
+  `staff_email` varchar(35) NOT NULL,
+  `course` varchar(7) NOT NULL,
+  `semester` char(1) NOT NULL,
+  `division` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
+  PRIMARY KEY (`a_id`),
+  KEY `staff_foreign` (`staff_email`),
+  KEY `fk_child_parent` (`course`,`semester`,`division`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `staff_dtl`
 --
 
@@ -64,7 +108,8 @@ CREATE TABLE IF NOT EXISTS `staff_dtl` (
   `clg_email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `staff_img` varchar(50) NOT NULL,
-  PRIMARY KEY (`staff_id`)
+  PRIMARY KEY (`staff_id`),
+  UNIQUE KEY `clg_email` (`clg_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -107,6 +152,34 @@ INSERT INTO `stud_academic_details` (`academic_id`, `enroll_no`, `ssc_board`, `s
 (1, '12101150801011', 'GSEB', '2018-03', '82.33', 'Shantiniketan', 'Gujarati', 'GSEB', '2020-03', '78', 'Narayan Vidhyalaya', 'Gujarati', 'Essay Competition Winner at School'),
 (2, '12101150801038', 'CBSE', '2018-12', '99', 'SHan', 'Guj', 'CBSE', '2020-03', '100', 'Shanti', 'Guj', 'CEO'),
 (3, '12101150801074', 'ICSE', '2024-01', '33.33', 'IB Patel', 'Charotari', 'NIOS', '2024-02', '33.34', 'Desi Public School', 'Nigerian', 'Principal Peon');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stud_achieve`
+--
+
+DROP TABLE IF EXISTS `stud_achieve`;
+CREATE TABLE IF NOT EXISTS `stud_achieve` (
+  `ach_id` int NOT NULL AUTO_INCREMENT,
+  `enroll_no` varchar(15) NOT NULL,
+  `semester` varchar(5) NOT NULL,
+  `event_date` date NOT NULL,
+  `event` varchar(60) NOT NULL,
+  `description` varchar(150) NOT NULL,
+  PRIMARY KEY (`ach_id`),
+  KEY `enroll_no` (`enroll_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `stud_achieve`
+--
+
+INSERT INTO `stud_achieve` (`ach_id`, `enroll_no`, `semester`, `event_date`, `event`, `description`) VALUES
+(1, '12101150801074', '4', '2024-06-17', 'BBIC', 'won first prize and cash prize of 1Lakh.'),
+(3, '12101150801074', '6', '2024-06-04', 'CVMU HACKATHON', 'won last prize and humiliation also.'),
+(4, '12101150801011', '1', '2024-02-18', 'other', '2nd Prize'),
+(5, '12101150801011', '2', '2024-05-28', 'Hindi Essay', '1st');
 
 -- --------------------------------------------------------
 
@@ -260,6 +333,8 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
   `spid` varchar(15) NOT NULL,
   `enroll_no` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `stud_course` varchar(10) NOT NULL,
+  `stud_semester` char(1) NOT NULL,
+  `stud_division` char(1) NOT NULL,
   `roll_no` varchar(10) NOT NULL,
   `f_name` varchar(25) NOT NULL,
   `m_name` varchar(25) NOT NULL,
@@ -273,20 +348,55 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
   PRIMARY KEY (`stud_id`),
   UNIQUE KEY `enroll_no` (`enroll_no`),
   UNIQUE KEY `enroll_no_2` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_personal_details`
 --
 
-INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`, `enroll_no`, `stud_course`, `roll_no`, `f_name`, `m_name`, `l_name`, `gender`, `mob_no`, `email_id`, `aadhar_no`, `abc_id`, `pro_pic`) VALUES
-(8, 'regular', '2024-06-01', '2021001374', '12101150801011', 'BBA-ITM', '11', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799456', 'iamdarsh@gmail.com', '9685741452', '654789321', '12101150801011.jpg'),
-(9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCOM', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
-(10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg');
+INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`, `enroll_no`, `stud_course`, `stud_semester`, `stud_division`, `roll_no`, `f_name`, `m_name`, `l_name`, `gender`, `mob_no`, `email_id`, `aadhar_no`, `abc_id`, `pro_pic`) VALUES
+(9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCOM', '', '', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
+(10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '', '', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg'),
+(11, 'regular', '2024-06-19', '20240001107', '12101150801011', 'BCA', '1', 'A', '11', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799456', 'iamdarsh244@gmail.com', '9632587410', '12317916', '12101150801011.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stud_result`
+--
+
+DROP TABLE IF EXISTS `stud_result`;
+CREATE TABLE IF NOT EXISTS `stud_result` (
+  `result_id` int NOT NULL AUTO_INCREMENT,
+  `enroll_no` varchar(15) NOT NULL,
+  `course` varchar(25) NOT NULL,
+  `semester` varchar(5) NOT NULL,
+  `sgpa` varchar(6) NOT NULL,
+  `cgpa` varchar(6) NOT NULL,
+  `result_img` varchar(50) NOT NULL,
+  `add_request` varchar(10) NOT NULL DEFAULT 'pending',
+  PRIMARY KEY (`result_id`),
+  KEY `enroll_no` (`enroll_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `stud_result`
+--
+
+INSERT INTO `stud_result` (`result_id`, `enroll_no`, `course`, `semester`, `sgpa`, `cgpa`, `result_img`, `add_request`) VALUES
+(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'pending'),
+(2, '12101150801011', 'BCA', '1', '9.00', '9.00', '12101150801011_1.jpg', 'pending');
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `staff_class_assign`
+--
+ALTER TABLE `staff_class_assign`
+  ADD CONSTRAINT `fk_child_parent` FOREIGN KEY (`course`,`semester`,`division`) REFERENCES `course_class` (`course_name`, `class_semester`, `class_div`),
+  ADD CONSTRAINT `staff_foreign` FOREIGN KEY (`staff_email`) REFERENCES `staff_dtl` (`clg_email`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `stud_academic_details`
@@ -317,6 +427,12 @@ ALTER TABLE `stud_parents_details`
 --
 ALTER TABLE `stud_personal_details`
   ADD CONSTRAINT `stud_personal_details_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `stud_result`
+--
+ALTER TABLE `stud_result`
+  ADD CONSTRAINT `stud_result_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

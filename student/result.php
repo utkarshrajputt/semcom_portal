@@ -14,6 +14,42 @@ if (!isset($enroll)) {
         header("location:profile_dashboard.php");
     }
 }
+
+if (isset($_POST['res_submit'])) {
+    $semester = $_POST['semester'];
+    $course = $_POST['course'];
+    $sgpa = $_POST['sgpa'];
+    $cgpa = $_POST['cgpa'];
+
+    try {
+
+        if (isset($_FILES['resultFile'])) {
+            $uploads_dir = '../assets/images/result_images/';
+            $tmp_name = $_FILES["resultFile"]["tmp_name"];
+            $name = basename($_FILES["resultFile"]["name"]);
+            $file = $uploads_dir . $name;
+
+            if ($file == '../assets/images/result_images/') {
+                echo "<script>alert('Upload Image Again')</script>";
+            } else {
+                $temp = explode(".", $_FILES["resultFile"]["name"]);
+                $extension = end($temp);
+                $filename = $enroll . "_" . $semester . "." . $extension;
+                $move = move_uploaded_file($tmp_name, "$uploads_dir/$filename");
+
+                if ($move == true) {
+
+                    $stmt = mysqli_query($conn, "insert into stud_result(enroll_no, course, semester, sgpa, cgpa, result_img) values('$enroll','$course','$semester','$sgpa','$cgpa','$filename')");
+
+
+                    echo "<script>alert('Data Saved Successfully!!');</script>";
+                }
+            }
+        }
+    } catch (mysqli_sql_exception $e) {
+        echo "" . $e->getMessage() . "";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,6 +124,20 @@ if (!isset($enroll)) {
                     </thead>
                     <tbody>
                         <!-- Dynamically filled with user's results -->
+                        <?php
+                            $stmt = mysqli_query($conn, "select * from stud_result where enroll_no='$enroll' and add_request='accepted' order by semester");
+                            while ($data = mysqli_fetch_assoc($stmt)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $data['course']; ?></td>
+                                <td><?php echo $data['semester']; ?></td>
+                                <td><?php echo $data['cgpa']; ?></td>
+                                <td><?php echo $data['sgpa']; ?></td>
+                                <td><a href='../assets/images/result_images/<?php echo $data['result_img'] ?>' target="_blank">View</a></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -109,6 +159,21 @@ if (!isset($enroll)) {
                     </thead>
                     <tbody>
                         <!-- Dynamically filled with user's pending results -->
+                        <?php
+                            $stmt = mysqli_query($conn, "select * from stud_result where enroll_no='$enroll' and add_request='pending' order by semester");
+                            while ($data = mysqli_fetch_assoc($stmt)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $data['course']; ?></td>
+                                <td><?php echo $data['semester']; ?></td>
+                                <td><?php echo $data['cgpa']; ?></td>
+                                <td><?php echo $data['sgpa']; ?></td>
+                                <td><?php echo $data['add_request']; ?></td>
+                                <td><a href='../assets/images/result_images/<?php echo $data['result_img'] ?>' target="_blank">View</a></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -116,7 +181,7 @@ if (!isset($enroll)) {
 
         <div id="addResultForm" class="content">
             <h2 class="text-dark">Add New Result</h2>
-            <form>
+            <form method="post" enctype="multipart/form-data">
                 <div class="container-fluid pt-4">
                     <div class="row justify-content-center align-items-center h-100">
                         <div class="col-12 col-lg-9 col-xl-7 w-70">
@@ -127,7 +192,14 @@ if (!isset($enroll)) {
                                         <div class="col-md-6 mb-6 ">
                                             <div class="form-group form-check-inline">
                                                 <label for="course" class="text-dark">Course</label>
-                                                <input type="text" class="form-control" id="course" name="course">
+                                                <select name="course" class="form-control form-control-lg" required>
+                                                    <option value="" disabled selected hidden>-- Select Course --</option>
+                                                    <option value="BCA">BCA</option>
+                                                    <option value="BCOM">BCOM</option>
+                                                    <option value="BBA">BBA</option>
+                                                    <option value="BBA-ITM">BBA-ITM</option>
+                                                    <option value="MCOM">MCOM</option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -160,18 +232,19 @@ if (!isset($enroll)) {
 
                                         <div class="form-group">
                                             <label for="resultFile" class="text-dark">Add File</label>
-                                            <input type="file" class="form-control-file" id="resultFile" name="resultFile">
+                                            <input type="file" name="resultFile" class="form-control w-70" accept=".jpg, .jpeg" id="inputGroupFile02" required>
                                         </div>
+                                        <br>
                                         <br>
                                         <br>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-primary btn-lg float-end ">Submit</button>
-                                        </div>
+                                            <button type="submit" class="btn btn-primary btn-lg float-end " name="res_submit">Submit</button>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                    </div>   
+                    </div>
                 </div>
             </form>
         </div>

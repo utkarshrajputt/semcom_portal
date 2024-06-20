@@ -22,8 +22,8 @@
                     <i class="fa-solid fa-table-columns"></i>
                     <span class="nav_name">Dashboard</span>
                 </a>
-                <a href="../staff/counsel .php" class="nav_link">
-                    <i class="fa-solid fa-table-columns"></i>
+                <a href="../staff/counsel.php" class="nav_link">
+                    <i class="fa-solid fa-person-chalkboard"></i>
                     <span class="nav_name">Counselling</span>
                 </a>
             </div>

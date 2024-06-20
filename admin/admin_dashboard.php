@@ -84,10 +84,66 @@ if (!isset($admin_email)) {
     <?php
     require '../includes/sidebar-admin.php';
     ?>
+    <?php
+        if (isset($_POST['btn_assign'])) {
+            $email=$_POST['clg_email'];
+            $start=$_POST['assignEnrollEnd'];
+            $end=$_POST['assignEnrollEnd'];
+
+            try
+            {
+                $sql = "SELECT * FROM staff_enroll_assign WHERE staff_email = '$email'";
+                $stmt = mysqli_query($conn, $sql);   
+                if(mysqli_num_rows($stmt) == 0)
+                {
+                    $stmt = mysqli_query($conn, "insert into staff_enroll_assign(staff_email,enroll_start_range,enroll_end_range) values('$email','$start','$end')");
+
+                    echo "<script>alert('Data Saved Successfully!!');</script>";
+                }
+                else
+                {
+                    echo "<script>alert('Email Already Assigned, Edit or Delete Via Display Module!!');</script>";
+                }
+            }
+            catch(mysqli_sql_exception $e)
+            {
+                echo "". $e->getMessage() ."";
+            }
+        }
+
+        if (isset($_POST["btn_update"]))
+        {
+            $email=$_POST['editEmail'];
+            $start=$_POST['editEnrollEnd'];
+            $end=$_POST['editEnrollEnd'];
+            try{
+                    $stmt = mysqli_query($conn, "update staff_enroll_assign set enroll_start_range='$start',enroll_end_range='$end' where staff_email='$email'");
+
+                    echo "<script>alert('Data Updated Successfully!!');</script>";
+            }
+            catch(mysqli_sql_exception $e)
+            {
+                echo ''. $e->getMessage() .'';
+            }
+        }
+        if (isset($_POST["btn_delete"]))
+        {
+            $email=$_POST['editEmail'];
+            try{
+                    $stmt = mysqli_query($conn, "delete from staff_enroll_assign where staff_email='$email'");
+
+                    echo "<script>alert('Data Deleted Successfully!!');</script>";
+            }
+            catch(mysqli_sql_exception $e)
+            {
+                echo ''. $e->getMessage() .'';
+            }
+        }
+    ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-end mb-3">
             <button id="displayBtn" class="btn btn-primary me-2">Display</button>
-            <button id="assignBtn" class="btn btn-secondary">Assign</button>
+            <button id="assignBtn" class="btn btn-secondary">Assign Class</button>
         </div>
 
         <div id="searchBox" class="mb-3 d-flex justify-content-end">
@@ -108,24 +164,7 @@ if (!isset($admin_email)) {
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Sample Row for Display -->
-                    <tr>
-                        <td>John Doe</td>
-                        <td><img src="path/to/photo.jpg" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
-                        <td>john@example.com</td>
-                        <td>1001</td>
-                        <td>1010</td>
-                        <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
-                    </tr>
-                    <tr>
-                        <td>Doe</td>
-                        <td><img src="path/to/photo.jpg" alt="Photo" class="img-thumbnail" style="width: 50px; height: 50px;"></td>
-                        <td>doe@example.com</td>
-                        <td>1001</td>
-                        <td>1010</td>
-                        <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
-                    </tr>
-                    <!-- More rows will be added dynamically here -->
+                <!-- More rows will be added dynamically here -->
                 </tbody>
             </table>
         </div>
@@ -133,7 +172,7 @@ if (!isset($admin_email)) {
         <div id="editForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('editForm')">&times;</button>
             <h5>Edit Staff Member</h5>
-            <form>
+            <form method="post">
                 <div class="mb-3">
                     <label for="editName" class="form-label">Name</label>
                     <input type="text" class="form-control" id="editName" disabled>
@@ -144,19 +183,19 @@ if (!isset($admin_email)) {
                 </div>
                 <div class="mb-3">
                     <label for="editEmail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="editEmail" disabled>
+                    <input type="email" class="form-control" id="editEmail" name="editEmail">
                 </div>
                 <div class="mb-3">
                     <label for="editEnrollStart" class="form-label">Enrollment No Start</label>
-                    <input type="text" class="form-control" id="editEnrollStart">
+                    <input type="text" class="form-control" id="editEnrollStart" name="editEnrollStart">
                 </div>
                 <div class="mb-3">
                     <label for="editEnrollEnd" class="form-label">Enrollment No End</label>
-                    <input type="text" class="form-control" id="editEnrollEnd">
+                    <input type="text" class="form-control" id="editEnrollEnd" name="editEnrollEnd">
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-success">Update</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button class="btn btn-success" name="btn_update">Update</button>
+                    <button class="btn btn-danger" name="btn_delete">Delete</button>
                 </div>
             </form>
         </div>
@@ -164,24 +203,58 @@ if (!isset($admin_email)) {
         <div id="assignForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('assignForm')">&times;</button>
             <h5>Assign Enrollment Numbers</h5>
-            <form>
+            <form method="post" onsubmit="return validateForm()">
                 <div class="mb-3">
                     <label for="assignEmail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="assignEmail">
+                    <select name="clg_email" class="form-control" required>
+                        <option value="" disabled selected hidden>- Select -</option>
+                        <?php
+                        $qry = mysqli_query($conn, 'select clg_email from staff_dtl');
+                        while ($row = mysqli_fetch_array($qry)) {
+                            echo "<option>" . $row['clg_email'] . "</option>";
+                        }
+                        ?>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="assignEnrollStart" class="form-label">Enrollment No Start</label>
-                    <input type="text" class="form-control" id="assignEnrollStart">
+                    <input type="text" class="form-control" id="assignEnrollStart" name="assignEnrollStart" required>
                 </div>
                 <div class="mb-3">
                     <label for="assignEnrollEnd" class="form-label">Enrollment No End</label>
-                    <input type="text" class="form-control" id="assignEnrollEnd">
+                    <input type="text" class="form-control" id="assignEnrollEnd" name="assignEnrollEnd" required>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary">Assign</button>
+                    <button name="btn_assign" type="submit" class="btn btn-primary">Assign</button>
                 </div>
             </form>
         </div>
+
+        <script>
+
+            function validateForm() {
+                const enrollStart = document.getElementById('assignEnrollStart').value;
+                const enrollEnd = document.getElementById('assignEnrollEnd').value;
+
+                if (!enrollStart || !enrollEnd) {
+                    alert('Enrollment numbers cannot be empty');
+                    return false;
+                }
+
+                if (isNaN(enrollStart) || isNaN(enrollEnd)) {
+                    alert('Enrollment numbers must be numeric');
+                    return false;
+                }
+
+                if (parseInt(enrollEnd) <= parseInt(enrollStart)) {
+                    alert('Enrollment No End must be greater than Enrollment No Start');
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+
 
         <div id="modalBackdrop" class="modal-backdrop d-none"></div>
     </div>

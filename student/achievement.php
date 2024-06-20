@@ -15,43 +15,28 @@ if (!isset($enroll)) {
     }
 }
 
-
-
-if (isset($_POST['change_pass_btn'])) {
-    $old_password = $_POST['old-password'];
-    $new_password = $_POST['new-password'];
-    $retype_password = $_POST['retype-password'];
-
-    // Retrieve the current password from the database
-    $stmt = $conn->prepare("SELECT password FROM stud_login WHERE enroll_no = ?");
-    $stmt->bind_param("s", $enroll);
-    $stmt->execute();
-    $stmt->store_result();
-
-    if ($stmt->num_rows == 1) {
-        $stmt->bind_result($current_password);
-        $stmt->fetch();
-
-        // Verify the old password
-        if ($old_password === $current_password) {
-            // Update the password in the database
-            $update_stmt = $conn->prepare("UPDATE stud_login SET password = ? WHERE enroll_no = ?");
-            $update_stmt->bind_param("si", $new_password, $enroll);
-
-            if ($update_stmt->execute()) {
-                echo "<script>alert('Password succesfully changed.');</script>";
-            } else {
-                echo "<script>alert('Error updating password. Please try again.');</script>";
-            }
-        } else {
-            echo "<script>alert('Old password is incorrect.');</script>";
-        }
-    } else {
-        echo "<script>alert('User not found.');</script>";
+if (isset($_POST['ach_submit'])) {
+    $semester = $_POST['semester'];
+    $event_date = $_POST['eventDate'];
+    $event = $_POST['eventName'];
+    if ($event = "other") {
+        $event = $_POST['otherEventName'];
     }
+    $description = $_POST['description'];
 
-    $stmt->close();
+    try {
+
+        $stmt = mysqli_query($conn, "insert into stud_achieve(enroll_no, semester, event_date, event, description) values('$enroll','$semester','$event_date','$event','$description')");
+
+        echo "<script>alert('Data Saved Successfully!!');</script>";
+    } catch (mysqli_sql_exception $e) {
+        echo "" . $e->getMessage() . "";
+    }
 }
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -123,26 +108,26 @@ if (isset($_POST['change_pass_btn'])) {
                     </thead>
                     <tbody>
                         <!-- Dynamically filled with user's achievements -->
-                        <tr>
-                            <td>Spring 2023</td>
-                            <td>2023-05-15</td>
-                            <td>CVMU GYANOSTAV</td>
-                            <td>Awarded 2nd place in coding competition.</td>
-                        </tr>
-                        <tr>
-                            <td>Fall 2022</td>
-                            <td>2022-11-20</td>
-                            <td>GREEN BUSINESS</td>
-                            <td>Participated in the sustainability project presentation.</td>
-                        </tr>
-                        <!-- Add more rows as needed -->
+                        <?php
+                            $stmt = mysqli_query($conn, "select * from stud_achieve where enroll_no='$enroll' order by event_date");
+                            while ($data = mysqli_fetch_assoc($stmt)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $data['semester']; ?></td>
+                                <td><?php echo $data['event_date']; ?></td>
+                                <td><?php echo $data['event']; ?></td>
+                                <td><?php echo $data['description']; ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
         </div>
         <div id="addAchievementForm" class="content">
             <h2 class="text-dark">Add New Achievement</h2>
-            <form>
+            <form method="post">
                 <div class="container-fluid pt-4">
                     <div class="row justify-content-center align-items-center h-100">
                         <div class="col-12 col-lg-9 col-xl-7 w-70">
@@ -177,15 +162,21 @@ if (isset($_POST['change_pass_btn'])) {
                                             </select><br>
                                             <input type="text" class="form-control mt-2" id="otherEventName" name="otherEventName" placeholder="Enter other event name" style="display: none;">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mt-2">
                                             <label for="description" class="text-dark">Description</label>
                                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                                         </div>
 
                                         <div class="form-group">
                                             <br>
-                                            <button type="button" class="btn btn-primary btn-md float-end">Submit</button>
+                                            <button type="submit" class="btn btn-primary btn-md float-end" name="ach_submit">Submit</button>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
 
