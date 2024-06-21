@@ -16,7 +16,7 @@ if (isset($_POST["pers_submit"])) {
     $doj = $_POST["join_date"];
     $mob = $_POST["phone"];
     $h_qual = $_POST["hi_qualify"];
-    $exp = $_POST["exp"];
+    $exp = $_POST["experience"];
     $skills = $_POST["skills"];
     $qual = $_POST["qualify"];
     $staff_email = $_POST["clg_email"];

@@ -134,11 +134,12 @@ try {
                                     ?>
                                         <select name="course" class="form-control form-control-lg" required>
                                             <option value="" disabled selected hidden>-- Select Course --</option>
-                                            <option value="BCA">BCA</option>
-                                            <option value="BCOM">BCOM</option>
-                                            <option value="BBA">BBA</option>
-                                            <option value="BBA-ITM">BBA-ITM</option>
-                                            <option value="MCOM">MCOM</option>
+                                            <?php
+                                                 $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
+                                                 while ($row = $result->fetch_assoc()) {
+                                                     echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
+                                                 }
+                                            ?>
                                         </select>
                                         <div class="invalid-feedback">Please fill roll number !</div>
                                     <?php
@@ -157,14 +158,12 @@ try {
                                     ?>
                                         <select name="semester" class="form-control form-control-lg" required>
                                             <option value="" disabled selected hidden>-- Select Semester --</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
+                                            <?php
+                                                 $result = $conn->query("SELECT DISTINCT class_semester FROM course_class");
+                                                 while ($row = $result->fetch_assoc()) {
+                                                     echo '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
+                                                 }
+                                            ?>
                                         </select>
                                         <div class="invalid-feedback">Please Select Semester !</div>
                                     <?php
@@ -183,9 +182,12 @@ try {
                                     ?>
                                         <select name="division" class="form-control form-control-lg" required>
                                             <option value="" disabled selected hidden>-- Select Division --</option>
-                                            <option>-</option>
-                                            <option>A</option>
-                                            <option>B</option>
+                                            <?php
+                                                 $result = $conn->query("SELECT DISTINCT class_div FROM course_class");
+                                                 while ($row = $result->fetch_assoc()) {
+                                                     echo '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
+                                                 }
+                                            ?>
                                         </select>
                                         <div class="invalid-feedback">Please Select Division !</div>
                                     <?php

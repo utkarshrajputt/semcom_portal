@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 20, 2024 at 10:32 AM
+-- Generation Time: Jun 21, 2024 at 12:46 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.18
 
@@ -59,14 +59,16 @@ CREATE TABLE IF NOT EXISTS `course_class` (
   `result_request` char(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`class_id`),
   UNIQUE KEY `unique_row` (`course_name`,`class_semester`,`class_div`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `course_class`
 --
 
 INSERT INTO `course_class` (`class_id`, `course_name`, `class_semester`, `class_div`, `class_enroll_start`, `class_enroll_end`, `result_request`) VALUES
-(9, 'BCA', '1', '-', '100000001', '100000002', 'no');
+(9, 'BCA', '1', '-', '12101150801011', '12101150801040', 'no'),
+(10, 'BCA', '2', '-', '12101150801041', '12101150801070', 'no'),
+(11, 'BCA', '3', '-', '12101150801071', '12101150801100', 'no');
 
 -- --------------------------------------------------------
 
@@ -84,7 +86,14 @@ CREATE TABLE IF NOT EXISTS `staff_class_assign` (
   PRIMARY KEY (`a_id`),
   KEY `staff_foreign` (`staff_email`),
   KEY `fk_child_parent` (`course`,`semester`,`division`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `staff_class_assign`
+--
+
+INSERT INTO `staff_class_assign` (`a_id`, `staff_email`, `course`, `semester`, `division`) VALUES
+(11, 'darsh@semcom.edu.in', 'BCA', '2', '-');
 
 -- --------------------------------------------------------
 
@@ -102,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `staff_dtl` (
   `doj` date NOT NULL,
   `mob_no` varchar(11) NOT NULL,
   `hi_qualification` varchar(50) NOT NULL,
-  `exp` varchar(5) NOT NULL,
+  `exp` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `skills` varchar(100) NOT NULL,
   `qualifications` varchar(100) NOT NULL,
   `clg_email` varchar(50) NOT NULL,
@@ -110,14 +119,14 @@ CREATE TABLE IF NOT EXISTS `staff_dtl` (
   `staff_img` varchar(50) NOT NULL,
   PRIMARY KEY (`staff_id`),
   UNIQUE KEY `clg_email` (`clg_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff_dtl`
 --
 
 INSERT INTO `staff_dtl` (`staff_id`, `prefix`, `full_name`, `gender`, `dob`, `doj`, `mob_no`, `hi_qualification`, `exp`, `skills`, `qualifications`, `clg_email`, `password`, `staff_img`) VALUES
-(1, 'Mrs.', 'Ami trivedi', 'Female', '1998-06-03', '2016-06-03', '9685741203', 'Graduate', '5 yrs', 'Teaching', 'MCA', 'ami@semcom.edu.in', '12345678', '');
+(2, 'Mr.', 'Darsh Parikh', 'male', '1995-06-13', '2024-06-11', '9662799655', 'Graduate', '5-6 yrs', 'Teaching', 'BCA', 'darsh@semcom.edu.in', '12345678', 'Darsh20240620120451.jpg');
 
 -- --------------------------------------------------------
 
@@ -212,6 +221,23 @@ INSERT INTO `stud_address` (`add_id`, `enroll_no`, `resident_type`, `permanent_a
 (9, '12101150801011', 'localite', '20-a Housing Society', 'Kalol', 'Kalol', '389330', '20-a Housing Society', 'Kalol', 'Kalol', '389330'),
 (10, '12101150801038', 'localite', 'fbhli', ';jgasdkk;', 'sjhblaf', '325896', 'sbd;jai', 'ssb;da', 'dbfhjav', '123456'),
 (11, '12101150801074', 'localite', 'ram street', 'gokul nagar', 'Kolkata', '321321', 'anand', 'Oppo. APIED', 'Kolkata', '523234');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stud_counsel`
+--
+
+DROP TABLE IF EXISTS `stud_counsel`;
+CREATE TABLE IF NOT EXISTS `stud_counsel` (
+  `c_id` int NOT NULL AUTO_INCREMENT,
+  `enroll_no` varchar(15) NOT NULL,
+  `c  _date` date NOT NULL,
+  `counselling_of` int NOT NULL,
+  `counsel_session_info` varchar(100) NOT NULL,
+  PRIMARY KEY (`c_id`),
+  KEY `enroll_no` (`enroll_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -348,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
   PRIMARY KEY (`stud_id`),
   UNIQUE KEY `enroll_no` (`enroll_no`),
   UNIQUE KEY `enroll_no_2` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_personal_details`
@@ -357,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
 INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`, `enroll_no`, `stud_course`, `stud_semester`, `stud_division`, `roll_no`, `f_name`, `m_name`, `l_name`, `gender`, `mob_no`, `email_id`, `aadhar_no`, `abc_id`, `pro_pic`) VALUES
 (9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCOM', '', '', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
 (10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '', '', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg'),
-(11, 'regular', '2024-06-19', '20240001107', '12101150801011', 'BCA', '1', 'A', '11', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799456', 'iamdarsh244@gmail.com', '9632587410', '12317916', '12101150801011.jpg');
+(12, 'regular', '2024-06-05', '368196896', '12101150801011', 'BCA', '1', '-', '11', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799456', 'iamdarsh244@gmail.com', '9632587410', '12317916', '12101150801011.jpg');
 
 -- --------------------------------------------------------
 
@@ -409,6 +435,12 @@ ALTER TABLE `stud_academic_details`
 --
 ALTER TABLE `stud_address`
   ADD CONSTRAINT `stud_address_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `stud_counsel`
+--
+ALTER TABLE `stud_counsel`
+  ADD CONSTRAINT `stud_counsel_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `stud_other_details`

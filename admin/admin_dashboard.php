@@ -77,6 +77,8 @@ if (!isset($admin_email)) {
             justify-content: flex-end;
             gap: 10px;
         }
+
+        select {}
     </style>
 </head>
 
@@ -85,60 +87,63 @@ if (!isset($admin_email)) {
     require '../includes/sidebar-admin.php';
     ?>
     <?php
-        if (isset($_POST['btn_assign'])) {
-            $email=$_POST['clg_email'];
-            $start=$_POST['assignEnrollEnd'];
-            $end=$_POST['assignEnrollEnd'];
+    if (isset($_POST['btn_assign'])) {
+        $course = $_POST['course'];
+        $semester = $_POST['semester'];
+        $division = $_POST['division'];
+        $email = $_POST['clg_email'];
 
-            try
-            {
-                $sql = "SELECT * FROM staff_enroll_assign WHERE staff_email = '$email'";
-                $stmt = mysqli_query($conn, $sql);   
-                if(mysqli_num_rows($stmt) == 0)
-                {
-                    $stmt = mysqli_query($conn, "insert into staff_enroll_assign(staff_email,enroll_start_range,enroll_end_range) values('$email','$start','$end')");
+        try {
+            $class = "SELECT * FROM staff_class_assign WHERE course='$course' and semester='$semester' and division='$division'";
+            $class_stmt = mysqli_query($conn, $class);
+            if (mysqli_num_rows($class_stmt) == 0) {
+                $sql = "SELECT * FROM staff_class_assign WHERE staff_email = '$email'";
+                $stmt = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($stmt) == 0) {
+                    $stmt = mysqli_query($conn, "insert into staff_class_assign(staff_email,course,semester,division) values('$email','$course','$semester','$division')");
 
                     echo "<script>alert('Data Saved Successfully!!');</script>";
-                }
-                else
-                {
+                } else {
                     echo "<script>alert('Email Already Assigned, Edit or Delete Via Display Module!!');</script>";
                 }
+            } else {
+                echo "<script>alert('Class Already Assigned, Edit or Delete Via Display Module!!');</script>";
             }
-            catch(mysqli_sql_exception $e)
-            {
-                echo "". $e->getMessage() ."";
-            }
+        } catch (mysqli_sql_exception $e) {
+            echo "" . $e->getMessage() . "";
         }
+    }
 
-        if (isset($_POST["btn_update"]))
-        {
-            $email=$_POST['editEmail'];
-            $start=$_POST['editEnrollEnd'];
-            $end=$_POST['editEnrollEnd'];
-            try{
-                    $stmt = mysqli_query($conn, "update staff_enroll_assign set enroll_start_range='$start',enroll_end_range='$end' where staff_email='$email'");
+    if (isset($_POST["btn_update"])) {
+        $course = $_POST['editCourse'];
+        $semester = $_POST['editSemester'];
+        $division = $_POST['editDivision'];
+        $email = $_POST['editEmail'];
 
-                    echo "<script>alert('Data Updated Successfully!!');</script>";
+        try {
+            $class = "SELECT * FROM staff_class_assign WHERE course='$course' and semester='$semester' and division='$division'";
+            $class_stmt = mysqli_query($conn, $class);
+            if (mysqli_num_rows($class_stmt) == 0) {
+                $stmt = mysqli_query($conn, "update staff_class_assign set course='$course',semester='$semester',division='$division' where staff_email='$email'");
+                echo "<script>alert('Data Updated Successfully!!');</script>";
+            }else{
+                echo "<script>alert('Class Already Assigned, Delete Old Entry!!');</script>";
             }
-            catch(mysqli_sql_exception $e)
-            {
-                echo ''. $e->getMessage() .'';
-            }
+            
+        } catch (mysqli_sql_exception $e) {
+            echo "" . $e->getMessage() . "";
         }
-        if (isset($_POST["btn_delete"]))
-        {
-            $email=$_POST['editEmail'];
-            try{
-                    $stmt = mysqli_query($conn, "delete from staff_enroll_assign where staff_email='$email'");
+    }
+    if (isset($_POST["btn_delete"])) {
+        $email = $_POST['editEmail'];
+        try {
+            $stmt = mysqli_query($conn, "delete from staff_class_assign where staff_email='$email'");
 
-                    echo "<script>alert('Data Deleted Successfully!!');</script>";
-            }
-            catch(mysqli_sql_exception $e)
-            {
-                echo ''. $e->getMessage() .'';
-            }
+            echo "<script>alert('Data Deleted Successfully!!');</script>";
+        } catch (mysqli_sql_exception $e) {
+            echo '' . $e->getMessage() . '';
         }
+    }
     ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-end mb-3">
@@ -155,43 +160,100 @@ if (!isset($admin_email)) {
             <table class="table table-bordered table-hover">
                 <thead class="table-light text-center">
                     <tr>
-                        <th>Name</th>
-                        <th>Photo</th>
+                        <th>Course</th>
+                        <th>Semester</th>
+                        <th>Division</th>
+                        <th>Class Counsellor</th>
                         <th>Email</th>
-                        <th>Enrollment No Start</th>
-                        <th>Enrollment No End</th>
+                        <th>Photo</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                <!-- More rows will be added dynamically here -->
+                    <!-- More rows will be added dynamically here -->
+                    <?php
+                    $result = $conn->query("SELECT * FROM staff_class_assign");
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $semail = $row["staff_email"];
+                        $data = mysqli_fetch_array(mysqli_query($conn, "select * from staff_dtl where clg_email='$semail'"));
+                    ?>
+                        <tr class="text-center">
+                            <td><?php echo $row['course']; ?></td>
+                            <td><?php echo $row['semester']; ?></td>
+                            <td><?php echo $row['division']; ?></td>
+                            <td><?php echo $data['full_name']; ?></td>
+                            <td><?php echo $data['clg_email']; ?></td>
+                            <td><img class="img" src="../assets/images/staff_images/<?php echo $data['staff_img'] ?>" width="100" height="100"></td>
+                            <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
 
         <div id="editForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('editForm')">&times;</button>
-            <h5>Edit Staff Member</h5>
+            <h5>Edit Class Assign</h5>
             <form method="post">
                 <div class="mb-3">
                     <label for="editName" class="form-label">Name</label>
                     <input type="text" class="form-control" id="editName" disabled>
                 </div>
                 <div class="mb-3">
-                    <label for="editPhoto" class="form-label">Photo</label>
-                    <input type="text" class="form-control" id="editPhoto" disabled>
-                </div>
-                <div class="mb-3">
                     <label for="editEmail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="editEmail" name="editEmail">
+                    <input type="text" class="form-control" name="editEmail" id="editEmail" readonly>
                 </div>
-                <div class="mb-3">
-                    <label for="editEnrollStart" class="form-label">Enrollment No Start</label>
-                    <input type="text" class="form-control" id="editEnrollStart" name="editEnrollStart">
-                </div>
-                <div class="mb-3">
-                    <label for="editEnrollEnd" class="form-label">Enrollment No End</label>
-                    <input type="text" class="form-control" id="editEnrollEnd" name="editEnrollEnd">
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <!-- ROLL NUMBER -->
+                        <div data-mdb-input-init class="form-outline">
+                            <label class="form-label" for="roll">Course</label>
+                            <select name="editCourse" class="form-control form-control-md">
+                                <option value="" disabled selected hidden>-- Select Course --</option>
+                                <?php
+                                $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            <div class="invalid-feedback">Please fill Course !</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <!-- Semester -->
+                        <div data-mdb-input-init class="form-outline">
+                            <label class="form-label" for="roll">Semester</label>
+                            <select name="editSemester" class="form-control form-control-md">
+                                <option value="" disabled selected hidden>-- Select Semester --</option>
+                                <?php
+                                $result = $conn->query("SELECT DISTINCT class_semester FROM course_class");
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            <div class="invalid-feedback">Please Select Semester !</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <!-- Course -->
+                        <div data-mdb-input-init class="form-outline">
+                            <label class="form-label" for="roll">Division</label>
+                            <select name="editDivision" class="form-control form-control-md">
+                                <option value="" disabled selected hidden>-- Select Division --</option>
+                                <?php
+                                $result = $conn->query("SELECT DISTINCT class_div FROM course_class");
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            <div class="invalid-feedback">Please Select Division !</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button class="btn btn-success" name="btn_update">Update</button>
@@ -202,11 +264,61 @@ if (!isset($admin_email)) {
 
         <div id="assignForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('assignForm')">&times;</button>
-            <h5>Assign Enrollment Numbers</h5>
-            <form method="post" onsubmit="return validateForm()">
+            <h5>Assign Class</h5>
+            <form method="post" class="assignForm" onsubmit="return validateForm()" novalidate>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <!-- Course -->
+                        <div data-mdb-input-init class="form-outline">
+                            <label class="form-label" for="roll">Course</label>
+                            <select name="course" class="form-control form-control-md" required>
+                                <option value="" disabled selected hidden>-- Select Course --</option>
+                                <?php
+                                $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            <div class="invalid-feedback">Please fill Course !</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <!-- ROLL NUMBER -->
+                        <div data-mdb-input-init class="form-outline">
+                            <label class="form-label" for="roll">Semester</label>
+                            <select name="semester" class="form-control form-control-md" required>
+                                <option value="" disabled selected hidden>-- Select Semester --</option>
+                                <?php
+                                $result = $conn->query("SELECT DISTINCT class_semester FROM course_class");
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            <div class="invalid-feedback">Please Select Semester !</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <!-- ROLL NUMBER -->
+                        <div data-mdb-input-init class="form-outline">
+                            <label class="form-label" for="roll">Division</label>
+                            <select name="division" class="form-control form-control-md" required>
+                                <option value="" disabled selected hidden>-- Select Division --</option>
+                                <?php
+                                $result = $conn->query("SELECT DISTINCT class_div FROM course_class");
+                                while ($row = $result->fetch_assoc()) {
+                                    echo '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            <div class="invalid-feedback">Please Select Division !</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label for="assignEmail" class="form-label">Email</label>
-                    <select name="clg_email" class="form-control" required>
+                    <select name="clg_email" class="form-control form-control-md" required>
                         <option value="" disabled selected hidden>- Select -</option>
                         <?php
                         $qry = mysqli_query($conn, 'select clg_email from staff_dtl');
@@ -216,14 +328,6 @@ if (!isset($admin_email)) {
                         ?>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="assignEnrollStart" class="form-label">Enrollment No Start</label>
-                    <input type="text" class="form-control" id="assignEnrollStart" name="assignEnrollStart" required>
-                </div>
-                <div class="mb-3">
-                    <label for="assignEnrollEnd" class="form-label">Enrollment No End</label>
-                    <input type="text" class="form-control" id="assignEnrollEnd" name="assignEnrollEnd" required>
-                </div>
                 <div class="d-flex justify-content-between">
                     <button name="btn_assign" type="submit" class="btn btn-primary">Assign</button>
                 </div>
@@ -231,6 +335,24 @@ if (!isset($admin_email)) {
         </div>
 
         <script>
+            function applyValidation(forms) {
+                Array.prototype.slice.call(forms).forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+
+                var personalDetailsForms = document.querySelectorAll('.assignForm');
+                applyValidation(personalDetailsForms);
+
+            });
 
             function validateForm() {
                 const enrollStart = document.getElementById('assignEnrollStart').value;
@@ -267,11 +389,8 @@ if (!isset($admin_email)) {
 
             // Populate form fields with row data
             const row = button.closest('tr');
-            document.getElementById('editName').value = row.cells[0].innerText;
-            document.getElementById('editPhoto').value = row.cells[1].querySelector('img').src;
-            document.getElementById('editEmail').value = row.cells[2].innerText;
-            document.getElementById('editEnrollStart').value = row.cells[3].innerText;
-            document.getElementById('editEnrollEnd').value = row.cells[4].innerText;
+            document.getElementById('editName').value = row.cells[3].innerText;
+            document.getElementById('editEmail').value = row.cells[4].innerText;
         }
 
         function closeForm(formId) {
