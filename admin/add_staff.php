@@ -16,7 +16,7 @@ if (isset($_POST["pers_submit"])) {
     $doj = $_POST["join_date"];
     $mob = $_POST["phone"];
     $h_qual = $_POST["hi_qualify"];
-    $exp = $_POST["experience"];
+    $exp = $_POST["exp"];
     $skills = $_POST["skills"];
     $qual = $_POST["qualify"];
     $staff_email = $_POST["clg_email"];
@@ -170,13 +170,15 @@ if (isset($_POST["pers_submit"])) {
     require '../includes/sidebar-admin.php';
     ?>
 
-    <div id="dashboard" class="text-dark">
+   
+
+    <div id="dashboard" class="container mt-5 pt-5 text-dark">
+            <div id="personalDetails" class="content active text-dark">
+                <div class="container">
+                    <h2 class="text-center" style="font-weight:bolder;">Add Staff Details</h2>
 
         <!-- PERSONAL DETIALS -->
-        <div id="personalDetails" class="content active text-dark mt-5">
-            <div class="pd col-md-10 mb-5 mt-4">
-                <h4>Staff Details</h4>
-            </div>
+
 
             <div class="container-fluid">
                 <div class="main-body">
@@ -265,6 +267,7 @@ if (isset($_POST["pers_submit"])) {
                                             <option>Graduate</option>
                                             <option>Post Graduate</option>
                                             <option>Ph.D</option>
+                                            <option>Diploma</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Highest Qualifaction !</div>
 
@@ -275,9 +278,9 @@ if (isset($_POST["pers_submit"])) {
                             <div class="row">
                                 <div class="col-md-4 mb-4 pb-2">
                                     <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="emailAddress">Skills</label>
-                                        <input type="text" name="skills" pattern="[A-Za-z0.9\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ ]/g,'');" class="form-control form-control-lg" required />
-                                        <div class="invalid-feedback">Please fill Skills !</div>
+                                        <label class="form-label" for="emailAddress">Experience</label>
+                                        <input type="text" name="exp" pattern="[A-Za-z0.9\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ ]/g,'');" class="form-control form-control-lg" required />
+                                        <div class="invalid-feedback">Please fill Experience !</div>
                                     </div>
 
                                 </div>
@@ -285,9 +288,9 @@ if (isset($_POST["pers_submit"])) {
                                     <!-- EMAIL -->
                                     <div data-mdb-input-init class="form-outline">
 
-                                        <label class="form-label" for="phoneNumber">Experience</label>
-                                        <input type="text" name="experience" pattern="[A-Za-z0-9\ \-]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ \-]/g,'');" class="form-control form-control-lg" required />
-                                        <div class="invalid-feedback">Please fill Experience !</div>
+                                        <label class="form-label" for="phoneNumber">Skills</label>
+                                        <input type="text" name="skills" pattern="[A-Za-z0-9\ \-]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ \-]/g,'');" class="form-control form-control-lg" required />
+                                        <div class="invalid-feedback">Please fill Skills !</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-4 pb-2">

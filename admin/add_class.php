@@ -138,6 +138,8 @@ if (!isset($admin_email)) {
     }
     ?>
     <div class="container mt-5">
+    <h2 class="text-center" style="font-weight:bolder;">Add Class Details</h2>
+
         <div class="d-flex justify-content-end mb-3">
             <button id="displayBtn" class="btn btn-primary me-2">Display</button>
             <button id="addBtn" class="btn btn-secondary">Add Class</button>

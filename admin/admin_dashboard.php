@@ -78,7 +78,7 @@ if (!isset($admin_email)) {
             gap: 10px;
         }
 
-        select {}
+        
     </style>
 </head>
 
@@ -146,6 +146,8 @@ if (!isset($admin_email)) {
     }
     ?>
     <div class="container mt-5">
+    <h2 class="text-center" style="font-weight:bolder;">Dashboard</h2>
+
         <div class="d-flex justify-content-end mb-3">
             <button id="displayBtn" class="btn btn-primary me-2">Display</button>
             <button id="assignBtn" class="btn btn-secondary">Assign Class</button>

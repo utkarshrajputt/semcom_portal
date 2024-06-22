@@ -172,9 +172,7 @@ if (!isset($admin_email)) {
     ?>
 
     <div class="container mt-5">
-        <!-- <div class="d-flex justify-content-end mb-3">
-            <button id="displayBtn" class="btn btn-primary me-2">Display</button>
-        </div> -->
+    <h2 class="text-center" style="font-weight:bolder;">Edit Staff Details</h2><br>
 
         <div id="searchBox" class="mb-3 d-flex justify-content-end">
             <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
@@ -441,8 +439,8 @@ if (!isset($admin_email)) {
             document.getElementById('editjoin_date').value = row.cells[6].innerText;
             document.getElementById('editphone').value = row.cells[7].innerText;
             document.getElementById('editHi_qualify').value = row.cells[8].innerText;
-            document.getElementById('editskills').value = row.cells[9].innerText;
-            document.getElementById('editexperience').value = row.cells[10].innerText;
+            document.getElementById('editskills').value = row.cells[10].innerText;
+            document.getElementById('editexperience').value = row.cells[9].innerText;
             document.getElementById('editqualify').value = row.cells[11].innerText;
             document.getElementById('editclg_email').value = row.cells[12].innerText;
             document.getElementById('editclg_pass').value = row.cells[13].innerText;

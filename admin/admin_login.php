@@ -82,7 +82,7 @@ if (isset($_POST['admin_login'])) {
         <div class="login-form">
           <div class="title"><img src="../assets/images/semcom-logo.png" height="100px" width="300px"></div>
           <form method="post" action="">
-          <center><br>Login To Your Admin Dashboard</center>
+          <b><br>Login To Your <b>Admin</b> Dashboard</center>
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>

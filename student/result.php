@@ -108,6 +108,8 @@ if (isset($_POST['res_submit'])) {
                 <button class="btn btn-secondary" onclick="showContent('pendingStatus')">Pending Status</button>
             </div>
         </div>
+        <p style="color:red;" class="px-4">Note : If your request is rejected then it will be deleted automatically!*</p>
+        
 
         <div id="myResults" class="content active">
             <h2 class="text-dark">My Results</h2>
