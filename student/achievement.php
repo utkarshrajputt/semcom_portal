@@ -16,22 +16,21 @@ if (!isset($enroll)) {
 }
 
 if (isset($_POST['ach_submit'])) {
-    $semester=$_POST['semester'];
-    $event_date=$_POST['eventDate'];
-    $event=$_POST['eventName'];
-    $description=$_POST['description'];
-
-    try
-    {
-       
-            $stmt = mysqli_query($conn, "insert into stud_achieve(enroll_no, semester, event_date, event, description) values('$enroll','$semester','$event_date','$event','$description')");
-
-            echo "<script>alert('Data Saved Successfully!!');</script>";
-       
+    $semester = $_POST['semester'];
+    $event_date = $_POST['eventDate'];
+    $event = $_POST['eventName'];
+    if ($event = "other") {
+        $event = $_POST['otherEventName'];
     }
-    catch(mysqli_sql_exception $e)
-    {
-        echo "". $e->getMessage() ."";
+    $description = $_POST['description'];
+
+    try {
+
+        $stmt = mysqli_query($conn, "insert into stud_achieve(enroll_no, semester, event_date, event, description) values('$enroll','$semester','$event_date','$event','$description')");
+
+        echo "<script>alert('Data Saved Successfully!!');</script>";
+    } catch (mysqli_sql_exception $e) {
+        echo "" . $e->getMessage() . "";
     }
 }
 
@@ -109,19 +108,19 @@ if (isset($_POST['ach_submit'])) {
                     </thead>
                     <tbody>
                         <!-- Dynamically filled with user's achievements -->
-                        <tr>
-                            <td>Spring 2023</td>
-                            <td>2023-05-15</td>
-                            <td>CVMU GYANOSTAV</td>
-                            <td>Awarded 2nd place in coding competition.</td>
-                        </tr>
-                        <tr>
-                            <td>Fall 2022</td>
-                            <td>2022-11-20</td>
-                            <td>GREEN BUSINESS</td>
-                            <td>Participated in the sustainability project presentation.</td>
-                        </tr>
-                        <!-- Add more rows as needed -->
+                        <?php
+                            $stmt = mysqli_query($conn, "select * from stud_achieve where enroll_no='$enroll' order by event_date");
+                            while ($data = mysqli_fetch_assoc($stmt)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $data['semester']; ?></td>
+                                <td><?php echo $data['event_date']; ?></td>
+                                <td><?php echo $data['event']; ?></td>
+                                <td><?php echo $data['description']; ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -163,7 +162,7 @@ if (isset($_POST['ach_submit'])) {
                                             </select><br>
                                             <input type="text" class="form-control mt-2" id="otherEventName" name="otherEventName" placeholder="Enter other event name" style="display: none;">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mt-2">
                                             <label for="description" class="text-dark">Description</label>
                                             <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                                         </div>
@@ -172,6 +171,12 @@ if (isset($_POST['ach_submit'])) {
                                             <br>
                                             <button type="submit" class="btn btn-primary btn-md float-end" name="ach_submit">Submit</button>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
 

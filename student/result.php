@@ -124,6 +124,20 @@ if (isset($_POST['res_submit'])) {
                     </thead>
                     <tbody>
                         <!-- Dynamically filled with user's results -->
+                        <?php
+                            $stmt = mysqli_query($conn, "select * from stud_result where enroll_no='$enroll' and add_request='accepted' order by semester");
+                            while ($data = mysqli_fetch_assoc($stmt)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $data['course']; ?></td>
+                                <td><?php echo $data['semester']; ?></td>
+                                <td><?php echo $data['cgpa']; ?></td>
+                                <td><?php echo $data['sgpa']; ?></td>
+                                <td><a href='../assets/images/result_images/<?php echo $data['result_img'] ?>' target="_blank">View</a></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -145,6 +159,21 @@ if (isset($_POST['res_submit'])) {
                     </thead>
                     <tbody>
                         <!-- Dynamically filled with user's pending results -->
+                        <?php
+                            $stmt = mysqli_query($conn, "select * from stud_result where enroll_no='$enroll' and add_request='pending' order by semester");
+                            while ($data = mysqli_fetch_assoc($stmt)) {
+                        ?>
+                            <tr>
+                                <td><?php echo $data['course']; ?></td>
+                                <td><?php echo $data['semester']; ?></td>
+                                <td><?php echo $data['cgpa']; ?></td>
+                                <td><?php echo $data['sgpa']; ?></td>
+                                <td><?php echo $data['add_request']; ?></td>
+                                <td><a href='../assets/images/result_images/<?php echo $data['result_img'] ?>' target="_blank">View</a></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>

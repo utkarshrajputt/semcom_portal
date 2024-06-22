@@ -8,7 +8,6 @@ $admin_email = $_SESSION['admin_email'];
 if (!isset($admin_email)) {
     header('location:admin_login.php');
 }
-
 if (isset($_POST["pers_submit"])) {
     $prefix = $_POST["prefix"];
     $full_name = $_POST["name"];
@@ -34,7 +33,7 @@ if (isset($_POST["pers_submit"])) {
         } else {
             $temp = explode(".", $_FILES["pfp"]["name"]);
             $extension = end($temp);
-            $filename = substr($_POST['name'], 0, strpos($_POST['name'], ' ')).date('YmdHis') . "." . $extension;
+            $filename = substr($_POST['name'], 0, strpos($_POST['name'], ' ')) . date('YmdHis') . "." . $extension;
             $move = move_uploaded_file($tmp_name, "$uploads_dir/$filename");
 
             if ($move == true) {
@@ -45,10 +44,7 @@ if (isset($_POST["pers_submit"])) {
                 // echo "<script>location.reload(true);</script>";
             }
         }
-    
     }
-
-
 }
 
 ?>
@@ -174,13 +170,15 @@ if (isset($_POST["pers_submit"])) {
     require '../includes/sidebar-admin.php';
     ?>
 
-    <div id="dashboard" class="text-dark">
+   
+
+    <div id="dashboard" class="container mt-5 pt-5 text-dark">
+            <div id="personalDetails" class="content active text-dark">
+                <div class="container">
+                    <h2 class="text-center" style="font-weight:bolder;">Add Staff Details</h2>
 
         <!-- PERSONAL DETIALS -->
-        <div id="personalDetails" class="content active text-dark mt-5">
-            <div class="pd col-md-10 mb-5 mt-4">
-                <h4>Staff Details</h4>
-            </div>
+
 
             <div class="container-fluid">
                 <div class="main-body">
@@ -360,8 +358,10 @@ if (isset($_POST["pers_submit"])) {
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+
             var personalDetailsForms = document.querySelectorAll('.personal-details-form');
             applyValidation(personalDetailsForms);
+
         });
     </script>
 </body>

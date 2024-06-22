@@ -9,6 +9,8 @@ try {
             $adm_date = $_POST["ad_date"];
             $spid = $_POST["spid"];
             $course = $_POST["course"];
+            $sem = $_POST["semester"];
+            $div = $_POST["division"];
             $roll = $_POST["roll"];
             $f_name = $_POST["fname"];
             $m_name = $_POST["mname"];
@@ -36,7 +38,7 @@ try {
 
                     if ($move == true) {
 
-                        $insert = mysqli_query($conn, "insert into stud_personal_details(adm_status, adm_date, spid, enroll_no,stud_course, roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic) values('$adm_status', '$adm_date', '$spid','$enroll','$course', '$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename')");
+                        $insert = mysqli_query($conn, "insert into stud_personal_details(adm_status, adm_date, spid, enroll_no,stud_course,stud_semester,stud_division, roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic) values('$adm_status', '$adm_date', '$spid','$enroll','$course','$sem','$div', '$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename')");
 
 
                         echo "<script>alert('Data Saved Successfully Go to next module!!');</script>";
@@ -101,16 +103,27 @@ try {
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-6 mb-4">
                                 <!-- CVM ENROLLMENT ID -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="enrol_id">CVM Enrollment ID</label>
                                     <input type="text" name="enroll_id" value="<?php echo $enroll; ?>" readonly class="form-control form-control-lg" pattern="\d*" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required />
                                     <div class="invalid-feedback">Please fill Enrollment ID !</div>
+                                </div>
 
+                            </div>
+                            
+                            <div class="col-md-4 mb-4">
+                                <!-- ROLL NUMBER -->
+                                <div data-mdb-input-init class="form-outline">
+                                    <label class="form-label" for="roll">Roll Number</label>
+                                    <input type="text" name="roll" class="form-control form-control-lg" pattern="\d*" value="<?php echo isset($personalDetails['roll_no']) ? $personalDetails['roll_no'] : ''; ?>" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required />
+                                    <div class="invalid-feedback">Please fill roll number !</div>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-4">
+                        </div>
+                        <div class="row">
+                        <div class="col-md-4 mb-4">
                                 <!-- ROLL NUMBER -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="roll">Course</label>
@@ -121,11 +134,12 @@ try {
                                     ?>
                                         <select name="course" class="form-control form-control-lg" required>
                                             <option value="" disabled selected hidden>-- Select Course --</option>
-                                            <option value="BCA">BCA</option>
-                                            <option value="BCOM">BCOM</option>
-                                            <option value="BBA">BBA</option>
-                                            <option value="BBA-ITM">BBA-ITM</option>
-                                            <option value="MCOM">MCOM</option>
+                                            <?php
+                                                 $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
+                                                 while ($row = $result->fetch_assoc()) {
+                                                     echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
+                                                 }
+                                            ?>
                                         </select>
                                         <div class="invalid-feedback">Please fill roll number !</div>
                                     <?php
@@ -136,9 +150,49 @@ try {
                             <div class="col-md-4 mb-4">
                                 <!-- ROLL NUMBER -->
                                 <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label" for="roll">Roll Number</label>
-                                    <input type="text" name="roll" class="form-control form-control-lg" pattern="\d*" value="<?php echo isset($personalDetails['roll_no']) ? $personalDetails['roll_no'] : ''; ?>" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required />
-                                    <div class="invalid-feedback">Please fill roll number !</div>
+                                    <label class="form-label" for="roll">Semester</label>
+                                    <br><span style='font-size:1.3rem;font-weight:bold'><?php echo isset($personalDetails['stud_semester']) ? $personalDetails['stud_semester'] : ''; ?></span>
+                                    <?php
+                                    if (!(isset($personalDetails['stud_semester']))) {
+
+                                    ?>
+                                        <select name="semester" class="form-control form-control-lg" required>
+                                            <option value="" disabled selected hidden>-- Select Semester --</option>
+                                            <?php
+                                                 $result = $conn->query("SELECT DISTINCT class_semester FROM course_class");
+                                                 while ($row = $result->fetch_assoc()) {
+                                                     echo '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
+                                                 }
+                                            ?>
+                                        </select>
+                                        <div class="invalid-feedback">Please Select Semester !</div>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <!-- ROLL NUMBER -->
+                                <div data-mdb-input-init class="form-outline">
+                                    <label class="form-label" for="roll">Division</label>
+                                    <br><span style='font-size:1.3rem;font-weight:bold'><?php echo isset($personalDetails['stud_division']) ? $personalDetails['stud_division'] : ''; ?></span>
+                                    <?php
+                                    if (!(isset($personalDetails['stud_division']))) {
+
+                                    ?>
+                                        <select name="division" class="form-control form-control-lg" required>
+                                            <option value="" disabled selected hidden>-- Select Division --</option>
+                                            <?php
+                                                 $result = $conn->query("SELECT DISTINCT class_div FROM course_class");
+                                                 while ($row = $result->fetch_assoc()) {
+                                                     echo '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
+                                                 }
+                                            ?>
+                                        </select>
+                                        <div class="invalid-feedback">Please Select Division !</div>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
