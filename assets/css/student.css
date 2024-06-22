@@ -282,6 +282,18 @@ a {
         flex-direction: column;
         align-items: center;
     }
+
+    .header p{
+        display: none;
+    }
+    .sem{
+        display: flex;
+    }
+}
+@media (min-width: 768px) {
+.sem{
+    display: none;
+}
 }
 /* ICONS END */
 

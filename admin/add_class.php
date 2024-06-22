@@ -223,7 +223,7 @@ if (!isset($admin_email)) {
                     <input type="text" class="form-control" id="addSemester" name="semester" pattern="[1-9]" title="Semester must be a single digit from 1 to 9" required>
                 </div>
                 <div class="mb-3">
-                    <label for="addDivision" class="form-label">Division <span style="color:red;">(Use '-' if no exist)</span></label>
+                    <label for="addDivision" class="form-label">Division <span style="color:red;">(Use '-' if doesn't exist)</span></label>
                     <input type="text" class="form-control" id="addDivision" name="division" pattern="[A-Z\-]" title="Division must be a single uppercase letter from A to Z or - " required>
                 </div>
                 <div class="mb-3">

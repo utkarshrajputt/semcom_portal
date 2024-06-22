@@ -1,7 +1,10 @@
 <header class="header" id="header">
     
-    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>&nbsp;&nbsp;
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>
     
+    <h5 class="h4" style="color:#1865A1;font-weight:bolder;">Hello, Admin</h5>
+
+
 </header>
 
 <div class="l-navbar" id="nav-bar">
@@ -21,6 +24,14 @@
                 <a href="../admin/admin_dashboard.php" class="nav_link">
                     <i class="fa-solid fa-table-columns"></i>
                     <span class="nav_name">Dashboard</span>
+                </a>
+            </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
+               
+                <a href="../admin/assign_class.php" class="nav_link">
+                <i class="fa-solid fa-pen-ruler"></i>
+                    <span class="nav_name">Assign Class</span>
                 </a>
             </div>
             <div class="nav_list">
