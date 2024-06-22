@@ -78,7 +78,13 @@ if (!isset($admin_email)) {
             gap: 10px;
         }
 
-        
+        .card {
+            height: 100%;
+        }
+
+        .card .fa-calendar-alt {
+            font-size: 4rem;
+        }
     </style>
 </head>
 
@@ -86,6 +92,70 @@ if (!isset($admin_email)) {
     <?php
     require '../includes/sidebar-admin.php';
     ?>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 grid-margin transparent">
+                <div class="row">
+                    <div class="col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-tale">
+                            <div class="card-body">
+                                <p class="mb-4">Today’s Bookings</p>
+                                <p class="fs-30 mb-2">4006</p>
+                                <p>10.00% (30 days)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-dark-blue">
+                            <div class="card-body">
+                                <p class="mb-4">Total Bookings</p>
+                                <p class="fs-30 mb-2">61344</p>
+                                <p>22.00% (30 days)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-tale">
+                            <div class="card-body">
+                                <p class="mb-4">Today’s Bookings</p>
+                                <p class="fs-30 mb-2">4006</p>
+                                <p>10.00% (30 days)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-dark-blue">
+                            <div class="card-body">
+                                <p class="mb-4">Total Bookings</p>
+                                <p class="fs-30 mb-2">61344</p>
+                                <p>22.00% (30 days)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 grid-margin transparent">
+                <div class="card card-light-danger">
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <i class="fas fa-calendar-alt mb-3"></i>
+                        <div>
+                            <?php
+                            echo '<p class="mb-1">' . date('l') . '</p>';
+                            echo '<p>' . date('d M Y') . '</p>';
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
     <?php
     if (isset($_POST['btn_assign'])) {
         $course = $_POST['course'];
@@ -126,10 +196,9 @@ if (!isset($admin_email)) {
             if (mysqli_num_rows($class_stmt) == 0) {
                 $stmt = mysqli_query($conn, "update staff_class_assign set course='$course',semester='$semester',division='$division' where staff_email='$email'");
                 echo "<script>alert('Data Updated Successfully!!');</script>";
-            }else{
+            } else {
                 echo "<script>alert('Class Already Assigned, Delete Old Entry!!');</script>";
             }
-            
         } catch (mysqli_sql_exception $e) {
             echo "" . $e->getMessage() . "";
         }
@@ -146,7 +215,7 @@ if (!isset($admin_email)) {
     }
     ?>
     <div class="container mt-5">
-    <h2 class="text-center" style="font-weight:bolder;">Dashboard</h2>
+        <h2 class="text-center" style="font-weight:bolder;">Dashboard</h2>
 
         <div class="d-flex justify-content-end mb-3">
             <button id="displayBtn" class="btn btn-primary me-2">Display</button>
