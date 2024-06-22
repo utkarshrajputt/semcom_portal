@@ -75,19 +75,20 @@ if (!isset($enroll)) {
         if($personalDetails && $address && $basic_dtl && $parent_dtl && $academic_dtl)  
         {
     ?>
-           <br><form method="post" class="form-navigation-buttons"><input type="submit" name="final" class="btn btn-primary" value="Complete Submission"></form>
+           <form method="post" class="form-navigation-buttons"><input type="submit" name="final" class="btn btn-primary" value="Complete Submission"></form>
     <br>
     <?php
         }
     ?>
     <!-- Form Sections -->
     <div id="dashboard" class="content active text-dark">
-        <h4>Personal Details</h4>
-        <!-- Personal Details Form -->
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div><br>
+        </div>
+        <h4 class="px-4"><b>Personal Details </b></h4>
+        <!-- Personal Details Form -->
+        <br>
         <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/personal-details.php';
@@ -95,48 +96,52 @@ if (!isset($enroll)) {
 
     </div>
     <div id="users" class="content text-dark">
-        <h4>Address</h4>
-        <!-- Address Form -->
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div><br>
+        </div>
+        <h4 class="px-4"><b>Address </b></h4>
+        <!-- Address Form -->
+        <br>
         <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/address.php';
         ?>
     </div>
     <div id="messages" class="content text-dark">
-        <h4>Basic Details</h4>
-        <!-- Basic Details Form -->
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div><br>
+        </div>
+        <h4 class="px-4"><b>Basic Details </b></h4>
+        <!-- Basic Details Form -->
+        <br>
         <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/basic-details.php';
         ?>
     </div>
     <div id="bookmark" class="content text-dark">
-        <h4>Parents Details</h4>
-        <!-- Parents Details Form -->
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div><br>
+        </div>
+        <h4 class="px-4"><b>Parents Details </b></h4>
+        <!-- Parents Details Form -->
+        <br>
         <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/parents-details.php';
         ?>
     </div>
     <div id="files" class="content text-dark">
-        <h4>Academic Details</h4>
-        <!-- Parents Details Form -->
         <div class="form-navigation-buttons">
             <button type="button" class="previous-button btn btn-secondary">Previous</button>
             <button type="button" class="next-button btn btn-primary">Next</button>
-        </div><br>
+        </div>
+        <h4 class="px-4"><b>Academic Details </b></h4>
+        <!-- Parents Details Form -->
+        <br>
         <p style="color:red;" class="px-4">Note : Fill the details carefully. Once Submitted it cannot be edited or modified.*</p>
         <?php
         require './forms/academic-details.php';

@@ -2,10 +2,12 @@
     
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>&nbsp;&nbsp;
     
-    <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
+    <p class="h4" style="color:#1865A1;font-weight:bolder;padding-right:5%;">SEMCOMITE Student Corner</p>
+
     <div id="link-title">Enroll : <?php echo $enroll; ?></div>
 </header>
-
+<br>
+<p class="sem" style="color:#1865A1;font-weight:bolder;padding-left:20%;">SEMCOMITE Student Corner</p>
 <div class="l-navbar" id="nav-bar" style="background-color:#1865A1;">
     <!-- close button under 768px screen width -->
     <i class='bx bx-x nav_close-btn' id="nav-close-btn"></i>
@@ -23,13 +25,7 @@
                     <span class="nav_name">Profile</span>
                 </a>
             </div>
-            <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
-                <a href="../student/changepass.php" class="nav_link">
-                    <i class="fa-solid fa-user-lock"></i>
-                    <span class="nav_name">Change Password</span>
-                </a>
-            </div>
+            
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
                 <a href="../student/result.php" class="nav_link">
@@ -41,7 +37,14 @@
                 <!-- PERSONAL DETAILS -->
                 <a href="../student/achievement.php" class="nav_link">
                     <i class="fa-solid fa-trophy"></i>
-                    <span class="nav_name">Achievement</span>
+                    <span class="nav_name">Achievements</span>
+                </a>
+            </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
+                <a href="../student/changepass.php" class="nav_link">
+                    <i class="fa-solid fa-user-lock"></i>
+                    <span class="nav_name">Change Password</span>
                 </a>
             </div>
         </div>
