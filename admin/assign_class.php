@@ -77,9 +77,152 @@ if (!isset($admin_email)) {
             justify-content: flex-end;
             gap: 10px;
         }
-
-        
     </style>
+    <script>
+        //js edit course,sem,div filter
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('course').addEventListener('change', function() {
+                var course = this.value;
+                if (course) {
+                    fetchOptions('semesters', {
+                        course: course
+                    });
+                } else {
+                    resetDropdown('semester');
+                    resetDropdown('division');
+                }
+            });
+
+            document.getElementById('semester').addEventListener('change', function() {
+                var course = document.getElementById('course').value;
+                var semester = this.value;
+                if (semester) {
+                    fetchOptions('divisions', {
+                        course: course,
+                        semester: semester
+                    });
+                } else {
+                    resetDropdown('division');
+                }
+            });
+
+            function fetchOptions(type, data) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '', true); // Change to your backend endpoint
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    if (this.status == 200) {
+                        if (type == 'semesters') {
+                            updateDropdown('semester', this.responseText);
+                            resetDropdown('division');
+                        } else if (type == 'divisions') {
+                            updateDropdown('division', this.responseText);
+                        }
+                    }
+                };
+                var params = 'fetch=' + type + '&' + new URLSearchParams(data).toString();
+                xhr.send(params);
+            }
+
+            function updateDropdown(dropdownId, optionsHtml) {
+                var dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = optionsHtml;
+                dropdown.disabled = false;
+            }
+
+            function resetDropdown(dropdownId) {
+                var dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = '<option value="">--Select--</option>';
+                dropdown.disabled = true;
+            }
+        });
+
+        //js assign course,sem,div filter
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add_course').addEventListener('change', function() {
+                var course = this.value;
+                if (course) {
+                    fetchOptions('semesters', {
+                        course: course
+                    });
+                } else {
+                    resetDropdown('add_semester');
+                    resetDropdown('add_division');
+                }
+            });
+
+            document.getElementById('add_semester').addEventListener('change', function() {
+                var course = document.getElementById('add_course').value;
+                var semester = this.value;
+                if (semester) {
+                    fetchOptions('divisions', {
+                        course: course,
+                        semester: semester
+                    });
+                } else {
+                    resetDropdown('add_division');
+                }
+            });
+
+            function fetchOptions(type, data) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '', true); // Change to your backend endpoint
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    if (this.status == 200) {
+                        if (type == 'semesters') {
+                            updateDropdown('add_semester', this.responseText);
+                            resetDropdown('add_division');
+                        } else if (type == 'divisions') {
+                            updateDropdown('add_division', this.responseText);
+                        }
+                    }
+                };
+                var params = 'fetch=' + type + '&' + new URLSearchParams(data).toString();
+                xhr.send(params);
+            }
+
+            function updateDropdown(dropdownId, optionsHtml) {
+                var dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = optionsHtml;
+                dropdown.disabled = false;
+            }
+
+            function resetDropdown(dropdownId) {
+                var dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = '<option value="">--Select--</option>';
+                dropdown.disabled = true;
+            }
+        });
+    </script>
+    <?php
+    //php course,sem,div
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['fetch']) && $_POST['fetch'] == 'semesters') {
+            $course = $_POST['course'];
+            $result = $conn->query("SELECT DISTINCT class_semester FROM course_class WHERE course_name = '$course'");
+            $options = '<option value="">--Select--</option>';
+            while ($row = $result->fetch_assoc()) {
+                $options .= '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
+            }
+            echo $options;
+            exit();
+        }
+
+        if (isset($_POST['fetch']) && $_POST['fetch'] == 'divisions') {
+            $course = $_POST['course'];
+            $semester = $_POST['semester'];
+            $result = $conn->query("SELECT DISTINCT class_div FROM course_class WHERE course_name = '$course' AND class_semester = '$semester'");
+            $options = '<option value="">--Select--</option>';
+            while ($row = $result->fetch_assoc()) {
+                $options .= '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
+            }
+            echo $options;
+            exit();
+        }
+    }
+    ?>
+
 </head>
 
 <body id="body-pd">
@@ -113,7 +256,6 @@ if (!isset($admin_email)) {
             echo "" . $e->getMessage() . "";
         }
     }
-
     if (isset($_POST["btn_update"])) {
         $course = $_POST['editCourse'];
         $semester = $_POST['editSemester'];
@@ -126,10 +268,9 @@ if (!isset($admin_email)) {
             if (mysqli_num_rows($class_stmt) == 0) {
                 $stmt = mysqli_query($conn, "update staff_class_assign set course='$course',semester='$semester',division='$division' where staff_email='$email'");
                 echo "<script>alert('Data Updated Successfully!!');</script>";
-            }else{
+            } else {
                 echo "<script>alert('Class Already Assigned, Delete Old Entry!!');</script>";
             }
-            
         } catch (mysqli_sql_exception $e) {
             echo "" . $e->getMessage() . "";
         }
@@ -146,7 +287,7 @@ if (!isset($admin_email)) {
     }
     ?>
     <div class="container mt-5">
-    <h2 class="text-center" style="font-weight:bolder;">Assign Class</h2>
+        <h2 class="text-center" style="font-weight:bolder;">Assign Class</h2>
 
         <div class="d-flex justify-content-end mb-3">
             <button id="displayBtn" class="btn btn-primary me-2">Display</button>
@@ -198,7 +339,7 @@ if (!isset($admin_email)) {
         <div id="editForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('editForm')">&times;</button>
             <h5>Edit Class Assign</h5>
-            <form method="post">
+            <form method="post" class="editForm" novalidate>
                 <div class="mb-3">
                     <label for="editName" class="form-label">Name</label>
                     <input type="text" class="form-control" id="editName" disabled>
@@ -209,11 +350,10 @@ if (!isset($admin_email)) {
                 </div>
                 <div class="row">
                     <div class="col-md-4 mb-4">
-                        <!-- ROLL NUMBER -->
                         <div data-mdb-input-init class="form-outline">
-                            <label class="form-label" for="roll">Course</label>
-                            <select name="editCourse" class="form-control form-control-md">
-                                <option value="" disabled selected hidden>-- Select Course --</option>
+                            <label class="form-label" for="course">Course</label>
+                            <select id="course" name="editCourse"  class="form-control form-control-md" required>
+                                <option value="" disabled selected hidden>--Select--</option>
                                 <?php
                                 $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
                                 while ($row = $result->fetch_assoc()) {
@@ -225,41 +365,27 @@ if (!isset($admin_email)) {
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
-                        <!-- Semester -->
                         <div data-mdb-input-init class="form-outline">
-                            <label class="form-label" for="roll">Semester</label>
-                            <select name="editSemester" class="form-control form-control-md">
-                                <option value="" disabled selected hidden>-- Select Semester --</option>
-                                <?php
-                                $result = $conn->query("SELECT DISTINCT class_semester FROM course_class");
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
-                                }
-                                ?>
+                            <label class="form-label" for="semester">Semester</label>
+                            <select id="semester" name="editSemester" class="form-control form-control-md" required disabled>
+                                <option value="" disabled selected hidden>--Select--</option>
                             </select>
                             <div class="invalid-feedback">Please Select Semester !</div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
-                        <!-- Course -->
                         <div data-mdb-input-init class="form-outline">
-                            <label class="form-label" for="roll">Division</label>
-                            <select name="editDivision" class="form-control form-control-md">
-                                <option value="" disabled selected hidden>-- Select Division --</option>
-                                <?php
-                                $result = $conn->query("SELECT DISTINCT class_div FROM course_class");
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
-                                }
-                                ?>
+                            <label class="form-label"for="division">Division</label>
+                            <select id="division" name="editDivision" class="form-control form-control-md" required disabled>
+                                <option value="" disabled selected hidden>--Select--</option>
                             </select>
                             <div class="invalid-feedback">Please Select Division !</div>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-success" name="btn_update">Update</button>
-                    <button class="btn btn-danger" name="btn_delete">Delete</button>
+                    <button class="btn btn-success" type="submit" name="btn_update">Update</button>
+                    <button class="btn btn-danger" type="submit" name="btn_delete">Delete</button>
                 </div>
             </form>
         </div>
@@ -268,13 +394,12 @@ if (!isset($admin_email)) {
             <button type="button" class="close-btn" onclick="closeForm('assignForm')">&times;</button>
             <h5>Assign Class</h5>
             <form method="post" class="assignForm" onsubmit="return validateForm()" novalidate>
-                <div class="row">
+            <div class="row">
                     <div class="col-md-4 mb-4">
-                        <!-- Course -->
                         <div data-mdb-input-init class="form-outline">
-                            <label class="form-label" for="roll">Course</label>
-                            <select name="course" class="form-control form-control-md" required>
-                                <option value="" disabled selected hidden>-- Select Course --</option>
+                            <label class="form-label" for="course">Course</label>
+                            <select id="add_course" name="course"  class="form-control form-control-md" required>
+                                <option value="" disabled selected hidden>--Select--</option>
                                 <?php
                                 $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
                                 while ($row = $result->fetch_assoc()) {
@@ -286,33 +411,19 @@ if (!isset($admin_email)) {
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
-                        <!-- ROLL NUMBER -->
                         <div data-mdb-input-init class="form-outline">
-                            <label class="form-label" for="roll">Semester</label>
-                            <select name="semester" class="form-control form-control-md" required>
-                                <option value="" disabled selected hidden>-- Select Semester --</option>
-                                <?php
-                                $result = $conn->query("SELECT DISTINCT class_semester FROM course_class");
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
-                                }
-                                ?>
+                            <label class="form-label" for="semester">Semester</label>
+                            <select id="add_semester" name="semester" class="form-control form-control-md" required disabled>
+                                <option value="" disabled selected hidden>--Select--</option>
                             </select>
                             <div class="invalid-feedback">Please Select Semester !</div>
                         </div>
                     </div>
                     <div class="col-md-4 mb-4">
-                        <!-- ROLL NUMBER -->
                         <div data-mdb-input-init class="form-outline">
-                            <label class="form-label" for="roll">Division</label>
-                            <select name="division" class="form-control form-control-md" required>
-                                <option value="" disabled selected hidden>-- Select Division --</option>
-                                <?php
-                                $result = $conn->query("SELECT DISTINCT class_div FROM course_class");
-                                while ($row = $result->fetch_assoc()) {
-                                    echo '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
-                                }
-                                ?>
+                            <label class="form-label"for="division">Division</label>
+                            <select id="add_division" name="division" class="form-control form-control-md" required disabled>
+                                <option value="" disabled selected hidden>--Select--</option>
                             </select>
                             <div class="invalid-feedback">Please Select Division !</div>
                         </div>
@@ -352,8 +463,9 @@ if (!isset($admin_email)) {
             document.addEventListener('DOMContentLoaded', function() {
 
                 var personalDetailsForms = document.querySelectorAll('.assignForm');
-                applyValidation(personalDetailsForms);
-
+                var editForm=document.querySelectorAll('.editForm');
+                applyValidation(personalDetailsForms);  
+                applyValidation(editForm);
             });
 
             function validateForm() {

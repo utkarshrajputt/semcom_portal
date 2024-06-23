@@ -8,6 +8,34 @@ $admin_email = $_SESSION['admin_email'];
 if (!isset($admin_email)) {
     header('location:admin_login.php');
 }
+try {
+
+    $enrolledQuery = "select count(*) from stud_login";
+    $enrolledRersult = mysqli_query($conn, $enrolledQuery);
+    $enrolledData = mysqli_fetch_row($enrolledRersult);
+
+    $regQuery = "select count(*) from stud_login where complete_register='yes'";
+    $regRersult = mysqli_query($conn, $regQuery);
+    $regData = mysqli_fetch_row($regRersult);
+
+    $staffQuery = "select count(*) from staff_dtl";
+    $staffRersult = mysqli_query($conn, $staffQuery);
+    $staffData = mysqli_fetch_row($staffRersult);
+
+    $courseQuery = "SELECT COUNT(course_name) FROM course_class GROUP BY course_name";
+    $courseRersult = mysqli_query($conn,$courseQuery);
+    $courseData = mysqli_num_rows($courseRersult);
+
+    $classQuery = "select count(*) from course_class";
+    $classRersult = mysqli_query($conn, $classQuery);
+    $classData = mysqli_fetch_row($classRersult);
+
+    $counselQuery = "select count(*) from stud_counsel";
+    $counselRersult = mysqli_query($conn, $counselQuery);
+    $counselData = mysqli_fetch_row($counselRersult);
+} catch (Exception $e) {
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,104 +94,104 @@ if (!isset($admin_email)) {
                         echo '<p>' . date('d M Y') . '</p>';
                         ?>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 grid-margin transparent">
+            <div class="row">
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-tale">
+                        <div class="card-body">
+                            <p class="mb-4">Total Enrolled Students</p>
+                            <p class="h3 mb-2"><?php echo $enrolledData[0]; ?></p>
+                            <p>Total Logins of Stuents</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-light-danger">
+                        <div class="card-body">
+                            <p class="mb-4">Total Registered Students</p>
+                            <p class="h3 mb-2"><?php echo $regData[0]; ?></p>
+                            <p>Students Who Completed Registration</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-light-danger">
+                        <div class="card-body">
+                            <p class="mb-4">Total Staff Members</p>
+                            <p class="h3 mb-2"><?php echo $staffData[0]; ?></p>
+                            <p>Active Faculty Members</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                    <div class="card card-dark-blue">
+                        <div class="card-body">
+                            <p class="mb-4">Total Courses</p>
+                            <p class="h3 mb-2"><?php echo $courseData; ?></p>
+                            <p>Currently Available Courses</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 grid-margin transparent">
-                <div class="row">
-                    <div class="col-md-6 mb-4 stretch-card transparent">
-                        <div class="card card-tale">
-                            <div class="card-body">
-                                <p class="mb-4">Today’s Bookings</p>
-                                <p class="h3 mb-2">4006</p>
-                                <p>10.00% (30 days)</p>
-                            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
+                    <div class="card card-light-blue">
+                        <div class="card-body">
+                            <p class="mb-4">Total Class</p>
+                            <p class="h3 mb-2"><?php echo $classData[0]; ?></p>
+                            <p>Active Classes</p>
                         </div>
                     </div>
-                    <div class="col-md-6 stretch-card transparent">
+                </div>
+                <div class="col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-light-danger">
-                            <div class="card-body">
-                                <p class="mb-4">Total Bookings</p>
-                                <p class="h3 mb-2">61344</p>
-                                <p>22.00% (30 days)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 stretch-card transparent">
-                        <div class="card card-light-danger">
-                            <div class="card-body">
-                                <p class="mb-4">Today’s Bookings</p>
-                                <p class="h3 mb-2">4006</p>
-                                <p>10.00% (30 days)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-4 stretch-card transparent">
-                        <div class="card card-dark-blue">
-                            <div class="card-body">
-                                <p class="mb-4">Total Bookings</p>
-                                <p class="h3 mb-2">61344</p>
-                                <p>22.00% (30 days)</p>
-                            </div>
+                        <div class="card-body">
+                            <p class="mb-4">No of Counselling</p>
+                            <p class="h3 mb-2"><?php echo $counselData[0]; ?></p>
+                            <p>Completed</p>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
-                        <div class="card card-light-blue">
-                            <div class="card-body">
-                                <p class="mb-4">Number of Meetings</p>
-                                <p class="h3 mb-2">34040</p>
-                                <p>2.00% (30 days)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 stretch-card transparent">
-                        <div class="card card-light-danger">
-                            <div class="card-body">
-                                <p class="mb-4">Number of Clients</p>
-                                <p class="h3 mb-2">47033</p>
-                                <p>0.22% (30 days)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
 
 
         </div>
 
-        <script>
-            const secondHand = document.querySelector('.second-hand');
-            const minsHand = document.querySelector('.min-hand');
-            const hourHand = document.querySelector('.hour-hand');
 
-            function setDate() {
-                const now = new Date();
+    </div>
 
-                const seconds = now.getSeconds();
-                const secondsDegrees = ((seconds / 60) * 360) + 90;
-                secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+    <script>
+        const secondHand = document.querySelector('.second-hand');
+        const minsHand = document.querySelector('.min-hand');
+        const hourHand = document.querySelector('.hour-hand');
 
-                const mins = now.getMinutes();
-                const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
-                minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+        function setDate() {
+            const now = new Date();
 
-                const hour = now.getHours();
-                const hourDegrees = ((hour / 12) * 360) + ((mins / 60) * 30) + 90;
-                hourHand.style.transform = `rotate(${hourDegrees}deg)`;
-            }
+            const seconds = now.getSeconds();
+            const secondsDegrees = ((seconds / 60) * 360) + 90;
+            secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
 
-            setInterval(setDate, 1000);
+            const mins = now.getMinutes();
+            const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
+            minsHand.style.transform = `rotate(${minsDegrees}deg)`;
 
-            setDate();
-        </script>
+            const hour = now.getHours();
+            const hourDegrees = ((hour / 12) * 360) + ((mins / 60) * 30) + 90;
+            hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+        }
+
+        setInterval(setDate, 1000);
+
+        setDate();
+    </script>
 
 
-        <!-- MAIN STUDENT JS -->
-        <script src="../assets/js/main.js"></script>
+    <!-- MAIN STUDENT JS -->
+    <script src="../assets/js/main.js"></script>
 
 </body>
 

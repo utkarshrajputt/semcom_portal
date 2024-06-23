@@ -13,6 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $enroll_no = $_POST['enroll_no'];
     $c_date = $_POST['c_date'];
     $counselling_of = $_POST['counselling_of'];
+    if($counselling_of='Other')
+    {
+        $counselling_of=$_POST['relation'];
+    }
     $counsel_session_info = $_POST['counsel_session_info'];
 
     $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,counsel_session_info) VALUES (?, ?, ?, ?)";
@@ -121,7 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 <body id="body-pd">
     <?php require '../includes/sidebar-staff.php'; ?>
-
+    <div id="searchBox" class="mt -2 mb-3 d-flex justify-content-end">
+            <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
+            <button class="btn btn-info" onclick="searchTable('result_body','searchInput')">Search</button>
+        </div>
     <div class="container mt-5">
         <h3 class="mb-4">Counseling Summary</h3>
         <div class="table-responsive">
@@ -135,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="result_body">
                     <?php
 
                     //Individual Staff Assigned Enrollment nos
@@ -213,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                         <div class="col-md-6 mb-3">
                                             <div class="form-outline">
                                                 <label for="enroll_no" class="form-label">Enroll No</label>
-                                                <input type="text" pattern="\d+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="15" class="form-control form-control-lg w-100" id="enroll_no" name="enroll_no" required>
+                                                <input type="text" pattern="\d+" oninput="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="15" class="form-control form-control-lg w-100" id="enroll_no" name="enroll_no" required readonly>
                                                 <div class="invalid-feedback">Please fill enroll no!</div>
                                             </div>
                                         </div>
@@ -231,17 +238,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                                 <label for="counselling_of" class="form-label">Counseling Of</label>
                                                 <select class="form-control form-control-lg" id="counselling_of" name="counselling_of" required>
                                                     <option hidden>-- Select --</option>
-                                                    <option value="1">Students</option>
-                                                    <option value="2">Parents</option>
-                                                    <option value="3">Other</option>
+                                                    <option>Students</option>
+                                                    <option>Parents</option>
+                                                    <option>Other</option>
                                                 </select>
                                                 <div class="invalid-feedback">Please select!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3" id="relation_div" style="display: none;">
+                                            <div class="form-outline">
+                                                <label for="counselling_of" class="form-label">Relationship With Student</label>
+                                                <input type="text" class="form-control mt-2" id="otherEventName" name="relation" placeholder="Enter other event name">
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3" id="otherCouncel" style="display:none;">
                                             <div class="form-outline">
                                                 <label for="relationship" class="form-label">Relationship With Student</label>
-                                                <input type="text" class="form-control" id="relationship" name="relationship">
+                                                <input type="text" class="form-control mt-2" id="relationship" name="relationship">
                                             </div>
                                         </div>
                                     </div>
@@ -271,6 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     </div>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             var forms = document.querySelectorAll('.councelling-form');
             Array.prototype.slice.call(forms).forEach(function(form) {
@@ -286,7 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             const eventNameDropdown = document.getElementById('counselling_of');
             const otherEventNameInput = document.getElementById('otherCouncel');
             eventNameDropdown.addEventListener('change', function() {
-                if (this.value === '3') { // "Other" option
+                if (this.value === 'Other') { // "Other" option
                     otherEventNameInput.style.display = 'block';
                 } else {
                     otherEventNameInput.style.display = 'none';
@@ -311,8 +325,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             form.classList.add('d-none');
             form.reset();
         }
+        function searchTable(tableBody, searchtxt) {
+            const searchInput = document.getElementById(searchtxt).value.toLowerCase();
+            const rows = document.getElementById(tableBody).getElementsByTagName('tr');
+            for (const row of rows) {
+                row.style.display = 'none';
+                const cells = row.getElementsByTagName('td');
+                for (const cell of cells) {
+                    if (cell.innerText.toLowerCase().includes(searchInput)) {
+                        row.style.display = '';
+                        break;
+                    }
+                }
+            }
+        }
     </script>
     <script src="../assets/js/main.js"></script>
+
 </body>
 
 </html>

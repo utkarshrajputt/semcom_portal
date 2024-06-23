@@ -167,10 +167,64 @@ if (!isset($staff_email)) {
         </div>
         <table class="table table-bordered table-hover">
             <thead class="table-light text-center">
-
+            <thead class="table-light">
+                <th>Id</th>
+                <th>Enroll</th>
+                <th>Name</th>
+                <th>Student Image</th>
+                <th>Councelling Date</th>
+                <th>Counselling Of</th>
+                <th>Description</th>
             </thead>
             <tbody id="councel_body">
+            <?php
+                $selectQuery = "select course,semester,division from staff_class_assign where staff_email='$staff_email'";
+                $selectResult = $conn->query($selectQuery);
+                if ($selectResult->num_rows > 0) {
+                    $row = $selectResult->fetch_assoc();
+                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                    try {
+                        $data = $dataResult->fetch_assoc();
 
+                        $resultDataResult=mysqli_query($conn, "select * from stud_counsel");
+                        if ($resultDataResult->num_rows > 0) {
+                            while ($resultData = $resultDataResult->fetch_assoc()) {
+                                if($resultData['enroll_no']>=$data['class_enroll_start'] && $resultData['enroll_no']<=$data['class_enroll_end']){
+                                ?>
+                                    <td><?php echo $resultData['c_id']; ?></td>
+                                    <td><?php echo $resultData['enroll_no']; ?></td>
+                                        <?php
+                                        $enroll=$resultData['enroll_no'];
+                                        $enrollDtlResult= mysqli_query($conn,"select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
+                                        $enrollDtl = $enrollDtlResult->fetch_assoc();                                        
+                                        ?>
+                                    <td><?php echo $enrollDtl['full_name']?></td>
+                                    <td>
+                                        <?php
+                                            $filepath="../assets/images/uploaded_images/".$enrollDtl['pro_pic'];
+                                            echo "<img src='$filepath' width='50' height='50'>";
+                                        ?>
+                                    </td>
+                                    <td><?php echo $resultData['c_date']; ?></td>
+                                    <td><?php echo $resultData['counselling_of']; ?></td>
+                                    <td><?php echo $resultData['counsel_session_info']; ?></td>
+                                    </tr>
+                                <?php
+                                }
+                            }
+                        }
+                        else
+                        {
+                            echo "<tr class='text-center'><td colspan='2'>No Data Found in Table</td></tr>";
+                        }
+                        
+                    } catch (mysqli_sql_exception $e) {
+                        echo "<tr class='text-center'><td colspan='2'>Enrollment Not Assigned</td></tr>";
+                    }
+                } else {
+                    echo "<tr class='text-center'><td colspan='2'>Class Not Assigned</td></tr>";
+                }
+                ?>
             </tbody>
         </table>
     </div>

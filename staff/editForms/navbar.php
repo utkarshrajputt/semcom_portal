@@ -11,29 +11,29 @@
         <div>
             <!-- SEMCOM  -->
             <a href="#" class="nav_logo">
-                <img src="../assets/images/semcom.png" class="img-fluid" style="width: 25px;" alt="">
+                <img src="../../assets/images/semcom.png" class="img-fluid" style="width: 25px;" alt="">
                 <span class="nav_logo-name">SEMCOM</span>
             </a>
             
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
                
-                <a href="../staff/dashboard.php" class="nav_link">
+                <a href="../../staff/dashboard.php" class="nav_link">
                     <i class="fa-solid fa-table-columns"></i>
                     <span class="nav_name">Dashboard</span>
                 </a>
-                <a href="../staff/counsel.php" class="nav_link">
+                <a href="../../staff/counsel.php" class="nav_link">
                     <i class="fa-solid fa-person-chalkboard"></i>
                     <span class="nav_name">Counselling</span>
                 </a>
-                <a href="../staff/editForms/personal-details.php" class="nav_link">
+                <a href="../../staff/editForms/personal-details.php" class="nav_link">
                     <i class="fa-solid fa-address-card"></i>
                     <span class="nav_name">Personal Details</span>
                 </a>
             </div>
         </div>
  
-    <a class="lg" href="../includes/staff_logout.php" onclick="return confirm('Do you really want to Logout?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+    <a class="lg" href="../../includes/staff_logout.php" onclick="return confirm('Do you really want to Logout?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
     </nav>
 </div>
 <script>
