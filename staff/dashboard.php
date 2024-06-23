@@ -30,12 +30,14 @@ if (!isset($staff_email)) {
 
     <!-- MAIN STUDENT CSS -->
     <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="../assets/css/staff.css">
     </style>
 </head>
 
 <body id="body-pd">
     <?php
         require '../includes/sidebar-staff.php';
+        
     ?>
 
     <?php
@@ -75,13 +77,16 @@ if (!isset($staff_email)) {
             }
         }
     ?>
+    <br>
+    <h2 class="text-center" style="font-weight:bolder;">Dashboard</h2>
+    <?php require 'cards.php'; ?>
     <div class="container mt-5">
         <div class="d-flex justify-content-end mt-3">
             <button id="result_btn" class="btn btn-primary me-2">Result</button>
             <button id="councel_btn" class="btn btn-primary">Councelling</button>
         </div>
     </div>
-    <div id="resultTable" class="table-responsive d-none mt-3">
+    <div id="resultTable" class="table-responsive mt-3">
         <div id="searchBox" class="mb-3 d-flex justify-content-end">
             <input type="text" class="form-control w-50 me-2" id="searchInput1" placeholder="Search...">
             <button class="btn btn-info" onclick="searchTable('result_body','searchInput1')">Search</button>
