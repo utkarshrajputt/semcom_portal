@@ -83,7 +83,7 @@ if (!isset($staff_email)) {
     <div class="container mt-5">
         <div class="d-flex justify-content-end mt-3">
             <button id="result_btn" class="btn btn-primary me-2">Result</button>
-            <button id="councel_btn" class="btn btn-primary">Councelling</button>
+            <button id="councel_btn" class="btn btn-primary">Counselling</button>
         </div>
     </div>
     <div id="resultTable" class="table-responsive mt-3">

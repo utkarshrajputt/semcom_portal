@@ -22,8 +22,8 @@
         }
 
         .logo {
-            width: 250px;
-            height:100px;
+            width: 200px;
+            height:70px;
             margin-bottom: 20px;
         }
         .dots-container {

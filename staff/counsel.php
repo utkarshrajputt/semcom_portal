@@ -9,26 +9,27 @@ if (!isset($staff_email)) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'addSession') {
+if (isset($_POST["counsel_submit"])) {
     $enroll_no = $_POST['enroll_no'];
     $c_date = $_POST['c_date'];
     $counselling_of = $_POST['counselling_of'];
-    if($counselling_of='Other')
-    {
-        $counselling_of=$_POST['relation'];
+    if ($counselling_of == "Other") {
+        $counsel = $_POST['relation-counsel'];
     }
     $counsel_session_info = $_POST['counsel_session_info'];
+    if ($_POST['relation-counsel']!="") {
+        $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,counsel_session_info) VALUES ('$enroll_no', '$c_date', '$counsel', '$counsel_session_info')";
+    } else {
+        $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,counsel_session_info) VALUES ('$enroll_no', '$c_date', '$counselling_of', '$counsel_session_info')";
+    }
+    $stmt = mysqli_query($conn, $insertQuery);
 
-    $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,counsel_session_info) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($insertQuery);
-    $stmt->bind_param("ssis", $enroll_no, $c_date, $counselling_of, $counsel_session_info);
-    if ($stmt->execute()) {
+    if ($stmt) {
         echo "<script>alert('Session added successfully');</script>";
         // echo "<script>location.reload(true);</script>";
     } else {
         echo "<script>alert('Error adding session');</script>";
     }
-    $stmt->close();
 }
 
 ?>
@@ -130,9 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <br>
 
     <div id="searchBox" class="mt -2 mb-3 d-flex justify-content-end">
-            <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
-            <button class="btn btn-info" onclick="searchTable('result_body','searchInput')">Search</button>
-        </div>
+        <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
+        <button class="btn btn-info" onclick="searchTable('result_body','searchInput')">Search</button>
+    </div>
     <div class="container mt-5">
         <!-- <h3 class="mb-4">Counseling Summary</h3> -->
         <div class="table-responsive">
@@ -161,32 +162,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                             for ($i = $data['class_enroll_start']; $i <= $data['class_enroll_end']; $i++) {
                                 $summaryQuery = "SELECT COUNT(stud_counsel.enroll_no) AS session_count FROM stud_counsel where stud_counsel.enroll_no=$i GROUP BY stud_counsel.enroll_no";
                                 $summaryResult = $conn->query($summaryQuery);
-                                $summary= $summaryResult->fetch_assoc();
+                                $summary = $summaryResult->fetch_assoc();
 
-                                $enrollDtlResult= mysqli_query($conn,"select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$i'");
+                                $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$i'");
                                 $enrollDtl = $enrollDtlResult->fetch_assoc();
                                 echo "<tr>";
-                                    echo "<td>{$i}</td>";
+                                echo "<td>{$i}</td>";
 
                                 echo "<td>";
-                                    if($enrollDtlResult->num_rows == 0)
-                                    {
-                                        echo  '<b>STUDENT YET NOT COMPLETED REGISTRATION</b>';
-                                    }
-                                    else
-                                    {
-                                        echo $enrollDtl['full_name'];
-                                    }
+                                if ($enrollDtlResult->num_rows == 0) {
+                                    echo  '<b>STUDENT YET NOT COMPLETED REGISTRATION</b>';
+                                } else {
+                                    echo $enrollDtl['full_name'];
+                                }
                                 echo "</td>";
 
                                 echo "<td>";
-                                    $enrollDtlResult->num_rows > 0 ? $filepath="../assets/images/uploaded_images/".$enrollDtl['pro_pic']:$filepath='';
-                                    echo $enrollDtlResult->num_rows > 0 ? "<img src='$filepath' width='50' height='50'>" : '';
+                                $enrollDtlResult->num_rows > 0 ? $filepath = "../assets/images/uploaded_images/" . $enrollDtl['pro_pic'] : $filepath = '';
+                                echo $enrollDtlResult->num_rows > 0 ? "<img src='$filepath' width='50' height='50'>" : '';
                                 echo "</td>";
                                 echo "<td>";
-                                    echo $summaryResult->num_rows == 0 ?'0':$summary['session_count'];
+                                echo $summaryResult->num_rows == 0 ? '0' : $summary['session_count'];
                                 echo "</td>";
-                                    echo $enrollDtlResult->num_rows > 0 ? "<td><button class='btn btn-primary' onclick='showForm(this)'>Add New Session</button></td>":"<td></td>";
+                                echo $enrollDtlResult->num_rows > 0 ? "<td><button class='btn btn-primary' onclick='showForm(this)'>Add New Session</button></td>" : "<td></td>";
                                 echo "</tr>";
                             }
                         } catch (mysqli_sql_exception $e) {
@@ -197,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     }
                     // Fetch summary data
 
-                    
+
                     ?>
                 </tbody>
             </table>
@@ -242,9 +240,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                                 <label for="counselling_of" class="form-label">Counseling Of</label>
                                                 <select class="form-control form-control-lg" id="counselling_of" name="counselling_of" required>
                                                     <option hidden>-- Select --</option>
-                                                    <option>Students</option>
-                                                    <option>Parents</option>
-                                                    <option>Other</option>
+                                                    <option value="Students">Students</option>
+                                                    <option value="Parents">Parents</option>
+                                                    <option value="Other">Other</option>
                                                 </select>
                                                 <div class="invalid-feedback">Please select!</div>
                                             </div>
@@ -252,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                         <div class="col-md-6 mb-3" id="relation_div" style="display: none;">
                                             <div class="form-outline">
                                                 <label for="counselling_of" class="form-label">Relationship With Student</label>
-                                                <input type="text" class="form-control mt-2" id="otherEventName" name="relation" placeholder="Enter other event name">
+                                                <input type="text" class="form-control mt-2" id="otherEventName" name="relation-counsel" placeholder="Enter other event name">
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3" id="otherCouncel" style="display:none;">
@@ -273,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                     </div>
                                     <div class="row">
                                         <div class="col-12 mb-3" style="display: flex; justify-content: center;">
-                                            <input data-mdb-ripple-init class="btn btn-primary btn-lg" name="submit" type="submit" value="Save" />
+                                            <input data-mdb-ripple-init class="btn btn-primary btn-lg" name="counsel_submit" type="submit" value="Save" />
                                         </div>
                                     </div>
                                 </div>
@@ -288,7 +286,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     </div>
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
             var forms = document.querySelectorAll('.councelling-form');
             Array.prototype.slice.call(forms).forEach(function(form) {
@@ -329,6 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             form.classList.add('d-none');
             form.reset();
         }
+
         function searchTable(tableBody, searchtxt) {
             const searchInput = document.getElementById(searchtxt).value.toLowerCase();
             const rows = document.getElementById(tableBody).getElementsByTagName('tr');
