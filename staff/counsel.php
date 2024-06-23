@@ -125,12 +125,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 <body id="body-pd">
     <?php require '../includes/sidebar-staff.php'; ?>
+    <br>
+    <h2 class="text-center" style="font-weight:bolder;">Counseling Summary</h2>
+    <br>
+
     <div id="searchBox" class="mt -2 mb-3 d-flex justify-content-end">
             <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
             <button class="btn btn-info" onclick="searchTable('result_body','searchInput')">Search</button>
         </div>
     <div class="container mt-5">
-        <h3 class="mb-4">Counseling Summary</h3>
+        <!-- <h3 class="mb-4">Counseling Summary</h3> -->
         <div class="table-responsive">
             <table class="table table-bordered table-hover text-center">
                 <thead class="table-light">

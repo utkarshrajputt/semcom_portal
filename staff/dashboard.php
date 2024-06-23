@@ -75,6 +75,9 @@ if (!isset($staff_email)) {
             }
         }
     ?>
+    <br>
+    <h2 class="text-center" style="font-weight:bolder;">Dashboard</h2>
+
     <div class="container mt-5">
         <div class="d-flex justify-content-end mt-3">
             <button id="result_btn" class="btn btn-primary me-2">Result</button>

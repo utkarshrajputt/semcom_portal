@@ -1,10 +1,17 @@
+<?php 
+    $stmt=mysqli_query($conn,"select full_name from staff_dtl where clg_email='$staff_email'");
+    $name=mysqli_fetch_assoc($stmt);
+?>
+
 <header class="header" id="header">
     
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>&nbsp;&nbsp;
     
+    <h5 class="h4" style="color:#1865A1;font-weight:bolder;">Hello, <?php echo $name['full_name'] ?></h5>
+
 </header>
 
-<div class="l-navbar" id="nav-bar">
+<div class="l-navbar" id="nav-bar" style="background-color:#4b524e;">
     <!-- close button under 768px screen width -->
     <i class='bx bx-x nav_close-btn' id="nav-close-btn"></i>
     <nav class="nav">
