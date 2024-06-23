@@ -81,7 +81,7 @@ if (!isset($staff_email)) {
             <button id="councel_btn" class="btn btn-primary">Councelling</button>
         </div>
     </div>
-    <div id="resultTable" class="table-responsive mt-3">
+    <div id="resultTable" class="table-responsive d-none mt-3">
         <div id="searchBox" class="mb-3 d-flex justify-content-end">
             <input type="text" class="form-control w-50 me-2" id="searchInput1" placeholder="Search...">
             <button class="btn btn-info" onclick="searchTable('result_body','searchInput1')">Search</button>

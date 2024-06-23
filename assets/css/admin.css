@@ -208,3 +208,8 @@
     font-weight: bold;
     text-align: center;
 }
+
+.links{
+    border:none;
+    background: transparent;
+}
