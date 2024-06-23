@@ -84,7 +84,7 @@ else
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" name="enroll" value="<?php echo $enroll ?>" placeholder="Enter Your Enrollment Number" maxlength="14" pattern="\d{14}" title="Enrollment Number Should Be of 14 Digits Only" required>
+                <input type="text" name="enroll" value="<?php echo $enroll ?>" placeholder="Enter Your Enrollment Number" title="Enrollment Number Should Be of 14 Digits Only" required>
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>

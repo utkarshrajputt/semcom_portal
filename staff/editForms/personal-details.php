@@ -1,11 +1,11 @@
 <?php
-require('../../includes/loader.php');
+require('loader.php');
 require('../../includes/session.php');
 require('../../config/mysqli_db.php');
 $staff_email = $_SESSION['staff_email'];
 
 if (!isset($staff_email)) {
-    header('location:staff_login.php');
+    header('location:../../staff/staff_login.php');
     exit;
 }
 ?>
@@ -171,6 +171,7 @@ if (!isset($staff_email)) {
                     <tr>
                         <th></th>
                         <th>Student ID</th>
+                        <th>Profile Pic</th>
                         <th>Admission Status</th>
                         <th>Admission Date</th>
                         <th>SPID</th>
@@ -185,7 +186,6 @@ if (!isset($staff_email)) {
                         <th>Email Id</th>
                         <th>Aadhar No</th>
                         <th>ABC ID</th>
-                        <th>Profile Pic</th>
                     </tr>
                 </thead>
                 <tbody id="result_body">
@@ -205,6 +205,7 @@ if (!isset($staff_email)) {
                     ?>
                                         <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
                                         <td><?php echo $resultData['stud_id']; ?></td>
+                                        <td><img id="img_<?php echo $resultData['enroll_no']; ?>" src="../../assets/images/uploaded_images/<?php echo $resultData['pro_pic']; ?>" width="70" height="70"></td>
                                         <td><?php echo $resultData['adm_status']; ?></td>
                                         <td><?php echo $resultData['adm_date']; ?></td>
                                         <td><?php echo $resultData['spid']; ?></td>
@@ -219,7 +220,6 @@ if (!isset($staff_email)) {
                                         <td><?php echo $resultData['email_id']; ?></td>
                                         <td><?php echo $resultData['aadhar_no']; ?></td>
                                         <td><?php echo $resultData['abc_id']; ?></td>
-                                        <td><img id="img_<?php echo $resultData['enroll_no']; ?>" src="../../assets/images/uploaded_images/<?php echo $resultData['pro_pic']; ?>" width="70" height="70"></td>
                                         </tr>
                     <?php
                                     }

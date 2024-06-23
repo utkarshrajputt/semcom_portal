@@ -30,6 +30,22 @@
                     <i class="fa-solid fa-address-card"></i>
                     <span class="nav_name">Personal Details</span>
                 </a>
+                <a href="../../staff/editForms/address.php" class="nav_link">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="nav_name">Address</span>
+                </a>
+                <a href="../../staff/editForms/basic-details.php" class="nav_link">
+                    <i class="fa-solid fa-user"></i>
+                    <span class="nav_name">Basic Details</span>
+                </a>
+                <a href="../../staff/editForms/parents-details.php" class="nav_link">
+                    <i class="fa-solid fa-people-arrows" style="margin-left:-2px;"></i>
+                    <span class="nav_name">Parents details</span>
+                </a>
+                <a href="../../staff/editForms/academic-details.php" class="nav_link">
+                    <i class="fa-solid fa-book"></i>
+                    <span class="nav_name">Academic details</span>
+                </a>
             </div>
         </div>
  

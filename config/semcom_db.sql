@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 21, 2024 at 12:46 PM
+-- Generation Time: Jun 23, 2024 at 01:09 PM
 -- Server version: 8.0.37
 -- PHP Version: 8.2.18
 
@@ -59,16 +59,16 @@ CREATE TABLE IF NOT EXISTS `course_class` (
   `result_request` char(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`class_id`),
   UNIQUE KEY `unique_row` (`course_name`,`class_semester`,`class_div`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `course_class`
 --
 
 INSERT INTO `course_class` (`class_id`, `course_name`, `class_semester`, `class_div`, `class_enroll_start`, `class_enroll_end`, `result_request`) VALUES
-(9, 'BCA', '1', '-', '12101150801011', '12101150801040', 'no'),
-(10, 'BCA', '2', '-', '12101150801041', '12101150801070', 'no'),
-(11, 'BCA', '3', '-', '12101150801071', '12101150801100', 'no');
+(9, 'BCA', '1', 'A', '12101150801011', '12101150801050', 'no'),
+(10, 'BCA', '1', 'B', '12101150801051', '12101150801100', 'no'),
+(12, 'BBA', '1', 'A', NULL, NULL, 'no');
 
 -- --------------------------------------------------------
 
@@ -86,14 +86,15 @@ CREATE TABLE IF NOT EXISTS `staff_class_assign` (
   PRIMARY KEY (`a_id`),
   KEY `staff_foreign` (`staff_email`),
   KEY `fk_child_parent` (`course`,`semester`,`division`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff_class_assign`
 --
 
 INSERT INTO `staff_class_assign` (`a_id`, `staff_email`, `course`, `semester`, `division`) VALUES
-(11, 'darsh@semcom.edu.in', 'BCA', '2', '-');
+(13, 'darsh@semcom.edu.in', 'BCA', '1', 'A'),
+(14, 'ut@gmail.com', 'BCA', '1', 'B');
 
 -- --------------------------------------------------------
 
@@ -119,14 +120,15 @@ CREATE TABLE IF NOT EXISTS `staff_dtl` (
   `staff_img` varchar(50) NOT NULL,
   PRIMARY KEY (`staff_id`),
   UNIQUE KEY `clg_email` (`clg_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `staff_dtl`
 --
 
 INSERT INTO `staff_dtl` (`staff_id`, `prefix`, `full_name`, `gender`, `dob`, `doj`, `mob_no`, `hi_qualification`, `exp`, `skills`, `qualifications`, `clg_email`, `password`, `staff_img`) VALUES
-(2, 'Mr.', 'Darsh Parikh', 'male', '1995-06-13', '2024-06-11', '9662799655', 'Graduate', '5-6 yrs', 'Teaching', 'BCA', 'darsh@semcom.edu.in', '12345678', 'Darsh20240620120451.jpg');
+(2, 'Mr.', 'Darsh Parikh', 'male', '1995-06-13', '2024-06-11', '9662799655', 'Graduate', '5-6 yrs', 'Teaching', 'BCA', 'darsh@semcom.edu.in', '12345678', 'Darsh20240620120451.jpg'),
+(3, 'Mr.', 'Utkarsh Rajput', 'male', '2024-06-05', '2024-06-20', '9662799457', 'Post Graduate', '4 yrs', 'Motivational Speaker', 'MCA', 'ut@gmail.com', '12345678', 'Utkarsh20240623130638.jpg');
 
 -- --------------------------------------------------------
 
@@ -158,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `stud_academic_details` (
 --
 
 INSERT INTO `stud_academic_details` (`academic_id`, `enroll_no`, `ssc_board`, `ssc_month_year`, `ssc_percentage`, `ssc_school`, `ssc_medium`, `hsc_board`, `hsc_month_year`, `hsc_percentage`, `hsc_school`, `hsc_medium`, `stud_achieve`) VALUES
-(1, '12101150801011', 'GSEB', '2018-03', '82.33', 'Shantiniketan', 'Gujarati', 'GSEB', '2020-03', '78', 'Narayan Vidhyalaya', 'Gujarati', 'Essay Competition Winner at School'),
+(1, '12101150801011', 'GSEB', '2018-03', '82.33', 'Shantiniketan Vidhyalaya', 'Gujarati', 'GSEB', '2020-03', '78', 'Narayan Vidhyalaya', 'Gujarati', 'Essay Competition Winner at School'),
 (2, '12101150801038', 'CBSE', '2018-12', '99', 'SHan', 'Guj', 'CBSE', '2020-03', '100', 'Shanti', 'Guj', 'CEO'),
 (3, '12101150801074', 'ICSE', '2024-01', '33.33', 'IB Patel', 'Charotari', 'NIOS', '2024-02', '33.34', 'Desi Public School', 'Nigerian', 'Principal Peon');
 
@@ -219,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `stud_address` (
 
 INSERT INTO `stud_address` (`add_id`, `enroll_no`, `resident_type`, `permanent_add`, `permanent_add2`, `permanent_city`, `permanent_pincode`, `present_add`, `present_add2`, `present_city`, `present_pincode`) VALUES
 (9, '12101150801011', 'localite', '20-a Housing Society', 'Kalol', 'Kalol', '389330', '20-a Housing Society', 'Kalol', 'Kalol', '389330'),
-(10, '12101150801038', 'localite', 'fbhli', ';jgasdkk;', 'sjhblaf', '325896', 'sbd;jai', 'ssb;da', 'dbfhjav', '123456'),
+(10, '12101150801038', 'localite', 'Anand', 'Anand', 'Anand', '325896', 'Anand', 'Anand', 'Anand', '123456'),
 (11, '12101150801074', 'localite', 'ram street', 'gokul nagar', 'Kolkata', '321321', 'anand', 'Oppo. APIED', 'Kolkata', '523234');
 
 -- --------------------------------------------------------
@@ -232,12 +234,25 @@ DROP TABLE IF EXISTS `stud_counsel`;
 CREATE TABLE IF NOT EXISTS `stud_counsel` (
   `c_id` int NOT NULL AUTO_INCREMENT,
   `enroll_no` varchar(15) NOT NULL,
-  `c  _date` date NOT NULL,
+  `c_date` date NOT NULL,
   `counselling_of` int NOT NULL,
   `counsel_session_info` varchar(100) NOT NULL,
   PRIMARY KEY (`c_id`),
   KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `stud_counsel`
+--
+
+INSERT INTO `stud_counsel` (`c_id`, `enroll_no`, `c_date`, `counselling_of`, `counsel_session_info`) VALUES
+(1, '12101150801011', '2024-06-13', 2, 'Cnhecl'),
+(2, '12101150801011', '2024-06-18', 1, 'Check'),
+(3, '12101150801038', '2024-06-11', 1, 'Check'),
+(4, '12101150801038', '2024-06-11', 1, 'Check'),
+(5, '12101150801038', '2024-06-11', 1, 'Check'),
+(6, '12101150801011', '2024-06-11', 1, 'Check'),
+(7, '12101150801011', '2024-06-17', 0, 'Check');
 
 -- --------------------------------------------------------
 
@@ -253,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `stud_login` (
   `complete_register` varchar(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`stud_id`),
   UNIQUE KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_login`
@@ -262,11 +277,7 @@ CREATE TABLE IF NOT EXISTS `stud_login` (
 INSERT INTO `stud_login` (`stud_id`, `enroll_no`, `password`, `complete_register`) VALUES
 (1, '12101150801011', '12345', 'yes'),
 (2, '12101150801038', '12345', 'yes'),
-(3, '12101150801074', '123', 'yes'),
-(4, '12101150801012', 'semcom@1012', 'no'),
-(5, '12101150801015', 'semcom@1015', 'no'),
-(6, '12101150801018', 'semcom@1018', 'no'),
-(7, '12101150801075', 'semcom@1075', 'no');
+(3, '12101150801074', '123', 'yes');
 
 -- --------------------------------------------------------
 
@@ -298,7 +309,7 @@ CREATE TABLE IF NOT EXISTS `stud_other_details` (
 --
 
 INSERT INTO `stud_other_details` (`other_id`, `enroll_no`, `dob`, `blood_grp`, `stud_height`, `stud_weight`, `stud_hobbies`, `stud_category`, `stud_religion`, `eng_know`, `hindi_know`, `guj_know`, `other_know`) VALUES
-(1, '12101150801011', '2004-02-24', 'B+', '145', '45', 'Playing', 'general', 'Hinduism', 'Read,Write', 'Read,Write,Speak', 'Read,Write,Speak', 'NA'),
+(1, '12101150801011', '2004-02-24', 'O-', '145', '45', 'Playing', 'general', 'Hinduism', 'Read,Write', 'Read,Write,Speak', 'Read,Write,Speak', 'NA'),
 (2, '12101150801038', '2024-03-15', 'A-', '171', '67', 'Coding', 'general', 'Hinduism', 'Read,Speak', 'Write', 'Read,Speak', 'Marathi'),
 (3, '12101150801074', '2004-08-12', 'AB+', '176', '61', 'Coding', 'obc', 'Islam', 'Read,Write', 'Read,Speak', 'Speak', 'French,Russian,Urdu,');
 
@@ -345,9 +356,9 @@ CREATE TABLE IF NOT EXISTS `stud_parents_details` (
 --
 
 INSERT INTO `stud_parents_details` (`p_id`, `enroll_no`, `fathers_name`, `lang_father`, `fathers_mob`, `father_wp`, `fathers_email`, `fathers_occup`, `fathers_co`, `fathers_desig`, `fathers_annual_income`, `mothers_name`, `lang_mother`, `mothers_mob`, `mother_wp`, `mothers_email`, `mothers_occup`, `mothers_co`, `mothers_desig`, `mothers_annual_income`, `emergency_mob`, `emergency_name`, `emergency_relationship`, `emergency_add`, `emergency_city`, `emergency_pincode`) VALUES
-(1, '12101150801011', 'Jayeshkumar', 'Gujarati', '9426560053', 'yes', 'jayesh@gmail.com', 'Businessman', 'Shreenathji Trading CO.', 'NA', '2000000', 'Bhaminiben', 'Gujarati', '9685741023', 'no', 'bhamin@gmail.com', 'Homemaker', 'NA', 'NA', '0', '6352947011', 'Tanvi', 'Sister', 'Ahmedabad', 'Ahmedabad', '390001'),
+(1, '12101150801011', 'Jayeshkumar', 'Gujarati', '9426560054', 'yes', 'jayesh@gmail.com', 'Businessman', 'Shreenathji Trading CO.', 'NA', '2000000', 'Bhaminiben', 'Gujarati', '9685741023', 'no', 'bhamin@gmail.com', 'Homemaker', 'NA', 'NA', '0', '6352947011', 'Tanvi', 'Sister', 'Ahmedabad', 'Ahmedabad', '390001'),
 (2, '12101150801038', 'Miten', 'English,Gujarati', '1210115080', 'yes', 'j@gmail.com', 'adbhsl', 'sabs', 'fbjak', '215646', 'abhsf', 'Gujarati,Hindi', '1210115080', 'no', 'vhdshlJ@gmail.com', 'sdbjakl', 'djajbs', 'basjn', '2165451', '2156489781', 'xyz', 'xyz', 'avhsdj', 'dsbhav', '962551'),
-(3, '12101150801074', 'drgreghergtrgerdyhredyh', 'Gujarati', '3253425435', 'no', 'dryrdy@asdb.com', 'yjrtujrt', 'eryeryreyrsdf', 'dghndthgdr', '24123423', 'hsrthrt', 'gujarati', '9054920165', 'no', 'hdrhrdh@ugd.in', 'Beating', 'eryeryreyrsdf', 'Homeminnisrter', '123456789', '3242342343', 'gfhdthdrg', 'ehgergrege', 'egdrghrgsrgse', 'hjfytfrhdthdr', '321321');
+(3, '12101150801074', 'drgreghergtrgerdyhredyh', 'Gujarati', '3253425435', 'no', 'dryrdy@asdb.com', 'yjrtujrt', 'eryeryreyrsdf', 'dghndthgdr', '24123423', 'hsrthrt', '', '9054920165', 'no', 'hdrhrdh@ugd.in', 'Beating', 'eryeryreyrsdf', 'Homeminnisrter', '123456789', '3242342343', 'gfhdthdrg', 'ehgergrege', 'egdrghrgsrgse', 'hjfytfrhdthdr', '321321');
 
 -- --------------------------------------------------------
 
@@ -363,8 +374,6 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
   `spid` varchar(15) NOT NULL,
   `enroll_no` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `stud_course` varchar(10) NOT NULL,
-  `stud_semester` char(1) NOT NULL,
-  `stud_division` char(1) NOT NULL,
   `roll_no` varchar(10) NOT NULL,
   `f_name` varchar(25) NOT NULL,
   `m_name` varchar(25) NOT NULL,
@@ -384,10 +393,10 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
 -- Dumping data for table `stud_personal_details`
 --
 
-INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`, `enroll_no`, `stud_course`, `stud_semester`, `stud_division`, `roll_no`, `f_name`, `m_name`, `l_name`, `gender`, `mob_no`, `email_id`, `aadhar_no`, `abc_id`, `pro_pic`) VALUES
-(9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCOM', '', '', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
-(10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '', '', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg'),
-(12, 'regular', '2024-06-05', '368196896', '12101150801011', 'BCA', '1', '-', '11', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799456', 'iamdarsh244@gmail.com', '9632587410', '12317916', '12101150801011.jpg');
+INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`, `enroll_no`, `stud_course`, `roll_no`, `f_name`, `m_name`, `l_name`, `gender`, `mob_no`, `email_id`, `aadhar_no`, `abc_id`, `pro_pic`) VALUES
+(9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCA', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
+(10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg'),
+(12, 'regular', '2024-06-05', '368196896', '12101150801011', 'BCA', '12', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799457', 'iamdarsh244@gmail.com', '9632587410', '12317916', '12101150801011.jpg');
 
 -- --------------------------------------------------------
 
@@ -407,15 +416,14 @@ CREATE TABLE IF NOT EXISTS `stud_result` (
   `add_request` varchar(10) NOT NULL DEFAULT 'pending',
   PRIMARY KEY (`result_id`),
   KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_result`
 --
 
 INSERT INTO `stud_result` (`result_id`, `enroll_no`, `course`, `semester`, `sgpa`, `cgpa`, `result_img`, `add_request`) VALUES
-(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'pending'),
-(2, '12101150801011', 'BCA', '1', '9.00', '9.00', '12101150801011_1.jpg', 'pending');
+(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'pending');
 
 --
 -- Constraints for dumped tables
@@ -433,12 +441,6 @@ ALTER TABLE `staff_class_assign`
 --
 ALTER TABLE `stud_academic_details`
   ADD CONSTRAINT `stud_academic_details_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Constraints for table `stud_achieve`
---
-ALTER TABLE `stud_achieve`
-  ADD CONSTRAINT `stud_achieve_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `stud_address`

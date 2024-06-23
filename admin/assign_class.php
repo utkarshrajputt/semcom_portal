@@ -339,7 +339,7 @@ if (!isset($admin_email)) {
         <div id="editForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('editForm')">&times;</button>
             <h5>Edit Class Assign</h5>
-            <form method="post" class="editForm" novalidate>
+            <form method="post" class="editForm">
                 <div class="mb-3">
                     <label for="editName" class="form-label">Name</label>
                     <input type="text" class="form-control" id="editName" disabled>
@@ -352,7 +352,7 @@ if (!isset($admin_email)) {
                     <div class="col-md-4 mb-4">
                         <div data-mdb-input-init class="form-outline">
                             <label class="form-label" for="course">Course</label>
-                            <select id="course" name="editCourse"  class="form-control form-control-md" required>
+                            <select id="course" name="editCourse"  class="form-control form-control-md">
                                 <option value="" disabled selected hidden>--Select--</option>
                                 <?php
                                 $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
@@ -367,7 +367,7 @@ if (!isset($admin_email)) {
                     <div class="col-md-4 mb-4">
                         <div data-mdb-input-init class="form-outline">
                             <label class="form-label" for="semester">Semester</label>
-                            <select id="semester" name="editSemester" class="form-control form-control-md" required disabled>
+                            <select id="semester" name="editSemester" class="form-control form-control-md" disabled>
                                 <option value="" disabled selected hidden>--Select--</option>
                             </select>
                             <div class="invalid-feedback">Please Select Semester !</div>
@@ -376,7 +376,7 @@ if (!isset($admin_email)) {
                     <div class="col-md-4 mb-4">
                         <div data-mdb-input-init class="form-outline">
                             <label class="form-label"for="division">Division</label>
-                            <select id="division" name="editDivision" class="form-control form-control-md" required disabled>
+                            <select id="division" name="editDivision" class="form-control form-control-md" disabled>
                                 <option value="" disabled selected hidden>--Select--</option>
                             </select>
                             <div class="invalid-feedback">Please Select Division !</div>
