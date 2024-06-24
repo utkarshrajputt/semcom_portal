@@ -5,7 +5,13 @@
 
 <header class="header" id="header">
     
-    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>&nbsp;&nbsp;
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i></div>
+    <div class="logos" style="margin-left:-135px;">
+        <img src="../assets/images/cvmu-logo.png" alt="cvmu" height="50px" width="170px">
+        <img src="../assets/images/semcom-logo.png" alt="cvmu" height="50px" width="170px">
+    </div>
+    <p class="h4" style="color:#1865A1;font-weight:bolder;padding-right:5%;">SEMCOMITE Staff Corner</p>
+    
     
     <h5 class="h4" style="color:#1865A1;font-weight:bolder;">Hello, <?php echo $name['full_name'] ?></h5>
 

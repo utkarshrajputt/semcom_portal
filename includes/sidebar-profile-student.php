@@ -1,6 +1,12 @@
 <header class="header" id="header">
     
-    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>&nbsp;&nbsp;
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    <div class="logos" style="margin-left:-135px;">
+        <img src="../assets/images/cvmu-logo.png" alt="cvmu" height="50px" width="170px">
+        <img src="../assets/images/semcom-logo.png" alt="cvmu" height="50px" width="170px">
+    </div>
+
+
     
     <p class="h4 p-5" style="color:#4723D9;font-weight:bolder;padding-right:5%;">SEMCOMITE Profile Registration</p>
     

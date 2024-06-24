@@ -138,7 +138,7 @@ if (!isset($admin_email)) {
     }
     ?>
     <div class="container mt-5">
-    <h2 class="text-center" style="font-weight:bolder;">Add Class Details</h2>
+        <h2 class="text-center" style="font-weight:bolder;">Add Class Details</h2>
 
         <div class="d-flex justify-content-end mb-3">
             <button id="displayBtn" class="btn btn-primary me-2">Display</button>
@@ -152,6 +152,7 @@ if (!isset($admin_email)) {
                         <th>Course</th>
                         <th>Semester</th>
                         <th>Division</th>
+                        <!-- <th>Staff Name</th> -->
                         <th>Enrollment No Start</th>
                         <th>Enrollment No End</th>
                         <th>Edit</th>
@@ -168,6 +169,25 @@ if (!isset($admin_email)) {
                             <td><?php echo $data['course_name']; ?></td>
                             <td><?php echo $data['class_semester']; ?></td>
                             <td><?php echo $data['class_div']; ?></td>
+                            <!-- <?php
+                            try {
+                                $course = $data['course_name'];
+                                $sem = $data['class_semester'];
+                                $div = $data['class_div'];
+                                $stmt1 = mysqli_query($conn, "select staff_email from staff_class_assign where course='$course' and semester='$sem' and division='$div'");
+                                $result1 = mysqli_fetch_assoc($stmt1);
+
+                                if (!(is_null($email = $result1['staff_email']))) {
+
+                                    $stmt2 = mysqli_query($conn, "select full_name from staff_dtl where clg_email='$email'");
+                                    $result2 = mysqli_fetch_assoc($stmt2);
+                                    $full_name = $result2['full_name'];
+                                }
+                            } catch (mysqli_sql_exception $e) {
+                                $full_name = '';
+                            }
+                            ?>
+                            <td><?php echo $full_name ?></td> -->
                             <td><?php echo $data['class_enroll_start']; ?></td>
                             <td><?php echo $data['class_enroll_end']; ?></td>
                             <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>

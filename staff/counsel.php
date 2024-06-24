@@ -207,7 +207,7 @@ if (isset($_POST["counsel_submit"])) {
 
         <div id="sessionForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('sessionForm')">&times;</button>
-            <h5>Add New Session</h5>
+            <h5>Add New Counselling Session</h5>
             <form method="post" action="" class="councelling-form" novalidate>
                 <input type="hidden" name="action" value="addSession">
                 <div class="container-fluid pt-4">

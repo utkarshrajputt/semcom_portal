@@ -71,7 +71,7 @@ else
       <div class="front">
         <img src="../assets/images/frontImg.jpg" alt="">
         <div class="text quote"><br><br>
-          <span class="text-1">"What  <span class="think"><br>we Think</span> <br> Other's Don't"</span>
+          <span class="text-1">"What  <span class="think"><br>we Think</span> <br> Others Don't"</span>
 
         </div>
       </div>
@@ -81,7 +81,7 @@ else
         <div class="login-form">
           <div class="title"><img src="../assets/images/semcom-logo.png" height="80px" width="260px"></div>
           <form method="post" action="">
-          <center><br>Login To Your Student Dashboard</center>
+          <center><br>Login To Your <b>Student</b> Dashboard</center>
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>

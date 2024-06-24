@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 23, 2024 at 01:09 PM
--- Server version: 8.0.37
+-- Generation Time: Jun 23, 2024 at 06:49 PM
+-- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -235,24 +235,18 @@ CREATE TABLE IF NOT EXISTS `stud_counsel` (
   `c_id` int NOT NULL AUTO_INCREMENT,
   `enroll_no` varchar(15) NOT NULL,
   `c_date` date NOT NULL,
-  `counselling_of` int NOT NULL,
+  `counselling_of` varchar(15) NOT NULL,
   `counsel_session_info` varchar(100) NOT NULL,
   PRIMARY KEY (`c_id`),
   KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_counsel`
 --
 
 INSERT INTO `stud_counsel` (`c_id`, `enroll_no`, `c_date`, `counselling_of`, `counsel_session_info`) VALUES
-(1, '12101150801011', '2024-06-13', 2, 'Cnhecl'),
-(2, '12101150801011', '2024-06-18', 1, 'Check'),
-(3, '12101150801038', '2024-06-11', 1, 'Check'),
-(4, '12101150801038', '2024-06-11', 1, 'Check'),
-(5, '12101150801038', '2024-06-11', 1, 'Check'),
-(6, '12101150801011', '2024-06-11', 1, 'Check'),
-(7, '12101150801011', '2024-06-17', 0, 'Check');
+(27, '12101150801074', '2024-06-26', 'Parents', 'short meeting with father');
 
 -- --------------------------------------------------------
 
@@ -416,14 +410,15 @@ CREATE TABLE IF NOT EXISTS `stud_result` (
   `add_request` varchar(10) NOT NULL DEFAULT 'pending',
   PRIMARY KEY (`result_id`),
   KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_result`
 --
 
 INSERT INTO `stud_result` (`result_id`, `enroll_no`, `course`, `semester`, `sgpa`, `cgpa`, `result_img`, `add_request`) VALUES
-(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'pending');
+(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'pending'),
+(4, '12101150801038', 'BCA', '1', '5.5', '5.5', '12101150801038_1.jpg', 'pending');
 
 --
 -- Constraints for dumped tables

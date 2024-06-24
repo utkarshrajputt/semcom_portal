@@ -72,7 +72,7 @@ if (isset($_POST['admin_login'])) {
       <div class="front">
         <img src="../assets/images/frontImg.jpg" alt="">
         <div class="text quote"><br><br>
-          <span class="text-1">"What  <span class="think"><br>we Think</span> <br> Other's Don't"</span>
+          <span class="text-1">"What  <span class="think"><br>we Think</span> <br> Others Don't"</span>
 
         </div>
       </div>
