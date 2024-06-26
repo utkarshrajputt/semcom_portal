@@ -28,6 +28,26 @@ else
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+  <style>
+            body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        main {
+            flex: 1;
+        }
+            footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+  </style>
 </head>
 
 <body>
@@ -65,6 +85,7 @@ else
 
 
   ?>
+  <main>
   <div class="container">
     <input type="checkbox" id="flip">
     <div class="cover">
@@ -109,6 +130,10 @@ else
         </div>
       </div>
     </div>
+    </main>
+    <footer>
+        This is a fixed footer.
+    </footer>
 </body>
 
 </html>

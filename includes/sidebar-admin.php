@@ -54,16 +54,16 @@
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <a href="../admin/add_student.php" class="nav_link">
-                    <i class="fa-solid fa-children"></i>
-                    <span class="nav_name">Add Student</span>
+                <a href="../admin/edit_staff.php" class="nav_link">
+                <i class="fa-solid fa-user-pen"></i>
+                    <span class="nav_name">Edit Staff</span>
                 </a>
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
-                <a href="../admin/edit_staff.php" class="nav_link">
-                <i class="fa-solid fa-user-pen"></i>
-                    <span class="nav_name">Edit Staff</span>
+                <a href="../admin/add_student.php" class="nav_link">
+                    <i class="fa-solid fa-children"></i>
+                    <span class="nav_name">Add Student</span>
                 </a>
             </div>
         </div>

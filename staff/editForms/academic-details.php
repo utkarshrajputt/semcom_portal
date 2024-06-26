@@ -134,7 +134,7 @@ if (!isset($staff_email)) {
         <button class="btn btn-info" onclick="searchTable('result_body','searchInput')">Search</button>
     </div>
     <div class="container mt-5">
-        <h3 class="mb-4">Edit Student Address Details</h3>
+        <h3 class="mb-4">Edit Student Academic Details</h3>
         <div id="displayTable" class="table-responsive">
             <table class="table table-bordered table-hover text-center">
                 <thead class="table-light">

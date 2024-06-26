@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     
     <style>
         /* Style for the loader */
-        .loader {
+        .loading_load {
             position: fixed;
             left: 0;
             top: 0;
@@ -31,8 +32,8 @@
         }
 
         .dot {
-            width: 25px;
-            height: 25px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background-color: #3498db;
             margin: 0 5px;
@@ -51,10 +52,9 @@
     </style>
 </head>
 <body>
-    <div class="loader" id="loader">
+    <div class="loading_load" id="loader">
         <img src="../assets/images/semcom-logo.png" alt="College Logo" class="logo">
         <div class="dots-container">
-            <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
