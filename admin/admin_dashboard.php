@@ -23,7 +23,7 @@ try {
     $staffData = mysqli_fetch_row($staffRersult);
 
     $courseQuery = "SELECT COUNT(course_name) FROM course_class GROUP BY course_name";
-    $courseRersult = mysqli_query($conn,$courseQuery);
+    $courseRersult = mysqli_query($conn, $courseQuery);
     $courseData = mysqli_num_rows($courseRersult);
 
     $classQuery = "select count(*) from course_class";
@@ -59,7 +59,12 @@ try {
     <link rel="stylesheet" href="../assets/css/student.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
     <style>
+        .dash-btn,
+        .dash-btn:hover {
 
+            border: none;
+            background-color: transparent;
+        }
     </style>
 </head>
 
@@ -72,7 +77,7 @@ try {
 
 
     <br>
-    <div class="row">
+    <div id="main-dash" class="row">
         <div class="clock">
             <div class="outer-clock-face">
 
@@ -99,7 +104,7 @@ try {
         </div>
         <div class="col-md-6 grid-margin transparent">
             <div class="row">
-                <div class="col-md-6 mb-4 stretch-card transparent">
+                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-tale">
                         <div class="card-body">
                             <p class="mb-4">Total Enrolled Students</p>
@@ -107,8 +112,8 @@ try {
                             <p>Total Logins of Stuents</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 mb-4 stretch-card transparent">
+                </button>
+                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-light-danger">
                         <div class="card-body">
                             <p class="mb-4">Total Registered Students</p>
@@ -116,8 +121,8 @@ try {
                             <p>Students Who Completed Registration</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 mb-4 stretch-card transparent">
+                </button>
+                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-light-danger">
                         <div class="card-body">
                             <p class="mb-4">Total Staff Members</p>
@@ -125,8 +130,8 @@ try {
                             <p>Active Faculty Members</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 mb-4 stretch-card transparent">
+                </button>
+                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-dark-blue">
                         <div class="card-body">
                             <p class="mb-4">Total Courses</p>
@@ -134,10 +139,10 @@ try {
                             <p>Currently Available Courses</p>
                         </div>
                     </div>
-                </div>
+                </button>
             </div>
             <div class="row">
-                <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
+                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-light-blue">
                         <div class="card-body">
                             <p class="mb-4">Total Class</p>
@@ -145,8 +150,9 @@ try {
                             <p>Active Classes</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 mb-4 stretch-card transparent">
+                </button>
+
+                <button id="councel_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-light-danger">
                         <div class="card-body">
                             <p class="mb-4">No of Counselling</p>
@@ -154,16 +160,20 @@ try {
                             <p>Completed</p>
                         </div>
                     </div>
-                </div>
+                </button>
             </div>
 
 
         </div>
-
-
     </div>
 
+
+
     <script>
+        document.getElementById('councel_btn').addEventListener('click', () => {
+           window.location.href="http://localhost/semcom_portal/admin/admin_counsel.php";
+        });
+
         const secondHand = document.querySelector('.second-hand');
         const minsHand = document.querySelector('.min-hand');
         const hourHand = document.querySelector('.hour-hand');

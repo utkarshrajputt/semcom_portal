@@ -61,6 +61,9 @@ try {
                 <div class="card-body p-4 p-md-5">
                     <!-- FORM START -->
                     <form class="personal-details-form <?php echo isset($personalDetails['adm_status']) ? 'disable-form' : ''; ?>" method="post" enctype="multipart/form-data" novalidate>
+                        <div style="color:red;">
+                            *Your semester and division will be updated by your class counsellor later
+                        </div><br>
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <!-- ADMISSION STATUS -->

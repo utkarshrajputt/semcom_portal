@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 23, 2024 at 06:49 PM
--- Server version: 8.3.0
+-- Generation Time: Jun 26, 2024 at 09:41 AM
+-- Server version: 8.0.37
 -- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `stud_address` (
 INSERT INTO `stud_address` (`add_id`, `enroll_no`, `resident_type`, `permanent_add`, `permanent_add2`, `permanent_city`, `permanent_pincode`, `present_add`, `present_add2`, `present_city`, `present_pincode`) VALUES
 (9, '12101150801011', 'localite', '20-a Housing Society', 'Kalol', 'Kalol', '389330', '20-a Housing Society', 'Kalol', 'Kalol', '389330'),
 (10, '12101150801038', 'localite', 'Anand', 'Anand', 'Anand', '325896', 'Anand', 'Anand', 'Anand', '123456'),
-(11, '12101150801074', 'localite', 'ram street', 'gokul nagar', 'Kolkata', '321321', 'anand', 'Oppo. APIED', 'Kolkata', '523234');
+(11, '12101150801074', 'localite', 'ram street', 'gokul nagar west andheri east', 'Kolkata', '321321', 'anand', 'Oppo. APIED', 'Kolkata', '523234');
 
 -- --------------------------------------------------------
 
@@ -236,17 +236,21 @@ CREATE TABLE IF NOT EXISTS `stud_counsel` (
   `enroll_no` varchar(15) NOT NULL,
   `c_date` date NOT NULL,
   `counselling_of` varchar(15) NOT NULL,
+  `mode_counsel` varchar(15) NOT NULL,
+  `c_time` varchar(15) NOT NULL,
   `counsel_session_info` varchar(100) NOT NULL,
   PRIMARY KEY (`c_id`),
   KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_counsel`
 --
 
-INSERT INTO `stud_counsel` (`c_id`, `enroll_no`, `c_date`, `counselling_of`, `counsel_session_info`) VALUES
-(27, '12101150801074', '2024-06-26', 'Parents', 'short meeting with father');
+INSERT INTO `stud_counsel` (`c_id`, `enroll_no`, `c_date`, `counselling_of`, `mode_counsel`, `c_time`, `counsel_session_info`) VALUES
+(27, '12101150801011', '2024-06-26', 'Parents', 'Call', '12:11', 'short meeting with father'),
+(30, '12101150801074', '2024-06-26', 'Parents', 'Letter', '12:18', 'fvsdfdsf'),
+(31, '12101150801074', '2024-06-26', 'Other', 'Physical', '12:18', 'vadcdscfasdcf');
 
 -- --------------------------------------------------------
 
@@ -262,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `stud_login` (
   `complete_register` varchar(3) NOT NULL DEFAULT 'no',
   PRIMARY KEY (`stud_id`),
   UNIQUE KEY `enroll_no` (`enroll_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `stud_login`
@@ -271,7 +275,13 @@ CREATE TABLE IF NOT EXISTS `stud_login` (
 INSERT INTO `stud_login` (`stud_id`, `enroll_no`, `password`, `complete_register`) VALUES
 (1, '12101150801011', '12345', 'yes'),
 (2, '12101150801038', '12345', 'yes'),
-(3, '12101150801074', '123', 'yes');
+(3, '12101150801074', '123', 'yes'),
+(4, '12101150801012', 'semcom@1012', 'no'),
+(5, '12101150801015', 'semcom@1015', 'no'),
+(6, '12101150801018', 'semcom@1018', 'no'),
+(7, '12101150801075', 'semcom@1075', 'no'),
+(8, '12101150801076', 'semcom@1076', 'no'),
+(9, '12101150801077', 'semcom@1077', 'no');
 
 -- --------------------------------------------------------
 
@@ -368,6 +378,8 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
   `spid` varchar(15) NOT NULL,
   `enroll_no` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `stud_course` varchar(10) NOT NULL,
+  `stud_sem` varchar(5) NOT NULL DEFAULT '-',
+  `stud_div` varchar(5) NOT NULL DEFAULT '-',
   `roll_no` varchar(10) NOT NULL,
   `f_name` varchar(25) NOT NULL,
   `m_name` varchar(25) NOT NULL,
@@ -387,10 +399,10 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
 -- Dumping data for table `stud_personal_details`
 --
 
-INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`, `enroll_no`, `stud_course`, `roll_no`, `f_name`, `m_name`, `l_name`, `gender`, `mob_no`, `email_id`, `aadhar_no`, `abc_id`, `pro_pic`) VALUES
-(9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCA', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
-(10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg'),
-(12, 'regular', '2024-06-05', '368196896', '12101150801011', 'BCA', '12', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799457', 'iamdarsh244@gmail.com', '9632587410', '12317916', '12101150801011.jpg');
+INSERT INTO `stud_personal_details` (`stud_id`, `adm_status`, `adm_date`, `spid`, `enroll_no`, `stud_course`, `stud_sem`, `stud_div`, `roll_no`, `f_name`, `m_name`, `l_name`, `gender`, `mob_no`, `email_id`, `aadhar_no`, `abc_id`, `pro_pic`) VALUES
+(9, 'regular', '2024-06-01', '12101150801038', '12101150801038', 'BCA', '1', 'A', '38', 'Kunj', 'Miten', 'Patel', 'male', '1210115080', 'kunj@gmail.com', '12101150801038', '12101150801038', '12101150801038.jpg'),
+(10, 'prov_admission', '2024-06-04', '2021001407', '12101150801074', 'BCA', '1', 'B', '74', 'Utkarsh', 'M', 'Rajput', 'male', '9054920165', 'ut@gmail.com', '921886122012', '64669694569', '12101150801074.jpg'),
+(12, 'regular', '2024-06-05', '368196896', '12101150801011', 'BCA', '1', 'A', '12', 'Darsh', 'Jayeshkumar', 'Parikh', 'male', '9662799457', 'iamdarsh244@gmail.com', '9632587410', '12317916', '12101150801011.jpg');
 
 -- --------------------------------------------------------
 
@@ -417,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `stud_result` (
 --
 
 INSERT INTO `stud_result` (`result_id`, `enroll_no`, `course`, `semester`, `sgpa`, `cgpa`, `result_img`, `add_request`) VALUES
-(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'pending'),
+(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'accepted'),
 (4, '12101150801038', 'BCA', '1', '5.5', '5.5', '12101150801038_1.jpg', 'pending');
 
 --

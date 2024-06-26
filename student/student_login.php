@@ -25,6 +25,25 @@ if (isset($_COOKIE['enroll']) && isset($_COOKIE['pass'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+  <style>
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    footer {
+      background-color: rgba(255, 255, 255, 0.503);
+      ;
+      text-align: center;
+      padding: 5px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+  </style>
 </head>
 <?php
 
@@ -55,7 +74,8 @@ if (isset($_POST['login'])) {
 }
 
 
-  ?>
+?>
+<main>
   <div class="container">
     <input type="checkbox" id="flip">
     <div class="cover">
@@ -97,6 +117,21 @@ if (isset($_POST['login'])) {
         </div>
       </div>
     </div>
+  </div>
+</main>
+<footer>
+  Designed and Developed by BCA(2021-2024)
+  <br> <a href="https://www.linkedin.com/in/utkarshrajputt/" target="_blank">Utkarsh</a> | <a href="https://www.linkedin.com/in/darshparikh11/" target="_blank">Darsh</a> | <a href="https://www.linkedin.com/in/diya-patel-1aa182239/" target="_blank">Diya</a> | <a href="https://www.linkedin.com/in/kunjpatel11/" target="_blank">Kunj</a> | <a href="https://www.linkedin.com/in/manan-patel-4b31b8300/" target="_blank">Manan</a>
+</footer>
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

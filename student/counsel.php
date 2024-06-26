@@ -49,7 +49,7 @@ if (!isset($enroll)) {
 <?php
         require '../includes/sidebar-student.php';
     ?>
-    <div id="councelTable" class="table-responsive d-none mt-3">
+    <div id="councelTable" class="table-responsive mt-3">
         <div id="searchBox" class="mb-3 d-flex justify-content-end">
             <input type="text" class="form-control w-50 me-2" id="searchInput2" placeholder="Search...">
             <button class="btn btn-info" onclick="searchTable('councel_body','searchInput2')">Search</button>
@@ -63,14 +63,15 @@ if (!isset($enroll)) {
                 <th>Student Image</th>
                 <th>Councelling Date</th>
                 <th>Counselling Of</th>
+                <th>Mode Of Counselling</th>
+                <th>Councelling Time</th>
                 <th>Description</th>
             </thead>
             <tbody id="councel_body">
             <?php
-                $resultDataResult=mysqli_query($conn, "select * from stud_counsel");
+                $resultDataResult=mysqli_query($conn, "select * from stud_counsel where enroll_no='$enroll'");
                         if ($resultDataResult->num_rows > 0) {
                             while ($resultData = $resultDataResult->fetch_assoc()) {
-                                if($resultData['enroll_no']==$enroll){
                                 ?>
                                     <td><?php echo $resultData['c_id']; ?></td>
                                     <td><?php echo $resultData['enroll_no']; ?></td>
@@ -88,12 +89,13 @@ if (!isset($enroll)) {
                                     </td>
                                     <td><?php echo $resultData['c_date']; ?></td>
                                     <td><?php echo $resultData['counselling_of']; ?></td>
+                                    <td><?php echo $resultData['mode_counsel']; ?></td>
+                                    <td><?php echo $resultData['c_time']; ?></td>
                                     <td><?php echo $resultData['counsel_session_info']; ?></td>
                                     </tr>
                                 <?php
                                 }
                             }
-                        }
                         else
                         {
                             echo "<tr class='text-center'><td colspan='2'>No Data Found in Table</td></tr>";
@@ -106,5 +108,20 @@ if (!isset($enroll)) {
 
 </body>
 <script src="../assets/js/main.js"></script>        
-
+<script>
+    function searchTable(tableBody, searchtxt) {
+            const searchInput = document.getElementById(searchtxt).value.toLowerCase();
+            const rows = document.getElementById(tableBody).getElementsByTagName('tr');
+            for (const row of rows) {
+                row.style.display = 'none';
+                const cells = row.getElementsByTagName('td');
+                for (const cell of cells) {
+                    if (cell.innerText.toLowerCase().includes(searchInput)) {
+                        row.style.display = '';
+                        break;
+                    }
+                }
+            }
+        }
+</script>
 </html>

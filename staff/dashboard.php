@@ -23,7 +23,7 @@ if (!isset($staff_email)) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/a79beb4099.js" crossorigin="anonymous"></script>
 
@@ -38,47 +38,90 @@ if (!isset($staff_email)) {
 
 <body id="body-pd">
     <?php
-        require '../includes/sidebar-staff.php';
-        
+    require '../includes/sidebar-staff.php';
+
     ?>
 
     <?php
-        if (isset($_POST['res_accept'])) {
-            $id=$_POST['result_id'];
-            $result=mysqli_query($conn,"update stud_result set add_request='accepted' where result_id='$id'");
-            if($result)
-            {
-                echo "<script>alert('Data Updated Successfully!!');</script>";
-            }
-            else
-            {
-                echo "<script>alert('Technical Error!!');</script>";
-            }
+    if (isset($_POST['res_accept'])) {
+        $id = $_POST['result_id'];
+        $result = mysqli_query($conn, "update stud_result set add_request='accepted' where result_id='$id'");
+        if ($result) {
+            echo "<script>alert('Data Updated Successfully!!');</script>";
+        } else {
+            echo "<script>alert('Technical Error!!');</script>";
         }
-        if (isset($_POST['res_reject'])) {
-            $id=$_POST['result_id'];
+    }
+    if (isset($_POST['res_reject'])) {
+        $id = $_POST['result_id'];
 
-            $imgResult=mysqli_query($conn,"select result_img from stud_result where result_id='$id'");
-            $imgData=mysqli_fetch_array($imgResult);
-            $result=mysqli_query($conn,"delete from stud_result where result_id='$id'");
-            if($result)
-            {
+        $imgResult = mysqli_query($conn, "select result_img from stud_result where result_id='$id'");
+        $imgData = mysqli_fetch_array($imgResult);
+        $result = mysqli_query($conn, "delete from stud_result where result_id='$id'");
+        if ($result) {
 
-                $file_path="../assets/images/result_images/".$imgData["result_img"];
-                if (file_exists($file_path)) {
-                    // Attempt to delete the file
-                    if (unlink($file_path)) {
-                        echo "<script>alert('Data Deleted Successfully!!');</script>";
-                    }
+            $file_path = "../assets/images/result_images/" . $imgData["result_img"];
+            if (file_exists($file_path)) {
+                // Attempt to delete the file
+                if (unlink($file_path)) {
+                    echo "<script>alert('Data Deleted Successfully!!');</script>";
                 }
-                
             }
-            else
-            {
-                echo "<script>alert('Technical Error!!');</script>";
-            }
+        } else {
+            echo "<script>alert('Technical Error!!');</script>";
         }
+    }
+    if (isset($_POST["update_stud"])) {
+        $selectQuery = "select course,semester,division from staff_class_assign where staff_email='$staff_email'";
+        $selectResult = $conn->query($selectQuery);
+        if ($selectResult->num_rows > 0) {
+            $row = $selectResult->fetch_assoc();
+            $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+            try {
+                $data = $dataResult->fetch_assoc();
+                $i = 0;
+                $resultDataResult = mysqli_query($conn, "select * from stud_personal_details");
+                if ($resultDataResult->num_rows > 0) {
+                    while ($resultData = $resultDataResult->fetch_assoc()) {
+                        if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
+                            $enroll = $resultData['enroll_no'];
+                            $semester = $row['semester'];
+                            $div = $row['division'];
+                            $update_qry = mysqli_query($conn, "update stud_personal_details set stud_sem='$semester',stud_div='$div' where enroll_no='$enroll'");
+                            $i++;
+                        }
+                    }
+                    if ($i > 0) {
+                        echo "<script>alert('Data Updated Successfully!!');</script>";
+                    }
+                } else {
+                    echo "<tr class='text-center'><td colspan='2'>No Data Found in Result Table</td></tr>";
+                }
+            } catch (mysqli_sql_exception $e) {
+                echo "<tr class='text-center'><td colspan='2'>Enrollment Not Assigned</td></tr>";
+            }
+        } else {
+            echo "<tr class='text-center'><td colspan='2'>Class Not Assigned</td></tr>";
+        }
+    }
     ?>
+    <br>
+    <div class="h5" style="font-weight:bolder;">
+        <?php
+        $selectQuery = "select course,semester,division from staff_class_assign where staff_email='$staff_email'";
+        $selectResult = $conn->query($selectQuery);
+        if ($selectResult->num_rows > 0) {
+            $row = $selectResult->fetch_assoc();
+        ?>
+
+            <form method="post">
+                Course : <?php echo $row['course']; ?> | Semester : <?php echo $row['semester']; ?> | Division :<?php echo $row['division']; ?> |
+                <button type="submit" name="update_stud" style="border:none;text-decoration:underline;color:blue;">Update Student Semester And Division</button>
+            </form>
+        <?php
+        }
+        ?>
+    </div>
     <br>
     <h2 class="text-center" style="font-weight:bolder;">Dashboard</h2>
     <?php require 'cards.php'; ?>
@@ -114,49 +157,46 @@ if (!isset($staff_email)) {
                     try {
                         $data = $dataResult->fetch_assoc();
 
-                        $resultDataResult=mysqli_query($conn, "select * from stud_result where add_request='pending'");
+                        $resultDataResult = mysqli_query($conn, "select * from stud_result where add_request='pending'");
                         if ($resultDataResult->num_rows > 0) {
                             while ($resultData = $resultDataResult->fetch_assoc()) {
-                                if($resultData['enroll_no']>=$data['class_enroll_start'] && $resultData['enroll_no']<=$data['class_enroll_end']){
-                                ?>
+                                if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
+                ?>
                                     <td><?php echo $resultData['result_id']; ?></td>
                                     <td><?php echo $resultData['enroll_no']; ?></td>
-                                        <?php
-                                        $enroll=$resultData['enroll_no'];
-                                        $enrollDtlResult= mysqli_query($conn,"select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
-                                        $enrollDtl = $enrollDtlResult->fetch_assoc();                                        
-                                        ?>
-                                    <td><?php echo $enrollDtl['full_name']?></td>
+                                    <?php
+                                    $enroll = $resultData['enroll_no'];
+                                    $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
+                                    $enrollDtl = $enrollDtlResult->fetch_assoc();
+                                    ?>
+                                    <td><?php echo $enrollDtl['full_name'] ?></td>
                                     <td>
                                         <?php
-                                            $filepath="../assets/images/uploaded_images/".$enrollDtl['pro_pic'];
-                                            echo "<img src='$filepath' width='50' height='50'>";
+                                        $filepath = "../assets/images/uploaded_images/" . $enrollDtl['pro_pic'];
+                                        echo "<img src='$filepath' width='50' height='50'>";
                                         ?>
                                     </td>
                                     <td><?php echo $resultData['sgpa']; ?></td>
                                     <td><?php echo $resultData['cgpa']; ?></td>
                                     <td>
                                         <?php
-                                            $path="../assets/images/result_images/".$resultData['result_img'];
-                                            echo "<a href='$path' target='_blank'>View File</a>";
+                                        $path = "../assets/images/result_images/" . $resultData['result_img'];
+                                        echo "<a href='$path' target='_blank'>View File</a>";
                                         ?>
                                     </td>
                                     <td>
                                         <form method="post">
-                                            <input type="hidden" id="result_id" name="result_id" value="<?php echo $resultData['result_id']; ?>">                                                
+                                            <input type="hidden" id="result_id" name="result_id" value="<?php echo $resultData['result_id']; ?>">
                                             <button name="res_accept" class='btn btn-primary'>ACCEPT</button>
                                             <button name="res_reject" class='btn btn-danger'>REJECT</button>
                                         </form>
                                     </td>
-                                <?php
+                <?php
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
                             echo "<tr class='text-center'><td colspan='2'>No Data Found in Result Table</td></tr>";
                         }
-                        
                     } catch (mysqli_sql_exception $e) {
                         echo "<tr class='text-center'><td colspan='2'>Enrollment Not Assigned</td></tr>";
                     }
@@ -174,17 +214,19 @@ if (!isset($staff_email)) {
         </div>
         <table class="table table-bordered table-hover">
             <thead class="table-light text-center">
-            <thead class="table-light">
-                <th>Id</th>
-                <th>Enroll</th>
-                <th>Name</th>
-                <th>Student Image</th>
-                <th>Councelling Date</th>
-                <th>Counselling Of</th>
-                <th>Description</th>
-            </thead>
+                <thead class="table-light">
+                    <th>Id</th>
+                    <th>Enroll</th>
+                    <th>Name</th>
+                    <th>Student Image</th>
+                    <th>Councelling Date</th>
+                    <th>Counselling Of</th>
+                    <th>Mode</th>
+                    <th>Time</th>
+                    <th>Description</th>
+                </thead>
             <tbody id="councel_body">
-            <?php
+                <?php
                 $selectQuery = "select course,semester,division from staff_class_assign where staff_email='$staff_email'";
                 $selectResult = $conn->query($selectQuery);
                 if ($selectResult->num_rows > 0) {
@@ -193,38 +235,37 @@ if (!isset($staff_email)) {
                     try {
                         $data = $dataResult->fetch_assoc();
 
-                        $resultDataResult=mysqli_query($conn, "select * from stud_counsel");
+                        $resultDataResult = mysqli_query($conn, "select * from stud_counsel");
                         if ($resultDataResult->num_rows > 0) {
                             while ($resultData = $resultDataResult->fetch_assoc()) {
-                                if($resultData['enroll_no']>=$data['class_enroll_start'] && $resultData['enroll_no']<=$data['class_enroll_end']){
-                                ?>
+                                if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
+                ?>
                                     <td><?php echo $resultData['c_id']; ?></td>
                                     <td><?php echo $resultData['enroll_no']; ?></td>
-                                        <?php
-                                        $enroll=$resultData['enroll_no'];
-                                        $enrollDtlResult= mysqli_query($conn,"select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
-                                        $enrollDtl = $enrollDtlResult->fetch_assoc();                                        
-                                        ?>
-                                    <td><?php echo $enrollDtl['full_name']?></td>
+                                    <?php
+                                    $enroll = $resultData['enroll_no'];
+                                    $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
+                                    $enrollDtl = $enrollDtlResult->fetch_assoc();
+                                    ?>
+                                    <td><?php echo $enrollDtl['full_name'] ?></td>
                                     <td>
                                         <?php
-                                            $filepath="../assets/images/uploaded_images/".$enrollDtl['pro_pic'];
-                                            echo "<img src='$filepath' width='50' height='50'>";
+                                        $filepath = "../assets/images/uploaded_images/" . $enrollDtl['pro_pic'];
+                                        echo "<img src='$filepath' width='50' height='50'>";
                                         ?>
                                     </td>
                                     <td><?php echo $resultData['c_date']; ?></td>
                                     <td><?php echo $resultData['counselling_of']; ?></td>
+                                    <td><?php echo $resultData['mode_counsel']; ?></td>
+                                    <td><?php echo $resultData['c_time']; ?></td>
                                     <td><?php echo $resultData['counsel_session_info']; ?></td>
                                     </tr>
-                                <?php
+                <?php
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
                             echo "<tr class='text-center'><td colspan='2'>No Data Found in Table</td></tr>";
                         }
-                        
                     } catch (mysqli_sql_exception $e) {
                         echo "<tr class='text-center'><td colspan='2'>Enrollment Not Assigned</td></tr>";
                     }
