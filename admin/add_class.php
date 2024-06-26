@@ -152,7 +152,7 @@ if (!isset($admin_email)) {
                         <th>Course</th>
                         <th>Semester</th>
                         <th>Division</th>
-                        <!-- <th>Staff Name</th> -->
+                        <th>Staff Name</th>
                         <th>Enrollment No Start</th>
                         <th>Enrollment No End</th>
                         <th>Edit</th>
@@ -169,25 +169,28 @@ if (!isset($admin_email)) {
                             <td><?php echo $data['course_name']; ?></td>
                             <td><?php echo $data['class_semester']; ?></td>
                             <td><?php echo $data['class_div']; ?></td>
-                            <!-- <?php
+                            <?php
                             try {
                                 $course = $data['course_name'];
                                 $sem = $data['class_semester'];
                                 $div = $data['class_div'];
-                                $stmt1 = mysqli_query($conn, "select staff_email from staff_class_assign where course='$course' and semester='$sem' and division='$div'");
-                                $result1 = mysqli_fetch_assoc($stmt1);
-
-                                if (!(is_null($email = $result1['staff_email']))) {
-
-                                    $stmt2 = mysqli_query($conn, "select full_name from staff_dtl where clg_email='$email'");
-                                    $result2 = mysqli_fetch_assoc($stmt2);
-                                    $full_name = $result2['full_name'];
+                                $staff_qry = mysqli_query($conn, "select staff_email from staff_class_assign where course='$course' and semester='$sem' and division='$div'");
+                                if(mysqli_num_rows($staff_qry)>0)
+                                {
+                                    $staff = mysqli_fetch_assoc($staff_qry);
+                                    $staff_email = $staff["staff_email"];
+                                    $staff_dtl=mysqli_fetch_assoc(mysqli_query($conn, "select full_name from staff_dtl where clg_email='$staff_email'"));
+                                    $full_name=$staff_dtl["full_name"];
+                                }
+                                else
+                                {
+                                    $full_name = '<b>NOT ASSIGNED</b>';
                                 }
                             } catch (mysqli_sql_exception $e) {
-                                $full_name = '';
+                                $full_name = '<b>NOT ASSIGNED</b>';
                             }
                             ?>
-                            <td><?php echo $full_name ?></td> -->
+                            <td><?php echo $full_name ?></td> 
                             <td><?php echo $data['class_enroll_start']; ?></td>
                             <td><?php echo $data['class_enroll_end']; ?></td>
                             <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
@@ -201,7 +204,7 @@ if (!isset($admin_email)) {
 
         <div id="editForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('editForm')">&times;</button>
-            <h5>Edit Staff Member</h5>
+            <h5>Edit Class</h5>
             <form method="post" onsubmit="return up_validateForm()">
                 <div class="mb-3">
                     <label for="editCourse" class="form-label">Course</label>
@@ -328,8 +331,8 @@ if (!isset($admin_email)) {
             document.getElementById('editCourse').value = row.cells[0].innerText;
             document.getElementById('editSemester').value = row.cells[1].innerText;
             document.getElementById('editDivision').value = row.cells[2].innerText;
-            document.getElementById('editEnrollStart').value = row.cells[3].innerText;
-            document.getElementById('editEnrollEnd').value = row.cells[4].innerText;
+            document.getElementById('editEnrollStart').value = row.cells[4].innerText;
+            document.getElementById('editEnrollEnd').value = row.cells[5].innerText;
         }
 
         function closeForm(formId) {

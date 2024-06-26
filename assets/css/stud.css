@@ -42,9 +42,6 @@ body{
   transform-origin: left;
   transform-style: preserve-3d;
 }
-.container #flip:checked ~ .cover{
-  transform: rotateY(-180deg);
-}
  .container .cover .front,
  .container .cover .back{
   position: absolute;
@@ -53,10 +50,7 @@ body{
   height: 100%;
   width: 100%;
 }
-.cover .back{
-  transform: rotateY(180deg);
-  backface-visibility: hidden;
-}
+
 .container .cover::before,
 .container .cover::after{
   content: '';
@@ -254,3 +248,4 @@ body{
     margin-left: 7%;
   }
 }
+
