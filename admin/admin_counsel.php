@@ -183,44 +183,44 @@ if (!isset($admin_email)) {
     ?>
     <br>
     <div id="councelTable" class="table-responsive mt-3">
-        <div class="d-flex justify-content-end mt-3 mb-3 mx-5">
-            <button class="btn btn-info" onclick="ref()">Back To Dashboard</button>
+        <div class="d-flex justify-content-end mt-3 mb-3">
+            <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
         </div>
 
         <div id="searchBox" class="mb-3 d-flex justify-content-end">
             <input type="text" class="form-control w-50 me-2" id="searchInput2" placeholder="Search...">
             <button class="btn btn-info" onclick="searchTable('councel_body','searchInput2')">Search</button>
         </div>
-        <div class="mt-2 mb-2">
-            <form method="post">
-                <div class="row">
-                    <div class="col-md-1">
-                        Course:
-                        <select id="course" name="editCourse">
-                            <option value="" disabled selected hidden>--Select--</option>
-                            <?php
-                            $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
-                            while ($row = $result->fetch_assoc()) {
-                                echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                        Semester:
-                        <select id="semester" name="editSemester" disabled>
-                            <option value="0" disabled selected hidden>--Select--</option>
-                        </select>
-                    </div>
-                    <div class="col-md-1">
-                        Division:
-                        <select id="division" name="editDivision" disabled>
-                            <option value="0" disabled selected hidden>--Select--</option>
-                        </select>
-                    </div>
+        <div class="container mt-4">
+        <form method="post">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="course" class="form-label">Course:</label>
+                    <select id="course" name="editCourse" class="form-control">
+                        <option value="" disabled selected hidden>--Select--</option>
+                        <?php
+                        $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
+                        }
+                        ?>
+                    </select>
                 </div>
-            </form>
-        </div>
+                <div class="col-md-4">
+                    <label for="semester" class="form-label">Semester:</label>
+                    <select id="semester" name="editSemester" class="form-control" disabled>
+                        <option value="0" disabled selected hidden>--Select--</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="division" class="form-label">Division:</label>
+                    <select id="division" name="editDivision" class="form-control" disabled>
+                        <option value="0" disabled selected hidden>--Select--</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
         <table class="table table-bordered table-hover text-center">
             <thead class="table-light text-center">
                 <thead>

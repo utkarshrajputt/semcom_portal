@@ -26,7 +26,7 @@ try {
     $courseRersult = mysqli_query($conn, $courseQuery);
     $courseData = mysqli_num_rows($courseRersult);
 
-    $classQuery = "select count(*) from course_class";
+    $classQuery = "select count(*) from staff_class_assign";
     $classRersult = mysqli_query($conn, $classQuery);
     $classData = mysqli_fetch_row($classRersult);
 
@@ -65,6 +65,16 @@ try {
             border: none;
             background-color: transparent;
         }
+        .responsive-img {
+            max-width: 100%;
+            height: 95%;
+            margin-top: -35px;
+            margin-left: 40px;
+        }
+        .dash-btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -73,12 +83,17 @@ try {
     require '../includes/sidebar-admin.php';
     ?>
     <br>
-    <h2 class="text-center" style="font-weight:bolder;">Dashboard</h2>
+    <h2 class="text-center" style="font-weight:bolder;">DASHBOARD</h2>
 
 
     <br>
     <div id="main-dash" class="row">
-        <div class="clock">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="../assets/images/semcom-color.png" alt="semcom" class="img-fluid responsive-img">
+            </div>
+        
+        <!-- <div class="clock"> 
             <div class="outer-clock-face">
 
                 <div class="marking marking-one"></div>
@@ -92,7 +107,7 @@ try {
                     <div class="hand second-hand"></div>
                     <div class="center-text">SEMCOM</div>
                     <div class="center-text2">
-                        <!-- <i class="fas fa-calendar-alt mb-3"></i> -->
+                        
 
                         <?php
                         echo '<p class="mb-1">' . date('l') . '</p>';
@@ -101,7 +116,7 @@ try {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  -->
         <div class="col-md-6 grid-margin transparent">
             <div class="row">
                 <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
@@ -122,7 +137,7 @@ try {
                         </div>
                     </div>
                 </button>
-                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                <button id="staff_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-light-danger">
                         <div class="card-body">
                             <p class="mb-4">Total Staff Members</p>
@@ -131,7 +146,7 @@ try {
                         </div>
                     </div>
                 </button>
-                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                <button id="courses_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-dark-blue">
                         <div class="card-body">
                             <p class="mb-4">Total Courses</p>
@@ -142,7 +157,7 @@ try {
                 </button>
             </div>
             <div class="row">
-                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                <button id="assign_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
                     <div class="card card-light-blue">
                         <div class="card-body">
                             <p class="mb-4">Total Class</p>
@@ -172,6 +187,16 @@ try {
     <script>
         document.getElementById('councel_btn').addEventListener('click', () => {
            window.location.href="http://localhost/semcom_portal/admin/admin_counsel.php";
+        });
+
+        document.getElementById('staff_btn').addEventListener('click', () => {
+           window.location.href="http://localhost/semcom_portal/admin/edit_staff.php";
+        });
+        document.getElementById('assign_btn').addEventListener('click', () => {
+           window.location.href="http://localhost/semcom_portal/admin/assign_class.php";
+        });
+        document.getElementById('courses_btn').addEventListener('click', () => {
+           window.location.href="http://localhost/semcom_portal/admin/assign_class.php";
         });
 
         const secondHand = document.querySelector('.second-hand');

@@ -33,6 +33,11 @@ if (!isset($staff_email)) {
     <!-- MAIN STUDENT CSS -->
     <link rel="stylesheet" href="../assets/css/student.css">
     <link rel="stylesheet" href="../assets/css/staff.css">
+    <style>
+        .update_btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -116,7 +121,7 @@ if (!isset($staff_email)) {
 
             <form method="post">
                 Course : <?php echo $row['course']; ?> | Semester : <?php echo $row['semester']; ?> | Division :<?php echo $row['division']; ?> |
-                <button type="submit" name="update_stud" style="border:none;text-decoration:underline;color:blue;">Update Student Semester And Division</button>
+                <button class="update_btn" type="submit" name="update_stud" style="border:none;text-decoration:underline;color:blue;">Update Student Semester And Division</button>
             </form>
         <?php
         }
