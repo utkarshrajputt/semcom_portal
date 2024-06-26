@@ -36,6 +36,13 @@
                     <span class="nav_name">Profile</span>
                 </a>
             </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
+                <a href="../student/counsel.php" class="nav_link">
+                <i class="fa-solid fa-headset"></i>
+                    <span class="nav_name">Counselling</span>
+                </a>
+            </div>
 
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->

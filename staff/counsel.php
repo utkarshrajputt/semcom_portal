@@ -13,15 +13,15 @@ if (isset($_POST["counsel_submit"])) {
     $enroll_no = $_POST['enroll_no'];
     $c_date = $_POST['c_date'];
     $counselling_of = $_POST['counselling_of'];
-    if ($counselling_of == "Other") {
-        $counsel = $_POST['relation-counsel'];
-    }
+    $mode=$_POST['session_mode'];
+    $c_time=$_POST['session_time'];
+    // if ($counselling_of == "Other") {
+    //     $counsel = $_POST['relation-counsel'];
+    // }
     $counsel_session_info = $_POST['counsel_session_info'];
-    if ($_POST['relation-counsel']!="") {
-        $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,counsel_session_info) VALUES ('$enroll_no', '$c_date', '$counsel', '$counsel_session_info')";
-    } else {
-        $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,counsel_session_info) VALUES ('$enroll_no', '$c_date', '$counselling_of', '$counsel_session_info')";
-    }
+  
+        $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,mode_counsel,c_time,counsel_session_info) VALUES ('$enroll_no', '$c_date', '$counselling_of', '$mode', '$c_time', '$counsel_session_info')";
+    
     $stmt = mysqli_query($conn, $insertQuery);
 
     if ($stmt) {
@@ -247,16 +247,32 @@ if (isset($_POST["counsel_submit"])) {
                                                 <div class="invalid-feedback">Please select!</div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mb-3" id="relation_div" style="display: none;">
-                                            <div class="form-outline">
-                                                <label for="counselling_of" class="form-label">Relationship With Student</label>
-                                                <input type="text" class="form-control mt-2" id="otherEventName" name="relation-counsel" placeholder="Enter other event name">
-                                            </div>
-                                        </div>
+
                                         <div class="col-md-6 mb-3" id="otherCouncel" style="display:none;">
                                             <div class="form-outline">
                                                 <label for="relationship" class="form-label">Relationship With Student</label>
                                                 <input type="text" class="form-control mt-2" id="relationship" name="relationship">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-outline">
+                                                <label for="session_mode" class="form-label">Mode of Session</label>
+                                                <select class="form-control form-control-lg" id="session_mode" name="session_mode" required>
+                                                    <option hidden>-- Select --</option>
+                                                    <option value="Letter">Letter</option>
+                                                    <option value="Call">Call</option>
+                                                    <option value="Physical">Physical</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please select mode of session!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-outline">
+                                                <label for="session_time" class="form-label">Time</label>
+                                                <input type="time" class="form-control form-control-lg" id="session_time" name="session_time" required>
+                                                <div class="invalid-feedback">Please select time!</div>
                                             </div>
                                         </div>
                                     </div>
@@ -282,6 +298,7 @@ if (isset($_POST["counsel_submit"])) {
             </form>
         </div>
 
+
         <div id="modalBackdrop" class="modal-backdrop d-none"></div>
     </div>
 
@@ -296,6 +313,23 @@ if (isset($_POST["counsel_submit"])) {
                     }
                     form.classList.add('was-validated');
                 }, false);
+                // Get current date
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
+
+                // Get current time
+                const hours = String(today.getHours()).padStart(2, '0');
+                const minutes = String(today.getMinutes()).padStart(2, '0');
+                const formattedTime = `${hours}:${minutes}`;
+
+                // Set default value for date input
+                document.getElementById('c_date').value = formattedDate;
+
+                // Set default value for time input
+                document.getElementById('session_time').value = formattedTime;
             });
 
             const eventNameDropdown = document.getElementById('counselling_of');

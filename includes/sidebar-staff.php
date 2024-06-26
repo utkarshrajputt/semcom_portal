@@ -48,7 +48,7 @@ $name = mysqli_fetch_assoc($stmt);
                 <div class="dropdown">
                     <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                         <i class="fas fa-pencil-alt"></i> 
-                        <span class="nav_name">Edit Student Details</span>
+                        <span class="nav_name">Edit Student Detail</span>
                     </a>
     
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

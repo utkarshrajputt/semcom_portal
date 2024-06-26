@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
-    
     <style>
         /* Style for the loader */
-        .loading_load {
+        .loading {
             position: fixed;
             left: 0;
             top: 0;
@@ -52,7 +51,7 @@
     </style>
 </head>
 <body>
-    <div class="loading_load" id="loader">
+    <div class="loading" id="loader">
         <img src="../assets/images/semcom-logo.png" alt="College Logo" class="logo">
         <div class="dots-container">
             <div class="dot"></div>
