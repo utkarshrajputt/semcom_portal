@@ -52,6 +52,7 @@ try {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/a79beb4099.js" crossorigin="anonymous"></script>
 
+
     <!-- BOXICON -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
@@ -65,12 +66,14 @@ try {
             border: none;
             background-color: transparent;
         }
+
         .responsive-img {
             max-width: 100%;
             height: 95%;
             margin-top: -35px;
             margin-left: 40px;
         }
+
         .dash-btn:focus {
             outline: none;
             box-shadow: none;
@@ -90,10 +93,14 @@ try {
     <div id="main-dash" class="row">
         <div class="row">
             <div class="col-md-6">
-                <img src="../assets/images/semcom-color.png" alt="semcom" class="img-fluid responsive-img">
+            <?php require('carousel.php'); ?>
+                
             </div>
-        
-        <!-- <div class="clock"> 
+
+
+            <!-- <img src="../assets/images/semcom-color.png" alt="semcom" class="img-fluid responsive-img"> -->
+
+            <!-- <div class="clock"> 
             <div class="outer-clock-face">
 
                 <div class="marking marking-one"></div>
@@ -117,116 +124,116 @@ try {
                 </div>
             </div>
         </div>  -->
-        <div class="col-md-6 grid-margin transparent">
-            <div class="row">
-                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-tale">
-                        <div class="card-body">
-                            <p class="mb-4">Total Enrolled Students</p>
-                            <p class="h3 mb-2"><?php echo $enrolledData[0]; ?></p>
-                            <p>Total Logins of Stuents</p>
+            <div class="col-md-6 grid-margin transparent">
+                <div class="row">
+                    <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-tale">
+                            <div class="card-body">
+                                <p class="mb-4">Total Enrolled Students</p>
+                                <p class="h3 mb-2"><?php echo $enrolledData[0]; ?></p>
+                                <p>Total Logins of Stuents</p>
+                            </div>
                         </div>
-                    </div>
-                </button>
-                <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-light-danger">
-                        <div class="card-body">
-                            <p class="mb-4">Total Registered Students</p>
-                            <p class="h3 mb-2"><?php echo $regData[0]; ?></p>
-                            <p>Students Who Completed Registration</p>
+                    </button>
+                    <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-light-danger">
+                            <div class="card-body">
+                                <p class="mb-4">Total Registered Students</p>
+                                <p class="h3 mb-2"><?php echo $regData[0]; ?></p>
+                                <p>Students Who Completed Registration</p>
+                            </div>
                         </div>
-                    </div>
-                </button>
-                <button id="staff_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-light-danger">
-                        <div class="card-body">
-                            <p class="mb-4">Total Staff Members</p>
-                            <p class="h3 mb-2"><?php echo $staffData[0]; ?></p>
-                            <p>Active Faculty Members</p>
+                    </button>
+                    <button id="staff_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-light-danger">
+                            <div class="card-body">
+                                <p class="mb-4">Total Staff Members</p>
+                                <p class="h3 mb-2"><?php echo $staffData[0]; ?></p>
+                                <p>Active Faculty Members</p>
+                            </div>
                         </div>
-                    </div>
-                </button>
-                <button id="courses_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-dark-blue">
-                        <div class="card-body">
-                            <p class="mb-4">Total Courses</p>
-                            <p class="h3 mb-2"><?php echo $courseData; ?></p>
-                            <p>Currently Available Courses</p>
+                    </button>
+                    <button id="courses_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-dark-blue">
+                            <div class="card-body">
+                                <p class="mb-4">Total Courses</p>
+                                <p class="h3 mb-2"><?php echo $courseData; ?></p>
+                                <p>Currently Available Courses</p>
+                            </div>
                         </div>
-                    </div>
-                </button>
+                    </button>
+                </div>
+                <div class="row">
+                    <button id="assign_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-light-blue">
+                            <div class="card-body">
+                                <p class="mb-4">Total Class</p>
+                                <p class="h3 mb-2"><?php echo $classData[0]; ?></p>
+                                <p>Active Classes</p>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button id="councel_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                        <div class="card card-light-danger">
+                            <div class="card-body">
+                                <p class="mb-4">No of Counselling</p>
+                                <p class="h3 mb-2"><?php echo $counselData[0]; ?></p>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+
+
             </div>
-            <div class="row">
-                <button id="assign_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-light-blue">
-                        <div class="card-body">
-                            <p class="mb-4">Total Class</p>
-                            <p class="h3 mb-2"><?php echo $classData[0]; ?></p>
-                            <p>Active Classes</p>
-                        </div>
-                    </div>
-                </button>
-
-                <button id="councel_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
-                    <div class="card card-light-danger">
-                        <div class="card-body">
-                            <p class="mb-4">No of Counselling</p>
-                            <p class="h3 mb-2"><?php echo $counselData[0]; ?></p>
-                            <p>Completed</p>
-                        </div>
-                    </div>
-                </button>
-            </div>
-
-
         </div>
-    </div>
 
 
 
-    <script>
-        document.getElementById('councel_btn').addEventListener('click', () => {
-           window.location.href="http://localhost/semcom_portal/admin/admin_counsel.php";
-        });
+        <script>
+            document.getElementById('councel_btn').addEventListener('click', () => {
+                window.location.href = "http://localhost/semcom_portal/admin/admin_counsel.php";
+            });
 
-        document.getElementById('staff_btn').addEventListener('click', () => {
-           window.location.href="http://localhost/semcom_portal/admin/edit_staff.php";
-        });
-        document.getElementById('assign_btn').addEventListener('click', () => {
-           window.location.href="http://localhost/semcom_portal/admin/assign_class.php";
-        });
-        document.getElementById('courses_btn').addEventListener('click', () => {
-           window.location.href="http://localhost/semcom_portal/admin/assign_class.php";
-        });
+            document.getElementById('staff_btn').addEventListener('click', () => {
+                window.location.href = "http://localhost/semcom_portal/admin/edit_staff.php";
+            });
+            document.getElementById('assign_btn').addEventListener('click', () => {
+                window.location.href = "http://localhost/semcom_portal/admin/assign_class.php";
+            });
+            document.getElementById('courses_btn').addEventListener('click', () => {
+                window.location.href = "http://localhost/semcom_portal/admin/assign_class.php";
+            });
 
-        const secondHand = document.querySelector('.second-hand');
-        const minsHand = document.querySelector('.min-hand');
-        const hourHand = document.querySelector('.hour-hand');
+            const secondHand = document.querySelector('.second-hand');
+            const minsHand = document.querySelector('.min-hand');
+            const hourHand = document.querySelector('.hour-hand');
 
-        function setDate() {
-            const now = new Date();
+            function setDate() {
+                const now = new Date();
 
-            const seconds = now.getSeconds();
-            const secondsDegrees = ((seconds / 60) * 360) + 90;
-            secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+                const seconds = now.getSeconds();
+                const secondsDegrees = ((seconds / 60) * 360) + 90;
+                secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
 
-            const mins = now.getMinutes();
-            const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
-            minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+                const mins = now.getMinutes();
+                const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
+                minsHand.style.transform = `rotate(${minsDegrees}deg)`;
 
-            const hour = now.getHours();
-            const hourDegrees = ((hour / 12) * 360) + ((mins / 60) * 30) + 90;
-            hourHand.style.transform = `rotate(${hourDegrees}deg)`;
-        }
+                const hour = now.getHours();
+                const hourDegrees = ((hour / 12) * 360) + ((mins / 60) * 30) + 90;
+                hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+            }
 
-        setInterval(setDate, 1000);
+            setInterval(setDate, 1000);
 
-        setDate();
-    </script>
+            setDate();
+        </script>
 
 
-    <!-- MAIN STUDENT JS -->
-    <script src="../assets/js/main.js"></script>
+        <!-- MAIN STUDENT JS -->
+        <script src="../assets/js/main.js"></script>
 
 </body>
 
