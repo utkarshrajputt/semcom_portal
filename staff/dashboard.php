@@ -33,7 +33,7 @@ if (!isset($staff_email)) {
     <!-- MAIN STUDENT CSS -->
     <link rel="stylesheet" href="../assets/css/student.css">
     <link rel="stylesheet" href="../assets/css/staff.css">
-    </style>
+  
 </head>
 
 <body id="body-pd">

@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-// Function to fetch student data grouped by sections
+// Function to fetch all student data grouped by sections
 function getAllStudentData($con) {
     $query = "SELECT * FROM stud_personal_details spd
               JOIN stud_address sa ON spd.enroll_no = sa.enroll_no
@@ -15,9 +15,27 @@ function getAllStudentData($con) {
               JOIN stud_parents_details spd2 ON spd.enroll_no = spd2.enroll_no
               JOIN stud_academic_details sad ON spd.enroll_no = sad.enroll_no";
     $result = $con->query($query);
-    $studentData = $result->fetch_all(MYSQLI_ASSOC);
+    $students = $result->fetch_all(MYSQLI_ASSOC);
 
-    return $studentData;
+    // Fetch additional data from other tables
+    foreach ($students as &$student) {
+        // Fetch results
+        $query = "SELECT * FROM stud_result WHERE enroll_no = '{$student['enroll_no']}' and add_request='accepted'";
+        $result = $con->query($query);
+        $student['results'] = $result->fetch_all(MYSQLI_ASSOC);
+
+        // Fetch achievements
+        $query = "SELECT * FROM stud_achieve WHERE enroll_no = '{$student['enroll_no']}'";
+        $result = $con->query($query);
+        $student['achievements'] = $result->fetch_all(MYSQLI_ASSOC);
+
+        // Fetch counsel details
+        $query = "SELECT * FROM stud_counsel WHERE enroll_no = '{$student['enroll_no']}'";
+        $result = $con->query($query);
+        $student['counsel'] = $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    return $students;
 }
 
 // Fetch all student data grouped by sections
@@ -29,6 +47,9 @@ $addressDetails = [];
 $otherDetails = [];
 $parentsDetails = [];
 $academicDetails = [];
+$resultDetails = [];
+$achievementDetails = [];
+$counselDetails = [];
 
 foreach ($students as $student) {
     // Personal Details
@@ -106,8 +127,6 @@ foreach ($students as $student) {
         'Person Address'=> $student['emergency_add'],
         'Person City'=> $student['emergency_city'],
         'Person Pincode'=> $student['emergency_pincode']
-
-        // Add more fields as needed
     ];
 
     // Academic Details
@@ -119,14 +138,48 @@ foreach ($students as $student) {
         'SSC Percentage' => $student['ssc_percentage'],
         'SSC School Name' => $student['ssc_school'],
         'SSC Medium Of Study' => $student['ssc_medium'],
-        'HSC Board Name' => $student['hsc_board'],  
+        'HSC Board Name' => $student['hsc_board'],
         'HSC Passing Month and Year' => $student['hsc_month_year'],
         'HSC Percentage' => $student['hsc_percentage'],
         'HSC School Name' => $student['hsc_school'],
         'HSC Medium Of Study' => $student['hsc_medium'],
-        'Achievements'=>$student['stud_achieve'],
-        // Add more fields as needed
+        'Achievements'=>$student['stud_achieve']
     ];
+
+    // Result Details
+    foreach ($student['results'] as $result) {
+        $resultDetails[] = [
+            'Enrollment No' => $result['enroll_no'],
+            'Course' => $result['course'],
+            'Semester' => $result['semester'],
+            'SGPA' => $result['sgpa'],
+            'CGPA' => $result['cgpa'],
+            'Result Image' => 'assets/images/result_images/'.$result['result_img']
+        ];
+    }
+
+    // Achievement Details
+    foreach ($student['achievements'] as $achievement) {
+        $achievementDetails[] = [
+            'Enrollment No' => $achievement['enroll_no'],
+            'Semester' => $achievement['semester'],
+            'Event Date' => $achievement['event_date'],
+            'Event' => $achievement['event'],
+            'Description' => $achievement['description']
+        ];
+    }
+
+    // Counsel Details
+    foreach ($student['counsel'] as $counsel) {
+        $counselDetails[] = [
+            'Enrollment No' => $counsel['enroll_no'],
+            'Counsel Date' => $counsel['c_date'],
+            'Counseling Of' => $counsel['counselling_of'],
+            'Mode of Counsel' => $counsel['mode_counsel'],
+            'Counsel Time' => $counsel['c_time'],
+            'Counsel Session Info' => $counsel['counsel_session_info']
+        ];
+    }
 }
 
 // Create a new Spreadsheet object
@@ -142,6 +195,9 @@ addDataToSheet($spreadsheet, $addressDetails, 'Address Details');
 addDataToSheet($spreadsheet, $otherDetails, 'Other Details');
 addDataToSheet($spreadsheet, $parentsDetails, 'Parents Details');
 addDataToSheet($spreadsheet, $academicDetails, 'Academic Details');
+addDataToSheet($spreadsheet, $resultDetails, 'Result Details');
+addDataToSheet($spreadsheet, $achievementDetails, 'Achievement Details');
+addDataToSheet($spreadsheet, $counselDetails, 'Counsel Details');
 
 // Remove the default sheet created by PhpSpreadsheet
 $spreadsheet->removeSheetByIndex(0);
@@ -162,15 +218,15 @@ function addDataToSheet($spreadsheet, $data, $sheetName) {
     foreach ($data as $rowArray) {
         $col = 1;
         foreach ($rowArray as $key => $value) {
-            if ($key === 'Profile Pic' && !empty($value)) {
+            if ($key === 'Profile Pic' || $key === 'Result Image') {
                 // Insert image into cell
                 $imagePath = $value; // Assuming $value is the file path to the image
                 $drawing = new Drawing();
-                $drawing->setName('Profile Picture');
-                $drawing->setDescription('Profile Picture');
+                $drawing->setName('Image');
+                $drawing->setDescription('Image');
                 $drawing->setPath($imagePath);
-                $drawing->setCoordinates('M' . $row); // Cell to attach the image
-                $drawing->setWorksheet($sheet);
+                $drawing->setCoordinates($sheet->getCellByColumnAndRow($col, $row)->getCoordinate());
+            $drawing->setWorksheet($sheet);
                 $drawing->setOffsetX(5);
                 $drawing->setOffsetY(5);
                 $drawing->setHeight(100); // Height of the image
@@ -184,10 +240,7 @@ function addDataToSheet($spreadsheet, $data, $sheetName) {
                 // Set row height based on image height
                 $sheet->getRowDimension($row)->setRowHeight($drawing->getHeight() + 10); // Add extra for padding
 
-            } elseif ($key === 'Enrollment Number') {
-                // Set enrollment number explicitly as text to avoid scientific notation
-                $sheet->setCellValueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            } else {
+            }  else {
                 $sheet->setCellValueByColumnAndRow($col, $row, $value);
                 $col++;
             }
@@ -199,12 +252,13 @@ function addDataToSheet($spreadsheet, $data, $sheetName) {
     foreach (range('A', $sheet->getHighestColumn()) as $col) {
         $sheet->getColumnDimension($col)->setAutoSize(true);
     }
-     // Center align all cells
-     $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
-     ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+    // Center align all cells
+    $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
+        ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     
-     $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
-     ->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
+        ->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
 }
 
@@ -218,3 +272,4 @@ header('Cache-Control: max-age=0');
 // Save the Excel file to php://output (browser)
 $writer = new Xlsx($spreadsheet);
 $writer->save('php://output');
+?>

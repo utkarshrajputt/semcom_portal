@@ -52,15 +52,15 @@ function createStudentPDF($studentData, $pdf) {
     // Profile Image and Personal Details
 
     // Header
-    $html='<table style="padding-bottom:25px;">';
+    $html = '<table style="padding-bottom:25px;">';
     $html .= '<tr>
                 <td colspan="2" align="center"><h4>STUDENT PROFILE</h4></td>
               </tr>';
     $html .= '</table>';
-
+    
     $html .= '<table style="border-spacing:10px;">';
     $html .= '<tr>
-                <td rowspan="6"><img src="assets/images/uploaded_images/' . $studentData['personal_details']['pro_pic'] . '" width="100" height="130" /></td>
+                <td rowspan="6" style="vertical-align: top;"><img src="assets/images/uploaded_images/' . $studentData['personal_details']['pro_pic'] . '" width="100" height="130" /></td>
                 <td><b>Admission Date:</b><br> ' . $studentData['personal_details']['adm_date'] . '</td>
                 <td><b>SPID:</b><br> ' . $studentData['personal_details']['spid'] . '</td>
                 <td><b>Current Admission Status:</b><br> ' . $studentData['personal_details']['adm_status'] . '</td>
@@ -80,7 +80,7 @@ function createStudentPDF($studentData, $pdf) {
                 <td><b>ABC ID:</b><br> ' . $studentData['personal_details']['abc_id'] . '</td>
               </tr>';
     $html .= '</table>';
-
+    
     $pdf->writeHTML($html, true, false, true, false, '');
 
     // Address Section
