@@ -157,7 +157,9 @@ if (isset($_POST['ach_submit'])) {
                                                 <option value="CVMU GYANOSTAV">CVMU GYANOSTAV</option>
                                                 <option value="CVMU HACKATHON">CVMU HACKATHON</option>
                                                 <option value="GREEN BUSINESS">GREEN BUSINESS</option>
-                                                <option value="BBIC">BBIC</option>
+                                                <option value="GREEN BUSINESS">SMART EYE PHOTOGRAPHY</option>
+                                                <option value="GREEN BUSINESS">NOVELLUS AD-MAKING</option>
+                                                <option value="BBIC">BEST BESINESS IDEA CONTEST</option>
                                                 <option value="other">Other</option>
                                             </select><br>
                                             <input type="text" class="form-control mt-2" id="otherEventName" name="otherEventName" placeholder="Enter other event name" style="display: none;">

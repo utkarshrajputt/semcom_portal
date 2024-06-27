@@ -121,7 +121,7 @@ if (isset($_POST['login'])) {
 </main>
 <footer>
   Designed and Developed by BCA(2021-2024)
-  <br> <a href="https://www.linkedin.com/in/utkarshrajputt/" target="_blank">Utkarsh</a> | <a href="https://www.linkedin.com/in/darshparikh11/" target="_blank">Darsh</a> | <a href="https://www.linkedin.com/in/diya-patel-1aa182239/" target="_blank">Diya</a> | <a href="https://www.linkedin.com/in/kunjpatel11/" target="_blank">Kunj</a> | <a href="https://www.linkedin.com/in/manan-patel-4b31b8300/" target="_blank">Manan</a>
+  <br> <a href="https://www.linkedin.com/in/utkarshrajputt/" target="_blank">Utkarsh</a> | <a href="https://www.linkedin.com/in/darshparikh11/" target="_blank">Darsh</a> | <a href="https://www.linkedin.com/in/diyapatel14/" target="_blank">Diya</a> | <a href="https://www.linkedin.com/in/kunjpatel11/" target="_blank">Kunj</a> | <a href="https://www.linkedin.com/in/manan-patel-4b31b8300/" target="_blank">Manan</a>
 </footer>
 
 
