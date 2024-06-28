@@ -156,7 +156,6 @@ function getSelectedStudentData($con, $tables, $columns = [])
             $enrollNos = range($enrollDtl['class_enroll_start'], $enrollDtl['class_enroll_end']);
 
             $enrollNosStr = implode("','", $enrollNos);
-
             foreach ($tables as $table) {
                 // Determine columns to select based on specified columns or default to all columns
                 if (empty($columns)) {
@@ -168,21 +167,19 @@ function getSelectedStudentData($con, $tables, $columns = [])
                 $query = "SELECT enroll_no, " . implode(', ', $columnsToSelect) . " FROM $table WHERE enroll_no IN ('$enrollNosStr')";
                 $result = $con->query($query);
 
-                $i = 0;
+                // $i = 0;
                 while ($row = $result->fetch_assoc()) {
-                    $i++;
                     $enroll_no = $row['enroll_no'];
 
-                    // Create a unique key combining table name and enrollment number
-                    $key = $table . '_' . $i;
-                    if (!isset($data[$key])) {
-                        $data[$key] = [
-                            'Enrollment Number' => $enroll_no
+                    // Use enrollment number as the unique key
+                    if (!isset($data[$enroll_no])) {
+                        $data[$enroll_no] = [
+                            'Enrollment Number' => $enroll_no // Force as text to avoid scientific notation
                         ];
                     }
 
                     foreach ($columnsToSelect as $column) {
-                        $data[$key][$tableColumnsMap[$table][$column]] = $row[$column];
+                        $data[$enroll_no][$tableColumnsMap[$table][$column]] = isset($row[$column]) ? $row[$column] : ''; // Handle missing values
                     }
                 }
             }
@@ -190,6 +187,7 @@ function getSelectedStudentData($con, $tables, $columns = [])
     }
 
     return array_values($data); // Return indexed array
+
 }
 // Fetch selected tables and columns from the form submission
 if (isset($_POST['entryExcelType'])) {
@@ -207,7 +205,7 @@ if (isset($_POST['entryExcelType'])) {
         // Fetch selected student data (default to all columns)
         $studentsData = getSelectedStudentData($conn, $selectedTables);
     }
-
+    // print_r($studentsData);
     // Create a new Spreadsheet object
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
@@ -221,16 +219,18 @@ if (isset($_POST['entryExcelType'])) {
             $sheet->setCellValue($cellAddress, $header);
         }
 
-        // Add data
         $rowIndex = 2;
         foreach ($studentsData as $studentData) {
             $colIndex = 1;
             foreach ($headers as $header) {
-                $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, $studentData[$header] ?? '');
+                // Ensure each header corresponds to its respective column
+                $sheet->setCellValueByColumnAndRow($colIndex, $rowIndex, isset($studentData[$header]) ? $studentData[$header] : '');
                 $colIndex++;
             }
             $rowIndex++;
         }
+        
+
 
         // Set headers for download
         date_default_timezone_set('Asia/Kolkata'); // Set the timezone to IST
