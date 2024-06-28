@@ -1,45 +1,72 @@
 <?php
 // Database connection
-require("config/mysqli_db.php");
-require 'assets/libraries/vendor/autoload.php';
+require("../config/mysqli_db.php");
+require '../assets/libraries/vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 // Function to fetch all student data grouped by sections
-function getAllStudentData($con) {
-    $query = "SELECT * FROM stud_personal_details spd
-              JOIN stud_address sa ON spd.enroll_no = sa.enroll_no
-              JOIN stud_other_details sod ON spd.enroll_no = sod.enroll_no
-              JOIN stud_parents_details spd2 ON spd.enroll_no = spd2.enroll_no
-              JOIN stud_academic_details sad ON spd.enroll_no = sad.enroll_no";
-    $result = $con->query($query);
-    $students = $result->fetch_all(MYSQLI_ASSOC);
+function getAllStudentData($con, $staff_email)
+{
+    // Fetch class assignment details based on staff email
+    $selectQuery = "SELECT course, semester, division FROM staff_class_assign WHERE staff_email='$staff_email'";
+    $selectResult = $con->query($selectQuery);
 
-    // Fetch additional data from other tables
-    foreach ($students as &$student) {
-        // Fetch results
-        $query = "SELECT * FROM stud_result WHERE enroll_no = '{$student['enroll_no']}' and add_request='accepted'";
-        $result = $con->query($query);
-        $student['results'] = $result->fetch_all(MYSQLI_ASSOC);
+    if ($selectResult->num_rows > 0) {
+        $staff = $selectResult->fetch_assoc();
 
-        // Fetch achievements
-        $query = "SELECT * FROM stud_achieve WHERE enroll_no = '{$student['enroll_no']}'";
-        $result = $con->query($query);
-        $student['achievements'] = $result->fetch_all(MYSQLI_ASSOC);
+        // Fetch enrollment number range based on course, semester, and division
+        $dataResult = mysqli_query($con, "SELECT class_enroll_start, class_enroll_end FROM course_class WHERE course_name='" . $staff['course'] . "' AND class_semester='" . $staff['semester'] . "' AND class_div='" . $staff['division'] . "'");
 
-        // Fetch counsel details
-        $query = "SELECT * FROM stud_counsel WHERE enroll_no = '{$student['enroll_no']}'";
-        $result = $con->query($query);
-        $student['counsel'] = $result->fetch_all(MYSQLI_ASSOC);
+        if ($dataResult) {
+            $enrollDtl = $dataResult->fetch_assoc();
+            $enrollNos = range($enrollDtl['class_enroll_start'], $enrollDtl['class_enroll_end']);
+
+            // Convert the enrollment number range to a comma-separated string
+            $enrollNosStr = implode(",", $enrollNos);
+
+            // Fetch main student data within the enrollment number range
+            $query = "SELECT * FROM stud_personal_details spd
+                      JOIN stud_address sa ON spd.enroll_no = sa.enroll_no
+                      JOIN stud_other_details sod ON spd.enroll_no = sod.enroll_no
+                      JOIN stud_parents_details spd2 ON spd.enroll_no = spd2.enroll_no
+                      JOIN stud_academic_details sad ON spd.enroll_no = sad.enroll_no
+                      WHERE spd.enroll_no IN ($enrollNosStr)";
+            $result = $con->query($query);
+            $students = $result->fetch_all(MYSQLI_ASSOC);
+
+            // Fetch additional data from other tables
+            foreach ($students as &$student) {
+                // Fetch results
+                $query = "SELECT * FROM stud_result WHERE enroll_no = '{$student['enroll_no']}' and add_request='accepted'";
+                $result = $con->query($query);
+                $student['results'] = $result->fetch_all(MYSQLI_ASSOC);
+
+                // Fetch achievements
+                $query = "SELECT * FROM stud_achieve WHERE enroll_no = '{$student['enroll_no']}'";
+                $result = $con->query($query);
+                $student['achievements'] = $result->fetch_all(MYSQLI_ASSOC);
+
+                // Fetch counsel details
+                $query = "SELECT * FROM stud_counsel WHERE enroll_no = '{$student['enroll_no']}'";
+                $result = $con->query($query);
+                $student['counsel'] = $result->fetch_all(MYSQLI_ASSOC);
+            }
+
+            return $students;
+        } else {
+            return []; // No enrollment number range found
+        }
+    } else {
+        return []; // No staff assignment found
     }
-
-    return $students;
 }
 
-// Fetch all student data grouped by sections
-$students = getAllStudentData($conn);
+// Example usage
+$staff_email = $_GET['staff_email'];
+$students = getAllStudentData($conn, $staff_email);
 
 // Separate arrays for each section of data
 $personalDetails = [];
@@ -66,7 +93,7 @@ foreach ($students as $student) {
         'Email ID' => $student['email_id'],
         'Aadhaar No'=> $student['aadhar_no'],
         'ABC ID'=> $student['abc_id'],
-        'Profile Pic'=> 'assets/images/uploaded_images/'.$student['pro_pic']
+        'Profile Pic'=> '../assets/images/uploaded_images/'.$student['pro_pic']
     ];
 
     // Address Details
@@ -154,7 +181,7 @@ foreach ($students as $student) {
             'Semester' => $result['semester'],
             'SGPA' => $result['sgpa'],
             'CGPA' => $result['cgpa'],
-            'Result Image' => 'assets/images/result_images/'.$result['result_img']
+            'Result Image' => '../assets/images/result_images/'.$result['result_img']
         ];
     }
 
@@ -190,20 +217,52 @@ $spreadsheet->getProperties()->setCreator('SEMCOM')
     ->setTitle('Student Profiles');
 
 // Add data to separate sheets
-addDataToSheet($spreadsheet, $personalDetails, 'Personal Details');
-addDataToSheet($spreadsheet, $addressDetails, 'Address Details');
-addDataToSheet($spreadsheet, $otherDetails, 'Other Details');
-addDataToSheet($spreadsheet, $parentsDetails, 'Parents Details');
-addDataToSheet($spreadsheet, $academicDetails, 'Academic Details');
-addDataToSheet($spreadsheet, $resultDetails, 'Result Details');
-addDataToSheet($spreadsheet, $achievementDetails, 'Achievement Details');
-addDataToSheet($spreadsheet, $counselDetails, 'Counsel Details');
+if (!empty($personalDetails)) {
+    // Create Personal Details sheet
+    createSheet($spreadsheet, $personalDetails, 'Personal Details');
+}
+
+if (!empty($addressDetails)) {
+    // Create Address Details sheet
+    createSheet($spreadsheet, $addressDetails, 'Address Details');
+}
+
+if (!empty($otherDetails)) {
+    // Create Other Details sheet
+    createSheet($spreadsheet, $otherDetails, 'Other Details');
+}
+
+if (!empty($parentsDetails)) {
+    // Create Parents Details sheet
+    createSheet($spreadsheet, $parentsDetails, 'Parents Details');
+}
+
+if (!empty($academicDetails)) {
+    // Create Academic Details sheet
+    createSheet($spreadsheet, $academicDetails, 'Academic Details');
+}
+
+if (!empty($resultDetails)) {
+    // Create Result Details sheet
+    createSheet($spreadsheet, $resultDetails, 'Result Details');
+}
+
+if (!empty($achievementDetails)) {
+    // Create Achievement Details sheet
+    createSheet($spreadsheet, $achievementDetails, 'Achievement Details');
+}
+
+if (!empty($counselDetails)) {
+    // Create Counsel Details sheet
+    createSheet($spreadsheet, $counselDetails, 'Counsel Details');
+}
+
 
 // Remove the default sheet created by PhpSpreadsheet
 $spreadsheet->removeSheetByIndex(0);
 
 // Function to add data to a sheet
-function addDataToSheet($spreadsheet, $data, $sheetName) {
+function createSheet($spreadsheet, $data, $sheetName) {
     $sheet = $spreadsheet->createSheet();
     $sheet->setTitle($sheetName);
 

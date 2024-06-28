@@ -78,6 +78,7 @@ try {
             outline: none;
             box-shadow: none;
         }
+
     </style>
 </head>
 
@@ -93,8 +94,8 @@ try {
     <div id="main-dash" class="row">
         <div class="row">
             <div class="col-md-6">
-            <?php require('carousel.php'); ?>
-                
+                <?php require('carousel.php'); ?>
+
             </div>
 
 
@@ -135,7 +136,7 @@ try {
                             </div>
                         </div>
                     </button>
-                    <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                    <button id="login_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
                         <div class="card card-light-danger">
                             <div class="card-body">
                                 <p class="mb-4">Total Registered Students</p>
@@ -192,6 +193,9 @@ try {
 
 
         <script>
+            document.getElementById('login_btn').addEventListener('click', () => {
+                window.location.href = "http://localhost/semcom_portal/admin/edit_student.php";
+            });
             document.getElementById('councel_btn').addEventListener('click', () => {
                 window.location.href = "http://localhost/semcom_portal/admin/admin_counsel.php";
             });

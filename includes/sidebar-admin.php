@@ -39,45 +39,64 @@
                 <!-- PERSONAL DETAILS -->
 
                 <a href="../admin/admin_counsel.php" class="nav_link">
-                <i class="fa-solid fa-headset"></i>
+                    <i class="fa-solid fa-headset"></i>
                     <span class="nav_name">Counselling Report</span>
                 </a>
             </div>
-            <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
+            <div class="dropdown" style="margin-bottom:25px;">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span class="nav_name">Class</span>
+                </a>
 
-                <a href="../admin/assign_class.php" class="nav_link">
-                    <i class="fa-solid fa-pen-ruler"></i>
-                    <span class="nav_name">Assign Class</span>
-                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="../admin/assign_class.php">
+                        <i class="fa-solid fa-pen-ruler"></i>
+                        <span class="nav_name">Assign Class</span>
+                    </a>
+                    <a class="dropdown-item" href="../admin/add_class.php">
+                        <i class="fa-solid fa-school"></i>
+                        <span class="nav_name">Add Class</span>
+                    </a>
+                </div>
             </div>
-            <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
-                <a href="../admin/add_class.php" class="nav_link">
-                    <i class="fa-solid fa-school"></i>
-                    <span class="nav_name">Add Class</span>
+            <div class="dropdown" style="margin-bottom:25px;">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    <i class="fa-solid fa-clipboard-user" style="margin-left:5px;"></i>
+                    <span class="nav_name">Staff</span>
                 </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="../admin/add_staff.php">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <span class="nav_name">Add Staff</span>
+                    </a>
+                    <a class="dropdown-item" href="../admin/edit_staff.php">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span class="nav_name">Edit Staff</span>
+                    </a>
+                </div>
             </div>
-            <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
-                <a href="../admin/add_staff.php" class="nav_link">
-                    <i class="fa-solid fa-users-gear"></i>
-                    <span class="nav_name">Add Staff</span>
+            <div class="dropdown" style="margin-bottom:25px;">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    <i class="fa-solid fa-users"></i>
+                    <span class="nav_name">Student</span>
                 </a>
-            </div>
-            <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
-                <a href="../admin/edit_staff.php" class="nav_link">
-                    <i class="fa-solid fa-user-pen"></i>
-                    <span class="nav_name">Edit Staff</span>
-                </a>
-            </div>
-            <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
-                <a href="../admin/add_student.php" class="nav_link">
-                    <i class="fa-solid fa-children"></i>
-                    <span class="nav_name">Add Student</span>
-                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="../admin/add_student.php">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span class="nav_name">Add Student</span>
+                    </a>
+                    <a class="dropdown-item" href="../admin/edit_student.php">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <span class="nav_name">Edit Student</span>
+                    </a>
+                    <a class="dropdown-item" href="../admin/find_student.php">
+                        <i class="fa-solid fa-users-viewfinder"></i>
+                        <span class="nav_name">Find Student</span>
+                    </a>
+                </div>
             </div>
         </div>
 

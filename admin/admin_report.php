@@ -9,10 +9,10 @@ require_once('../assets/libraries/pdf/tcpdf.php');
 ob_start();
 
 // Your existing PHP code here
-$staff_email = $_SESSION['staff_email'];
+$admin_email = $_SESSION['admin_email'];
 
-if (!isset($staff_email)) {
-    header('location:staff_login.php');
+if (!isset($admin_email)) {
+    header('location:admin_login.php');
 }
 
 if (isset($_POST['pdf_submit'])) {
@@ -245,7 +245,7 @@ if (isset($_POST['pdf_submit'])) {
             </form>
         </div>
         <div id="excelDiv" class="d-none">
-            <?php require('excel_report.php'); ?>
+            <!-- <?php require('excel_report.php'); ?> -->
         </div>
     </div>
 
