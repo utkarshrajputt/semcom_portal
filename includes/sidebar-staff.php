@@ -37,11 +37,11 @@ $name = mysqli_fetch_assoc($stmt);
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
 
-                <a href="../staff/dashboard.php" class="nav_link">
+                <a href="../staff/dashboard.php" class="nav_link" style="margin-bottom:20px;">
                     <i class="fa-solid fa-table-columns"></i>
                     <span class="nav_name">Dashboard</span>
                 </a>
-                <a href="../staff/counsel.php" class="nav_link">
+                <a href="../staff/counsel.php" class="nav_link" style="margin-bottom:20px;">
                     <i class="fa-solid fa-person-chalkboard"></i>
                     <span class="nav_name">Counselling</span>
                 </a>
