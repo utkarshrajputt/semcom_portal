@@ -77,6 +77,14 @@ if (!isset($admin_email)) {
             justify-content: flex-end;
             gap: 10px;
         }
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
     </style>
     <script>
         //js edit course,sem,div filter

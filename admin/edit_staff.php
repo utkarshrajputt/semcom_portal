@@ -97,6 +97,14 @@ if (!isset($admin_email)) {
         .modal-form::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
     </style>
 </head>
 

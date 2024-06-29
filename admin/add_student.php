@@ -36,7 +36,16 @@ if (!isset($admin_email)) {
     <!-- MAIN STUDENT CSS -->
     <link rel="stylesheet" href="../assets/css/student.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .nav_link {
+            margin-bottom: 20px;
+        }
 
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
+    </style>
 </head>
     <?php
     if (isset($_POST['submit'])) {

@@ -137,9 +137,9 @@ if (isset($_POST['pdf_submit'])) {
 
                         //IF class is assigned then fetch enrollment no start and end range to get student data
                         if ($selectResult->num_rows > 0) {
-                            $row = $selectResult->fetch_assoc();
-                            $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
-                            try {
+                                $row = $selectResult->fetch_assoc();
+                                $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                                try {
                                 $data = $dataResult->fetch_assoc();
                                 echo "<option value='' disabled hidden selected>--Select--</option>";
                                 for ($i = $data['class_enroll_start']; $i <= $data['class_enroll_end']; $i++) {

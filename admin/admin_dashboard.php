@@ -79,6 +79,14 @@ try {
             box-shadow: none;
         }
 
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
     </style>
 </head>
 
@@ -127,7 +135,7 @@ try {
         </div>  -->
             <div class="col-md-6 grid-margin transparent">
                 <div class="row">
-                    <button class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                    <button id="login_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
                         <div class="card card-tale">
                             <div class="card-body">
                                 <p class="mb-4">Total Enrolled Students</p>
@@ -136,7 +144,7 @@ try {
                             </div>
                         </div>
                     </button>
-                    <button id="login_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
+                    <button id="find_btn" class="dash-btn col-md-6 mb-4 stretch-card transparent">
                         <div class="card card-light-danger">
                             <div class="card-body">
                                 <p class="mb-4">Total Registered Students</p>
@@ -209,7 +217,9 @@ try {
             document.getElementById('courses_btn').addEventListener('click', () => {
                 window.location.href = "http://localhost/semcom_portal/admin/assign_class.php";
             });
-
+            document.getElementById('find_btn').addEventListener('click', () => {
+                window.location.href = "http://localhost/semcom_portal/admin/find_student.php";
+            });
             const secondHand = document.querySelector('.second-hand');
             const minsHand = document.querySelector('.min-hand');
             const hourHand = document.querySelector('.hour-hand');

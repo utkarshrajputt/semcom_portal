@@ -28,22 +28,24 @@
             </a>
 
             <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
-
                 <a href="../admin/admin_dashboard.php" class="nav_link">
                     <i class="fa-solid fa-table-columns"></i>
                     <span class="nav_name">Dashboard</span>
                 </a>
             </div>
             <div class="nav_list">
-                <!-- PERSONAL DETAILS -->
-
                 <a href="../admin/admin_counsel.php" class="nav_link">
                     <i class="fa-solid fa-headset"></i>
                     <span class="nav_name">Counselling Report</span>
                 </a>
             </div>
-            <div class="dropdown" style="margin-bottom:25px;">
+            <!-- <div class="nav_list">
+                <a href="../admin/admin_report.php" class="nav_link">
+                    <i class="fa-solid fa-headset"></i>
+                    <span class="nav_name">Student Report</span>
+                </a>
+            </div> -->
+            <div class="dropdown">
                 <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                     <i class="fa-solid fa-chalkboard-user"></i>
                     <span class="nav_name">Class</span>
@@ -60,7 +62,7 @@
                     </a>
                 </div>
             </div>
-            <div class="dropdown" style="margin-bottom:25px;">
+            <div class="dropdown">
                 <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                     <i class="fa-solid fa-clipboard-user" style="margin-left:5px;"></i>
                     <span class="nav_name">Staff</span>
@@ -77,7 +79,7 @@
                     </a>
                 </div>
             </div>
-            <div class="dropdown" style="margin-bottom:25px;">
+            <div class="dropdown">
                 <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                     <i class="fa-solid fa-users"></i>
                     <span class="nav_name">Student</span>

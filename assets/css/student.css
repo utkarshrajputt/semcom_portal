@@ -117,7 +117,7 @@ a {
     font-weight: 700;
 }
 
-.nav_link,.lg,.dropdown-toggle{
+.nav_list,.lg{
     position: relative;
     color: var(--first-color-light);
     margin-bottom: 1.5rem;

@@ -1,5 +1,5 @@
 <?php
-// require('../includes/loader.php');
+require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
@@ -7,48 +7,6 @@ $admin_email = $_SESSION['admin_email'];
 
 if (!isset($admin_email)) {
     header('location:admin_login.php');
-}
-?>
-<?php
-//php course,sem,div
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['fetch']) && $_POST['fetch'] == 'semesters') {
-        $course = $_POST['course'];
-        $result = $conn->query("SELECT DISTINCT class_semester FROM course_class WHERE course_name = '$course'");
-        $options = '<option value="0" disabled selected hidden>--Select--</option>';
-        while ($row = $result->fetch_assoc()) {
-            $options .= '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
-        }
-        echo $options;
-        exit();
-    }
-
-    if (isset($_POST['fetch']) && $_POST['fetch'] == 'divisions') {
-        $course = $_POST['course'];
-        $semester = $_POST['semester'];
-        $result = $conn->query("SELECT DISTINCT class_div FROM course_class WHERE course_name = '$course' AND class_semester = '$semester'");
-        $options = '<option value="0" disabled selected hidden>--Select--</option>';
-        while ($row = $result->fetch_assoc()) {
-            $options .= '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
-        }
-        echo $options;
-        exit();
-    }
-
-    if (isset($_POST['fetch']) && $_POST['fetch'] == 'fetchData') {
-        $course = $_POST['course'];
-        $semester = $_POST['semester'];
-        $division = $_POST['division'];
-        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $course . "' and class_semester='" . $semester . "' and class_div='" . $division . "'");
-        try {
-            $data = $dataResult->fetch_assoc();
-            echo $data["class_enroll_start"] . "," . $data["class_enroll_end"];
-            exit();
-        } catch (mysqli_sql_exception $e) {
-            echo "";
-            exit();
-        }
-    }
 }
 ?>
 <!DOCTYPE html>
@@ -83,15 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
     <script>
-        function assignEnroll(start, end) {
-            if (start === '' || end === '') {
-                document.getElementById('startId').value = '';
-                document.getElementById('endId').value = '';
-            } else {
-                document.getElementById('startId').value = start;
-                document.getElementById('endId').value = end;
-            }
-        }
         //js edit course,sem,div filter
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('course').addEventListener('change', function() {
@@ -130,14 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             resetDropdown('division');
                         } else if (type == 'divisions') {
                             updateDropdown('division', this.responseText);
-                        } else if (type == 'fetchData') {
-                            if (this.responseText != ',') {
-                                var enrollStart = (this.responseText).substr(0, (this.responseText).indexOf(','));
-                                var enrollEnd = (this.responseText).substr((this.responseText).indexOf(',')+1);
-                                assignEnroll(enrollStart, enrollEnd);
-                            }else{
-                                alert('No Enrollments Found');
-                            }
                         }
                     }
                 };
@@ -156,19 +97,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 dropdown.innerHTML = '<option value="">--Select--</option>';
                 dropdown.disabled = true;
             }
-
-            document.getElementById('fetchBtn').addEventListener('click', function() {
-                var course = document.getElementById('course').value;
-                var semester = document.getElementById('semester').value;
-                var division = document.getElementById('division').value;
-                fetchOptions('fetchData', {
-                    course: course,
-                    semester: semester,
-                    division: division
-                })
-            });
         });
+
     </script>
+    <?php
+    //php course,sem,div
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['fetch']) && $_POST['fetch'] == 'semesters') {
+            $course = $_POST['course'];
+            $result = $conn->query("SELECT DISTINCT class_semester FROM course_class WHERE course_name = '$course'");
+            $options = '<option value="0" disabled selected hidden>--Select--</option>';
+            while ($row = $result->fetch_assoc()) {
+                $options .= '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
+            }
+            echo $options;
+            exit();
+        }
+
+        if (isset($_POST['fetch']) && $_POST['fetch'] == 'divisions') {
+            $course = $_POST['course'];
+            $semester = $_POST['semester'];
+            $result = $conn->query("SELECT DISTINCT class_div FROM course_class WHERE course_name = '$course' AND class_semester = '$semester'");
+            $options = '<option value="0" disabled selected hidden>--Select--</option>';
+            while ($row = $result->fetch_assoc()) {
+                $options .= '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
+            }
+            echo $options;
+            exit();
+        }
+    }
+    ?>
 
 </head>
 
@@ -177,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require '../includes/sidebar-admin.php';
     ?>
     <br>
-    <div id="reportTable" class="table-responsive mt-3">
+    <div id="councelTable" class="table-responsive mt-3">
         <div class="d-flex justify-content-end mt-3 mb-3">
             <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
         </div>
@@ -189,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="container mt-4">
             <form method="post">
                 <div class="row mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="course" class="form-label">Course:</label>
                         <select id="course" name="course" class="form-control">
                             <option value="" disabled selected hidden>--Select--</option>
@@ -201,46 +159,129 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             ?>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="semester" class="form-label">Semester:</label>
                         <select id="semester" name="semester" class="form-control" disabled>
-                            <option value="" disabled selected hidden>--Select--</option>
+                            <option value="0" disabled selected hidden>--Select--</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="division" class="form-label">Division:</label>
                         <select id="division" name="division" class="form-control" disabled>
-                            <option value="" disabled selected hidden>--Select--</option>
+                            <option value="0" disabled selected hidden>--Select--</option>
                         </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-info mt-4" id="fetchBtn" type="button" style="pointer-events:none;background-color:grey;">Fetch</button>
                     </div>
                 </div>
             </form>
         </div>
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-light text-center">
+                <thead>
+                    <th>Id</th>
+                    <th>Enroll</th>
+                    <th>Name</th>
+                    <th>Student Image</th>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Division</th>
+                </thead>
+            <tbody id="student_body">
+                <?php
+                $resultDataResult = mysqli_query($conn, "select * from stud_personal_details");
+                if ($resultDataResult->num_rows > 0) {
+                    while ($resultData = $resultDataResult->fetch_assoc()) {
 
+                        $enroll = $resultData['enroll_no'];
+                        $checkResult = mysqli_query($conn, "select * from stud_login where complete_register='yes' and enroll_no='$enroll'");
+                        if ($checkResult->num_rows > 0) {
+                            $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,stud_course,stud_sem,stud_div,roll_no,pro_pic from stud_personal_details where enroll_no='$enroll'");
+                            $enrollDtl = $enrollDtlResult->fetch_assoc();
+                         ?>
+                            <tr data-course="<?php echo $enrollDtl['stud_course'] ?>" data-semester="<?php echo $enrollDtl['stud_sem'] ?>" data-division="<?php echo $enrollDtl['stud_div'] ?>">
+                                <td><?php echo $resultData['enroll_no']; ?></td>
+
+                                <td><?php echo $enrollDtl['full_name'] ?></td>
+                                <td><?php echo $enrollDtl['stud_course'] ?></td>
+                                <td><?php echo $enrollDtl['stud_sem'] ?></td>
+                                <td><?php echo $enrollDtl['stud_div'] ?></td>
+                                <td><?php echo $resultData['roll_no']; ?></td>
+                                <td>
+                                    <?php
+                                    $filepath = "../assets/images/uploaded_images/" . $enrollDtl['pro_pic'];
+                                    echo "<img src='$filepath' width='50' height='50'>";
+                                    ?>
+                                </td>
+                            </tr>
+                         <?php
+                        }
+                    }
+                } else {
+                    echo "<tr class='text-center'><td colspan='2'>No Data Found in Table</td></tr>";
+                }
+
+                ?>
+            </tbody>
+        </table>
     </div>
-    <input type="text" id="startId">
-    <input type="text" id="endId">
 
 
 
     <script>
-        document.getElementById('course').addEventListener('change', filterCheck);
-        document.getElementById('semester').addEventListener('change', filterCheck);
-        document.getElementById('division').addEventListener('change', filterCheck);
+        document.getElementById('course').addEventListener('change', filterCourse);
+        document.getElementById('semester').addEventListener('change', filterSemester);
+        document.getElementById('division').addEventListener('change', filterDiv);
 
+        function filterCourse() {
+            var course = document.getElementById('course').value;
+            var rows = document.querySelectorAll('#student_body tr');
 
-        function filterCheck() {
+            rows.forEach(function(row) {
+                var rowCourse = row.getAttribute('data-course');
+                if ((course === '' || course === rowCourse)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterSemester() {
+            var course = document.getElementById('course').value;
+            var semester = document.getElementById('semester').value;
+            var rows = document.querySelectorAll('#student_body tr');
+
+            rows.forEach(function(row) {
+                var rowCourse = row.getAttribute('data-course');
+                var rowSemester = row.getAttribute('data-semester');
+
+                if ((course === '' || course === rowCourse) &&
+                    (semester === '' || semester === rowSemester)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterDiv() {
             var course = document.getElementById('course').value;
             var semester = document.getElementById('semester').value;
             var division = document.getElementById('division').value;
-            if (course === '' || semester === '' || division === '') {
-                document.getElementById('fetchBtn').style = "pointer-events:none;background-color:grey;";
-            } else {
-                document.getElementById('fetchBtn').style = "pointer-events:auto;background-color:lightblue;";
-            }
+            var rows = document.querySelectorAll('#student_body tr');
+
+            rows.forEach(function(row) {
+                var rowCourse = row.getAttribute('data-course');
+                var rowSemester = row.getAttribute('data-semester');
+                var rowDivision = row.getAttribute('data-division');
+
+                if ((course === '' || course === rowCourse) &&
+                    (semester === '' || semester === rowSemester) &&
+                    (division === '' || division === rowDivision)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         }
 
         function ref() {

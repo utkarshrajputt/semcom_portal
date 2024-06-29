@@ -162,6 +162,14 @@ if (isset($_POST["pers_submit"])) {
                 margin-left: 0;
             }
         }
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
     </style>
 </head>
 

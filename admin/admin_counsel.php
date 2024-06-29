@@ -30,6 +30,16 @@ if (!isset($admin_email)) {
     <!-- MAIN STUDENT CSS -->
     <link rel="stylesheet" href="../assets/css/student.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
+    <style>
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
+    </style>
     <script>
         //js edit course,sem,div filter
         document.addEventListener('DOMContentLoaded', function() {
@@ -91,20 +101,20 @@ if (!isset($admin_email)) {
 
         //js assign course,sem,div filter
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('add_course').addEventListener('change', function() {
+            document.getElementById('course').addEventListener('change', function() {
                 var course = this.value;
                 if (course) {
                     fetchOptions('semesters', {
                         course: course
                     });
                 } else {
-                    resetDropdown('add_semester');
-                    resetDropdown('add_division');
+                    resetDropdown('semester');
+                    resetDropdown('division');
                 }
             });
 
-            document.getElementById('add_semester').addEventListener('change', function() {
-                var course = document.getElementById('add_course').value;
+            document.getElementById('semester').addEventListener('change', function() {
+                var course = document.getElementById('course').value;
                 var semester = this.value;
                 if (semester) {
                     fetchOptions('divisions', {
@@ -112,7 +122,7 @@ if (!isset($admin_email)) {
                         semester: semester
                     });
                 } else {
-                    resetDropdown('add_division');
+                    resetDropdown('division');
                 }
             });
 
@@ -123,10 +133,10 @@ if (!isset($admin_email)) {
                 xhr.onload = function() {
                     if (this.status == 200) {
                         if (type == 'semesters') {
-                            updateDropdown('add_semester', this.responseText);
-                            resetDropdown('add_division');
+                            updateDropdown('semester', this.responseText);
+                            resetDropdown('division');
                         } else if (type == 'divisions') {
-                            updateDropdown('add_division', this.responseText);
+                            updateDropdown('division', this.responseText);
                         }
                     }
                 };
@@ -188,15 +198,15 @@ if (!isset($admin_email)) {
         </div>
 
         <div id="searchBox" class="mb-3 d-flex justify-content-end">
-            <input type="text" class="form-control w-50 me-2" id="searchInput2" placeholder="Search...">
-            <button class="btn btn-info" onclick="searchTable('councel_body','searchInput2')">Search</button>
+            <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
+            <button class="btn btn-info" onclick="searchTable()">Search</buttonid>
         </div>
         <div class="container mt-4">
         <form method="post">
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="course" class="form-label">Course:</label>
-                    <select id="course" name="editCourse" class="form-control">
+                    <select id="course" name="course" class="form-control">
                         <option value="" disabled selected hidden>--Select--</option>
                         <?php
                         $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
@@ -208,13 +218,13 @@ if (!isset($admin_email)) {
                 </div>
                 <div class="col-md-4">
                     <label for="semester" class="form-label">Semester:</label>
-                    <select id="semester" name="editSemester" class="form-control" disabled>
+                    <select id="semester" name="semester" class="form-control" disabled>
                         <option value="0" disabled selected hidden>--Select--</option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label for="division" class="form-label">Division:</label>
-                    <select id="division" name="editDivision" class="form-control" disabled>
+                    <select id="division" name="division" class="form-control" disabled>
                         <option value="0" disabled selected hidden>--Select--</option>
                     </select>
                 </div>
@@ -306,6 +316,7 @@ if (!isset($admin_email)) {
 
             rows.forEach(function(row) {
                 var rowCourse = row.getAttribute('data-course');
+                var rowSemester = row.getAttribute('data-semester');
                 if ((course === '' || course === rowCourse) &&
                     (semester === '' || semester === rowSemester)) {
                     row.style.display = '';
@@ -337,6 +348,21 @@ if (!isset($admin_email)) {
         }
         function ref() {
             window.location.href="http://localhost/semcom_portal/admin/admin_dashboard.php";
+        }
+        function searchTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.getElementById('counselBody').getElementsByTagName('tr');
+
+            for (const row of rows) {
+                row.style.display = 'none';
+                const cells = row.getElementsByTagName('td');
+                for (const cell of cells) {
+                    if (cell.innerText.toLowerCase().includes(searchInput)) {
+                        row.style.display = '';
+                        break;
+                    }
+                }
+            }
         }
        
     </script>
