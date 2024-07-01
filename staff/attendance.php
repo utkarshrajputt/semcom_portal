@@ -11,8 +11,18 @@ $staff_email = $_SESSION['staff_email'];
 
 if (!isset($staff_email)) {
     header('location:staff_login.php');
-}else{
-    $select=mysqli_query("select * from staff_class_assign where clg_email='$staff_email'")
+} else {
+    $select = mysqli_query($conn, "select * from staff_class_assign where staff_email='$staff_email'");
+    if ($select->num_rows > 0) {
+        $staffData = mysqli_fetch_assoc($select);
+        $course = $staffData['course'];
+        $semester = $staffData['semester'];
+        $div = $staffData['division'];
+    } else {
+        $course = "";
+        $semester = "";
+        $div = "";
+    }
 }
 
 ?>
@@ -94,19 +104,25 @@ if (isset($_POST['at_submit'])) {
 
 <body id="body-pd">
     <?php
-        require '../includes/sidebar-staff.php';
+    require '../includes/sidebar-staff.php';
 
     ?>
 
-    <h2 class="text-center" style="font-weight:bolder;">Attendance Design</h2>
-
+    <h2 class="text-center" style="font-weight:bolder;">Attendance</h2>
+    <?php
+    if ($course == "") {
+    ?>
+        <p style="color:red;font-size:1.3rem;">*Class Not Assigned</p>
+    <?php
+    }
+    ?>
     <form method="post" action="" enctype="multipart/form-data">
         <div class="row mt-5 px-5">
             <div class="col-md-4 mb-4 pb-2">
                 <!-- COURSE -->
                 <div data-mdb-input-init class="form-outline">
                     <label class="form-label" for="course">Course</label>
-                    <input type="text" name="course" class="form-control form-control-lg" required />
+                    <input type="text" name="course" class="form-control form-control-lg" value="<?php echo $course ?>" required readonly />
                     <div class="invalid-feedback">Please enter the course!</div>
                 </div>
             </div>
@@ -114,7 +130,7 @@ if (isset($_POST['at_submit'])) {
                 <!-- SEMESTER -->
                 <div data-mdb-input-init class="form-outline">
                     <label class="form-label" for="semester">Semester</label>
-                    <input type="text" name="semester" class="form-control form-control-lg" required />
+                    <input type="text" name="semester" class="form-control form-control-lg" value="<?php echo $semester ?>" readonly required />
                     <div class="invalid-feedback">Please enter the semester!</div>
                 </div>
             </div>
@@ -122,7 +138,7 @@ if (isset($_POST['at_submit'])) {
                 <!-- DIVISION -->
                 <div data-mdb-input-init class="form-outline">
                     <label class="form-label" for="division">Division</label>
-                    <input type="text" name="division" class="form-control form-control-lg" required />
+                    <input type="text" name="division" class="form-control form-control-lg" value="<?php echo $div ?>" readonly required />
                     <div class="invalid-feedback">Please enter the division!</div>
                 </div>
             </div>
@@ -158,12 +174,18 @@ if (isset($_POST['at_submit'])) {
             </div>
 
         </div>
-        <div class="row px-5">
 
-            <div class="col-md-12 mb-4 pb-2"></div>
-            <!-- Submit button -->
-            <div class="text-end">
-                <button name="at_submit" type="submit" class="btn btn-primary">Submit</button>
+        <div class="row px-5">
+            <div class="col-md-6">
+                <div>
+                    <p style="color:red">*format for excel file should be like this only</p>
+                    <img class="file-demo" src="../assets/images/excel-at.png" alt="Excel Demo">
+                </div>
+            </div>
+            <div class="col-md-6 mb-4 pb-2">
+                <div class="text-center mt-2">
+                    <button name="at_submit" type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
         </div>
         </div>
