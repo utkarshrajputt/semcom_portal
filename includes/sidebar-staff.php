@@ -74,7 +74,7 @@ $name = mysqli_fetch_assoc($stmt);
                         </a>
                     </div>
                 </div>
-                <a href="../staff/report.php" class="nav_link mt-4">
+                <a href="../staff/report.php" class="nav_link mt-4" style="margin-left:2px">
                 <i class="fa-solid fa-file-lines"></i>
                     <span class="nav_name">Report</span>
                 </a>
@@ -82,7 +82,10 @@ $name = mysqli_fetch_assoc($stmt);
                 <i class="fa-solid fa-id-card-clip"></i>
                     <span class="nav_name">Attendance</span>
                 </a>
-
+                <a href="../staff/attendance_report.php" class="nav_link mt-4">
+                <i class="fa-solid fa-address-book"></i>
+                    <span class="nav_name">Attendance Report</span>
+                </a>
             </div>
         </div>
 
