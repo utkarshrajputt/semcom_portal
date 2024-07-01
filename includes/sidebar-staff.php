@@ -75,7 +75,7 @@ $name = mysqli_fetch_assoc($stmt);
                     </div>
                 </div>
                 <a href="../staff/report.php" class="nav_link mt-4">
-                    <i class="fa-solid fa-person-chalkboard"></i>
+                <i class="fa-solid fa-file-lines"></i>
                     <span class="nav_name">Report</span>
                 </a>
 

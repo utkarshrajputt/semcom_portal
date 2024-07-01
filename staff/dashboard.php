@@ -167,6 +167,7 @@ if (!isset($staff_email)) {
                             while ($resultData = $resultDataResult->fetch_assoc()) {
                                 if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
                 ?>
+                <tr>
                                     <td><?php echo $resultData['result_id']; ?></td>
                                     <td><?php echo $resultData['enroll_no']; ?></td>
                                     <?php
@@ -196,6 +197,7 @@ if (!isset($staff_email)) {
                                             <button name="res_reject" class='btn btn-danger'>REJECT</button>
                                         </form>
                                     </td>
+                                    </tr>
                 <?php
                                 }
                             }

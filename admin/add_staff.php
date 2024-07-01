@@ -8,7 +8,9 @@ $admin_email = $_SESSION['admin_email'];
 if (!isset($admin_email)) {
     header('location:admin_login.php');
 }
+
 if (isset($_POST["pers_submit"])) {
+    try{
     $prefix = $_POST["prefix"];
     $full_name = $_POST["name"];
     $gender = $_POST["gender"];
@@ -44,6 +46,10 @@ if (isset($_POST["pers_submit"])) {
                 // echo "<script>location.reload(true);</script>";
             }
         }
+        }
+    }
+    catch (mysqli_sql_exception $e) {
+        echo '' . $e->getMessage() . '';
     }
 }
 
@@ -334,7 +340,7 @@ if (isset($_POST["pers_submit"])) {
                             </div>
                             <div class="mt-1 pt-2">
                                 <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label" for="filelbl">Upload Your Profile Picture</label>
+                                    <label class="form-label" for="filelbl">Upload Your Profile Picture <span style="color:red;">(Image size must be less than 100kb)</span></label>
                                     <input type="file" name="pfp" class="form-control" accept=".jpg, .jpeg" id="inputGroupFile02" required>
                                 </div>
                             </div>

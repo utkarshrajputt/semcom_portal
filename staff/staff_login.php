@@ -107,7 +107,7 @@ if (isset($_COOKIE['staff_email']) && isset($_COOKIE['staff_pass'])) {
 
               <div class="text"></div>
 
-              <div class="text"><a href="#" style="font-size: small;">Forgot password?</a>
+              <!-- <div class="text"><a href="#" style="font-size: small;">Forgot password?</a> -->
                 <label class="check"> <input type="checkbox" id="remember" name="remember" <?php echo $checked ?>> &nbsp;Remember Me</label>
               </div>
               <div class="button input-box">

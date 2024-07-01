@@ -174,7 +174,8 @@ if (!isset($admin_email)) {
 
             echo "<script>alert('Data Deleted Successfully!!');</script>";
         } catch (mysqli_sql_exception $e) {
-            echo '' . $e->getMessage() . '';
+            echo "<script>alert('Delete assigned Class entry for this staff then only you can delete the staff !!')</script>";
+            // header('Location:assign_class.php');
         }
     }
     ?>
@@ -397,7 +398,7 @@ if (!isset($admin_email)) {
                 <!-- SUBMIT & NEXT -->
                 <div style="float:right;">
                     <button class="btn btn-success" name="btn_update">Update</button>
-                    <button class="btn btn-danger" name="btn_delete">Delete</button>
+                    <button class="btn btn-danger" name="btn_delete" onclick="return confirm('Do you really want to Delete?');">Delete</button>
                 </div>
             </form>
         </div>

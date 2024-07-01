@@ -438,13 +438,13 @@ if (!isset($admin_email)) {
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="assignEmail" class="form-label">Email</label>
+                    <label for="assignEmail" class="form-label">Staff Name</label>
                     <select name="clg_email" class="form-control form-control-md" required>
                         <option value="" disabled selected hidden>- Select -</option>
                         <?php
-                        $qry = mysqli_query($conn, 'select clg_email from staff_dtl');
+                        $qry = mysqli_query($conn, 'select clg_email,full_name from staff_dtl');
                         while ($row = mysqli_fetch_array($qry)) {
-                            echo "<option>" . $row['clg_email'] . "</option>";
+                            echo "<option value=".$row['clg_email'].">" . $row['full_name'] . "</option>";
                         }
                         ?>
                     </select>

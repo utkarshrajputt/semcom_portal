@@ -80,7 +80,7 @@ try {
                                 <!-- Father's name -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="fatherName">Father's Name</label>
-                                    <input type="text" name="fatherName" class="form-control form-control-lg" pattern="[A-Za-z]*" value="<?php echo isset($parent_dtl['fathers_name']) ? $parent_dtl['fathers_name'] : ''; ?>" oninput="this.value=this.value.replace(/[^A-Za-z]/g,'');" required />
+                                    <input type="text" name="fatherName" class="form-control form-control-lg" pattern="[A-Za-z\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z\ ]/g,'');" value="<?php echo isset($parent_dtl['fathers_name']) ? $parent_dtl['fathers_name'] : ''; ?>"  required />
                                     <div class="invalid-feedback">Please fill name !</div>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@ try {
                                 <!-- Father occupation -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="fatherOccupation">Father's Occupation</label>
-                                    <input type="text" name="fatherOccupation" class="form-control form-control-lg" pattern="[A-Za-z]*" oninput="this.value=this.value.replace(/[^A-Za-z]/g,'');" required value="<?php echo isset($parent_dtl['fathers_occup']) ? $parent_dtl['fathers_occup'] : ''; ?>" />
+                                    <input type="text" name="fatherOccupation" class="form-control form-control-lg" pattern="[A-Za-z\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z\ ]/g,'');" required value="<?php echo isset($parent_dtl['fathers_occup']) ? $parent_dtl['fathers_occup'] : ''; ?>" />
                                     <div class="invalid-feedback">Please fill occupation !</div>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@ try {
                                 <!-- Father desig -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="fatherDesignation">Father's Designation</label>
-                                    <input type="text" name="fatherDesignation" class="form-control form-control-lg" pattern="[A-Za-z]*" oninput="this.value=this.value.replace(/[^A-Za-z]/g,'');" required value="<?php echo isset($parent_dtl['fathers_desig']) ? $parent_dtl['fathers_desig'] : ''; ?>" />
+                                    <input type="text" name="fatherDesignation" class="form-control form-control-lg" pattern="[A-Za-z\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z\ ]/g,'');" required value="<?php echo isset($parent_dtl['fathers_desig']) ? $parent_dtl['fathers_desig'] : ''; ?>" />
                                     <div class="invalid-feedback">Please fill designation !</div>
                                 </div>
                             </div>
@@ -177,7 +177,7 @@ try {
                                 <!-- Father income -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="fatherIncome">Father's Annual Income</label>
-                                    <input type="text" name="fatherIncome" class="form-control form-control-lg" pattern="\d*" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required value="<?php echo isset($parent_dtl['fathers_annual_income']) ? $parent_dtl['fathers_annual_income'] : ''; ?>" />
+                                    <input type="text" name="fatherIncome" class="form-control form-control-lg"  required value="<?php echo isset($parent_dtl['fathers_annual_income']) ? $parent_dtl['fathers_annual_income'] : ''; ?>" />
                                     <div class="invalid-feedback">Please fill income !</div>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@ try {
                                 <!-- Mother occupation -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="motherOccupation">Mother's Occupation</label>
-                                    <input type="text" name="motherOccupation" class="form-control form-control-lg" pattern="[A-Za-z]*" oninput="this.value=this.value.replace(/[^A-Za-z]/g,'');" required value="<?php echo isset($parent_dtl['mothers_occup']) ? $parent_dtl['mothers_occup'] : ''; ?> " />
+                                    <input type="text" name="motherOccupation" class="form-control form-control-lg" pattern="[A-Za-z\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z\ ]/g,'');" required value="<?php echo isset($parent_dtl['mothers_occup']) ? $parent_dtl['mothers_occup'] : ''; ?> " />
                                     <div class="invalid-feedback">Please fill mother occupation !</div>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@ try {
                                 <!-- Mother desig -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="motherDesignation">Mother's Designation</label>
-                                    <input type="text" name="motherDesignation" class="form-control form-control-lg" pattern="[A-Za-z]*" oninput="this.value=this.value.replace(/[^A-Za-z]/g,'');" required value="<?php echo isset($parent_dtl['mothers_desig']) ? $parent_dtl['mothers_desig'] : ''; ?> " />
+                                    <input type="text" name="motherDesignation" class="form-control form-control-lg" Designation required value="<?php echo isset($parent_dtl['mothers_desig']) ? $parent_dtl['mothers_desig'] : ''; ?> " />
                                     <div class="invalid-feedback">Please fill desgnation !</div>
                                 </div>
                             </div>
@@ -287,7 +287,7 @@ try {
                                 <!-- Mother income -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="motherIncome">Mother's Annual Income</label>
-                                    <input type="text" name="motherIncome" class="form-control form-control-lg" pattern="\d*" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required value="<?php echo isset($parent_dtl['mothers_annual_income']) ? $parent_dtl['mothers_annual_income'] : ''; ?> " />
+                                    <input type="text" name="motherIncome" class="form-control form-control-lg"  required value="<?php echo isset($parent_dtl['mothers_annual_income']) ? $parent_dtl['mothers_annual_income'] : ''; ?> " />
                                     <div class="invalid-feedback">Please fill income !</div>
                                 </div>
                             </div>
