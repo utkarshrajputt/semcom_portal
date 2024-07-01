@@ -1,64 +1,58 @@
-<div id="pdfDiv" class="mt-5" style="display:none;">
-    <h3 class="text-center"><u>PDF REPORT</u></h3>
+<div id="pdfDiv" class="container mt-5" style="display:none;">
+<h3 class="text-center"><u>PDF REPORT</u></h3>
     <form id="pdfForm" method="post" action="../admin/report/pdfData.php" enctype="multipart/form-data" onsubmit="return validateForm()">
-        <!-- Radio buttons section -->
-        <div class="text-center mb-3">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="entryTypeStudent" id="singleRadio" value="single" checked onclick="toggleEntry('student', 'single')">
-                <label class="form-check-label" for="singleRadio">Single Entry</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="entryTypeStudent" id="rangeRadio" value="range" onclick="toggleEntry('student', 'range')">
-                <label class="form-check-label" for="rangeRadio">Range Entry</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="entryTypeStudent" id="allRadio" value="all" onclick="toggleEntry('student', 'all')">
-                <label class="form-check-label" for="allRadio">All</label>
+        <div class="mb-3">
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="entryTypeStudent" id="singleRadio" value="single" checked onclick="toggleEntry('student', 'single')">
+                    <label class="form-check-label" for="singleRadio">Single Entry</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="entryTypeStudent" id="rangeRadio" value="range" onclick="toggleEntry('student', 'range')">
+                    <label class="form-check-label" for="rangeRadio">Range Entry</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="entryTypeStudent" id="allRadio" value="all" onclick="toggleEntry('student', 'all')">
+                    <label class="form-check-label" for="allRadio">All</label>
+                </div>
             </div>
         </div>
 
         <!-- Single entry section -->
-        <div class="row justify-content-center">
-            <div class="col-md-6 mb-3" id="studentSingleEntry">
-                <label for="studentSingle">Single Entry</label>
-                <select class="form-control" id="studentSingle" name="studentSingle"></select>
-            </div>
+        <div class="form-group col-md-6" id="studentSingleEntry">
+            <label for="studentSingle">Single Entry</label>
+            <select class="form-control" id="studentSingle" name="studentSingle"></select>
         </div>
 
         <!-- Range entry section -->
-        <div class="row justify-content-center">
-            <div class="col-md-6 mb-3" id="studentRangeEntry" style="display: none;">
-                <label for="studentRangeStart">Range Entry</label>
-                <div class="row">
-                    <div class="col-md-6">
-                        <select class="form-control mb-2" id="studentRangeStart" name="studentRangeStart"></select>
-                    </div>
-                    <div class="col-md-6">
-                        <select class="form-control" id="studentRangeEnd" name="studentRangeEnd"></select>
-                    </div>
+        <div class="form-group col-md-6" id="studentRangeEntry" style="display: none;">
+            <label for="studentRangeStart">Range Entry</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- <input type="number" class="form-control mb-2" id="studentRangeStart" name="studentRangeStart" placeholder="Start ID"> -->
+                    <select class="form-control mb-2" id="studentRangeStart" name="studentRangeStart"></select>
+                </div>
+                <div class="col-md-6">
+                    <!-- <input type="number" class="form-control" id="studentRangeEnd" name="studentRangeEnd" placeholder="End ID"> -->
+                    <select class="form-control" id="studentRangeEnd" name="studentRangeEnd"></select>
                 </div>
             </div>
         </div>
 
         <!-- All section -->
-        <div class="row justify-content-center">
-            <div class="col-md-6 mb-3" id="studentAllEntry" style="display: none;">
-                <label for="studentAll">*All Students data get printed in pdf</label>
-                <input type="hidden" id="firstValue" name="startPDF">
-                <input type="hidden" id="lastValue" name="endPDF">
-            </div>
+        <div class="form-group col-md-6" id="studentAllEntry" style="display: none;">
+            <label for="studentAll">*All Students data get printed in pdf</label>
+            <input type="hidden" id="firstValue" name="startPDF">
+            <input type="hidden" id="lastValue" name="endPDF">
         </div>
 
         <!-- Submit button -->
-        <div class="row justify-content-center">
-            <div class="col-md-6 mb-3 text-center">
-                <button id="pdfSubmit" name="pdf_submit" type="submit" class="btn btn-success">Submit</button>
-            </div>
+        <div class="col-md-6 d-flex justify-content-end mt-2">
+            <button id="pdfSubmit" name="pdf_submit" type="submit" class="btn btn-success">Submit</button>
         </div>
     </form>
 </div>
-
-
+</div>
 
 
 <!-- Your custom scripts -->

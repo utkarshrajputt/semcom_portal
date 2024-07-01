@@ -39,13 +39,13 @@
                     <span class="nav_name">Counselling Report</span>
                 </a>
             </div>
-            <div class="nav_list">
+            <div class="nav_list" style="margin-left:3px">
                 <a href="../admin/admin_report.php" class="nav_link">
                 <i class="fa-solid fa-file-lines"></i>
                     <span class="nav_name">Student Report</span>
                 </a>
             </div>
-            <div class="dropdown">
+            <div class="dropdown" style="margin-top:-5px;">
                 <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                     <i class="fa-solid fa-chalkboard-user"></i>
                     <span class="nav_name">Class</span>

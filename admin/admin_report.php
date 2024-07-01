@@ -240,12 +240,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ?>
     <br>
     <div id="reportTable" class="table-responsive mt-3">
-        <div class="d-flex justify-content-end mt-3 mb-3">
+        <div class="d-flex justify-content-end mt-3 mb-4">
             <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
         </div>
         <h2 class="text-center">Student Report</h2>
-    
         <div class="container mt-4">
+        <p style="font-size:1.2rem;color:red;">*If you didnt get result as you want, try refreshing page one time</p>
+           
             <form method="post">
                 <div class="row mb-3">
                     <div class="col-md-3">

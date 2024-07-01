@@ -536,7 +536,12 @@ if ((isset($_GET['start'])) && (isset($_GET['end']))) {
 // Close and output PDF document
 date_default_timezone_set('Asia/Kolkata'); // Set the timezone to IST
 $pdfFileName = 'student_profiles_' . date('Ymd_hia') . '.pdf';
-$pdf->Output($pdfFileName, 'I');
+// Set appropriate headers for download
+header('Content-Type: application/pdf');
+header('Content-Disposition: attachment; filename="' . $pdfFileName . '"');
+
+// Output PDF to browser
+$pdf->Output($pdfFileName, 'D');
 
 // Close the database connection
 $conn->close();
