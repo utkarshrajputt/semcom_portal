@@ -37,7 +37,7 @@ if (isset($_POST['pdf_submit'])) {
     if ($start != "" && $end != "") {
         if ($choice == 'all') {
             
-            header('location:../includes/pdf.php?start='.$start.'&end='.$end.'');           
+            header('location:../includes/all_pdf.php?start='.$start.'&end='.$end.'');           
             header('Content-Type: application/pdf');
             // Output the PDF
             

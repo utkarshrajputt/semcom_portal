@@ -90,6 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 document.getElementById('startId').value = start;
                 document.getElementById('endId').value = end;
+
+                document.getElementById('pdfDiv').removeClassList
             }
         }
         //js edit course,sem,div filter
@@ -97,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             document.getElementById('course').addEventListener('change', function() {
                 var course = this.value;
                 if (course) {
+                    document.getElementById('fetchBtn').style = "pointer-events:none;background-color:grey;";
                     fetchOptions('semesters', {
                         course: course
                     });
@@ -174,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body id="body-pd">
     <?php
-    require '../includes/sidebar-admin.php';
+        require '../includes/sidebar-admin.php';
     ?>
     <br>
     <div id="reportTable" class="table-responsive mt-3">
@@ -221,17 +224,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
     </div>
-    <input type="text" id="startId">
-    <input type="text" id="endId">
+    
 
+    <?php
+        require ('admin_pdf.php');
+    ?>
 
 
     <script>
+
+
+
         document.getElementById('course').addEventListener('change', filterCheck);
         document.getElementById('semester').addEventListener('change', filterCheck);
         document.getElementById('division').addEventListener('change', filterCheck);
-
-
         function filterCheck() {
             var course = document.getElementById('course').value;
             var semester = document.getElementById('semester').value;
