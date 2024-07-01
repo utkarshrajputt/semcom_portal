@@ -11,35 +11,58 @@ $staff_email = $_SESSION['staff_email'];
 
 if (!isset($staff_email)) {
     header('location:staff_login.php');
+}else{
+    $select=mysqli_query("select * from staff_class_assign where clg_email='$staff_email'")
 }
 
 ?>
 <?php
-
-
 if (isset($_POST['at_submit'])) {
-    $fileName = $_FILES['file']['tmp_name'];
-    $spreadsheet = IOFactory::load($fileName);
-    $worksheet = $spreadsheet->getActiveSheet();
-    $rowIterator = $worksheet->getRowIterator(2);
-    $data = $worksheet->toArray();
+    try {
+        $course = $_POST['course'];
+        $semester = $_POST['semester'];
+        $division = $_POST['division'];
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
 
-    $course = $_POST['course'];
-    $semester = $_POST['semester'];
-    $division = $_POST['division'];
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
+        // Check if file is uploaded and is a valid Excel file
+        if (isset($_FILES['file']['tmp_name']) && $_FILES['file']['tmp_name'] !== '') {
+            $fileName = $_FILES['file']['tmp_name'];
+            $spreadsheet = IOFactory::load($fileName);
+            $worksheet = $spreadsheet->getActiveSheet();
 
-    foreach ($data as $row) {
-        $enroll_no = $row[0];
-        $attendance_percentage = $row[1];
+            // Iterate over each row in the worksheet, starting from the second row
+            $rowIterator = $worksheet->getRowIterator(2);
+            $sql = "INSERT INTO stud_attendance (enroll_no, course, semester, division, start_date, end_date, at_percentage) VALUES (?,?,?,?,?,?,?)";
+            $stmt = mysqli_prepare($conn, $sql);
 
-        $sql = "INSERT INTO stud_attendance (enroll_no, course, semester, division, start_date, end_date, at_percentage) VALUES ('$enroll_no', '$course', '$semester', '$division', '$start_date', '$end_date', '$attendance_percentage') ON DUPLICATE KEY UPDATE at_percentage='$attendance_percentage'";
-        $conn->query($sql);
+            foreach ($rowIterator as $row) {
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(false);
+
+                // Assuming each row contains enrollment number and attendance percentage
+                $cellData = [];
+                foreach ($cellIterator as $cell) {
+                    $cellData[] = $cell->getValue();
+                }
+
+                if (count($cellData) >= 2) {
+                    $enrollmentNumber = $cellData[0];
+                    $attendance = $cellData[1];
+
+                    mysqli_stmt_bind_param($stmt, "sssssss", $enrollmentNumber, $course, $semester, $division, $start_date, $end_date, $attendance);
+                    mysqli_stmt_execute($stmt);
+                }
+            }
+
+            mysqli_stmt_close($stmt);
+            echo "<script>alert('File uploaded and data inserted successfully!')</script>";
+        } else {
+            throw new Exception('No file uploaded or invalid file.');
+        }
+    } catch (Exception $e) {
+        echo "<script>alert('Error: " . $e->getMessage() . "')</script>";
     }
-
-    $conn->close();
-    echo "<script>alert('File uploaded and data inserted successfully!')</script>";
 }
 ?>
 
@@ -71,11 +94,11 @@ if (isset($_POST['at_submit'])) {
 
 <body id="body-pd">
     <?php
-    require '../includes/sidebar-staff.php';
+        require '../includes/sidebar-staff.php';
 
     ?>
 
-    <h2 class="text-center" style="font-weight:bolder;">Counseling Summary</h2>
+    <h2 class="text-center" style="font-weight:bolder;">Attendance Design</h2>
 
     <form method="post" action="" enctype="multipart/form-data">
         <div class="row mt-5 px-5">
@@ -138,12 +161,12 @@ if (isset($_POST['at_submit'])) {
         <div class="row px-5">
 
             <div class="col-md-12 mb-4 pb-2"></div>
-        <!-- Submit button -->
-        <div class="text-end">
-            <button name="at_submit" type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        </div>
+            <!-- Submit button -->
+            <div class="text-end">
+                <button name="at_submit" type="submit" class="btn btn-primary">Submit</button>
             </div>
+        </div>
+        </div>
 
     </form>
 

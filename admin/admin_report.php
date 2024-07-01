@@ -320,7 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             window.location.href = "http://localhost/semcom_portal/admin/admin_dashboard.php";
         }
     </script>
-    <script src="../assets/js/main.js"></script>
+   
 </body>
-
+<script src="../assets/js/main.js"></script>
 </html>
