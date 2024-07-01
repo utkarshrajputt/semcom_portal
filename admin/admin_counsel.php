@@ -351,7 +351,7 @@ if (!isset($admin_email)) {
         }
         function searchTable() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.getElementById('counselBody').getElementsByTagName('tr');
+            const rows = document.getElementById('councel_body').getElementsByTagName('tr');
 
             for (const row of rows) {
                 row.style.display = 'none';

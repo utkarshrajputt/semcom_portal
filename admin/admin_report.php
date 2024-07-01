@@ -7,6 +7,7 @@ $admin_email = $_SESSION['admin_email'];
 
 if (!isset($admin_email)) {
     header('location:admin_login.php');
+    exit();
 }
 ?>
 <?php
@@ -42,13 +43,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $course . "' and class_semester='" . $semester . "' and class_div='" . $division . "'");
         try {
             $data = $dataResult->fetch_assoc();
-            echo $data["class_enroll_start"] . "," . $data["class_enroll_end"];
-            exit();
+            $start = $data["class_enroll_start"];
+            $end = $data["class_enroll_end"];
+
+            $options = "<option value='' disabled hidden selected>--Select--</option>";
+
+            for ($i = $start; $i <= $end; $i++) {
+                $enrollDtlResult = mysqli_query($conn, "SELECT roll_no, CONCAT(f_name, ' ', m_name, ' ', l_name) AS full_name FROM stud_personal_details WHERE enroll_no='$i'");
+                if ($enrollDtlResult->num_rows > 0) {
+                    $enrollDtl = $enrollDtlResult->fetch_assoc();
+                    $options .= "<option value='" . $i . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
+                }
+            }
         } catch (mysqli_sql_exception $e) {
-            echo "";
-            exit();
+            $options .= "<option value='' disabled>Error: " . $e->getMessage() . "</option>";
         }
+        echo $options;
+        exit();
     }
+    if (isset($_POST['fetch']) && $_POST['fetch'] == 'fetchDataExcel') {
+        $course = $_POST['course'];
+        $semester = $_POST['semester'];
+        $division = $_POST['division'];
+
+        $dataResult = mysqli_query($conn, "SELECT class_enroll_start, class_enroll_end FROM course_class WHERE course_name='$course' AND class_semester='$semester' AND class_div='$division'");
+        $data = $dataResult->fetch_assoc();
+
+        $start = $data["class_enroll_start"];
+        $end = $data["class_enroll_end"];
+
+        echo json_encode(['start' => $start, 'end' => $end]);
+        exit();
+    }
+    ob_end_flush();
 }
 ?>
 <!DOCTYPE html>
@@ -83,23 +110,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
     <script>
-        function assignEnroll(start, end) {
-            if (start === '' || end === '') {
-                document.getElementById('startId').value = '';
-                document.getElementById('endId').value = '';
-            } else {
-                document.getElementById('startId').value = start;
-                document.getElementById('endId').value = end;
-
-                document.getElementById('pdfDiv').removeClassList
-            }
-        }
         //js edit course,sem,div filter
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('course').addEventListener('change', function() {
                 var course = this.value;
                 if (course) {
-                    document.getElementById('fetchBtn').style = "pointer-events:none;background-color:grey;";
+                    document.getElementById('fetchPDFBtn').style = "pointer-events:none;background-color:grey;";
+                    document.getElementById('fetchEXCELBtn').style = "pointer-events:none;background-color:grey;";
+
                     fetchOptions('semesters', {
                         course: course
                     });
@@ -131,17 +149,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         if (type == 'semesters') {
                             updateDropdown('semester', this.responseText);
                             resetDropdown('division');
+
                         } else if (type == 'divisions') {
                             updateDropdown('division', this.responseText);
+
                         } else if (type == 'fetchData') {
-                            if (this.responseText != ',') {
-                                var enrollStart = (this.responseText).substr(0, (this.responseText).indexOf(','));
-                                var enrollEnd = (this.responseText).substr((this.responseText).indexOf(',')+1);
-                                assignEnroll(enrollStart, enrollEnd);
-                            }else{
-                                alert('No Enrollments Found');
+
+                            document.getElementById('studentSingle').innerHTML = '';
+                            document.getElementById('studentSingle').innerHTML = this.responseText;
+
+                            document.getElementById('studentRangeStart').innerHTML = '';
+                            document.getElementById('studentRangeStart').innerHTML = this.responseText;
+
+                            document.getElementById('studentRangeEnd').innerHTML = '';
+                            document.getElementById('studentRangeEnd').innerHTML = this.responseText;
+
+                        } else if (type == 'fetchDataExcel') {
+                            var data = JSON.parse(this.responseText);
+                            var start = data.start;
+                            var end = data.end;
+
+                            var enrollStart = document.getElementsByClassName('startEnroll');
+                            for (var i = 0; i < enrollStart.length; i++) {
+                                enrollStart[i].value = start;
                             }
+
+                            var enrollEnd = document.getElementsByClassName('endEnroll');
+                            for (var i = 0; i < enrollEnd.length; i++) {
+                                enrollEnd[i].value = end;
+                            }
+
                         }
+
+
                     }
                 };
                 var params = 'fetch=' + type + '&' + new URLSearchParams(data).toString();
@@ -160,15 +200,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 dropdown.disabled = true;
             }
 
-            document.getElementById('fetchBtn').addEventListener('click', function() {
+            document.getElementById('fetchPDFBtn').addEventListener('click', function() {
                 var course = document.getElementById('course').value;
                 var semester = document.getElementById('semester').value;
                 var division = document.getElementById('division').value;
+
                 fetchOptions('fetchData', {
                     course: course,
                     semester: semester,
                     division: division
                 })
+
+                document.getElementById('pdfDiv').style.display = "block";
+                document.getElementById('excelDiv').style.display = "none";
+            });
+
+            document.getElementById('fetchEXCELBtn').addEventListener('click', function() {
+                var course = document.getElementById('course').value;
+                var semester = document.getElementById('semester').value;
+                var division = document.getElementById('division').value;
+
+                fetchOptions('fetchDataExcel', {
+                    course: course,
+                    semester: semester,
+                    division: division
+                })
+
+                document.getElementById('excelDiv').style.display = "block";
+                document.getElementById('pdfDiv').style.display = "none";
             });
         });
     </script>
@@ -184,11 +243,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="d-flex justify-content-end mt-3 mb-3">
             <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
         </div>
-
-        <div id="searchBox" class="mb-3 d-flex justify-content-end">
-            <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
-            <button class="btn btn-info" onclick="searchTable()">Search</button>
-        </div>
+        <h2 class="text-center">Student Report</h2>
+    
         <div class="container mt-4">
             <form method="post">
                 <div class="row mb-3">
@@ -217,56 +273,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-info mt-4" id="fetchBtn" type="button" style="pointer-events:none;background-color:grey;">Fetch</button>
+                        <button class="btn btn-info mt-4" id="fetchPDFBtn" type="button" style="pointer-events:none;background-color:grey;">Fetch PDF</button>
+                        <button class="btn btn-info mt-4" id="fetchEXCELBtn" type="button" style="pointer-events:none;background-color:grey;">Fetch EXCEL</button>
                     </div>
                 </div>
             </form>
         </div>
 
     </div>
-    
 
-    <?php
-        require ('admin_pdf.php');
-    ?>
+    
+        <?php
+            require('report/admin_pdf.php');
+        ?>
+    
+    
+        <?php
+            require('report/admin_excel.php');
+            ob_end_flush();
+        ?>
+    
 
 
     <script>
-
-
-
         document.getElementById('course').addEventListener('change', filterCheck);
         document.getElementById('semester').addEventListener('change', filterCheck);
         document.getElementById('division').addEventListener('change', filterCheck);
+
         function filterCheck() {
             var course = document.getElementById('course').value;
             var semester = document.getElementById('semester').value;
             var division = document.getElementById('division').value;
             if (course === '' || semester === '' || division === '') {
-                document.getElementById('fetchBtn').style = "pointer-events:none;background-color:grey;";
+                document.getElementById('fetchPDFBtn').style = "pointer-events:none;background-color:grey;";
+                document.getElementById('fetchEXCELBtn').style = "pointer-events:none;background-color:grey;";
             } else {
-                document.getElementById('fetchBtn').style = "pointer-events:auto;background-color:lightblue;";
+                document.getElementById('fetchPDFBtn').style = "pointer-events:auto;background-color:lightblue;";
+                document.getElementById('fetchEXCELBtn').style = "pointer-events:auto;background-color:lightblue;";
             }
+            document.getElementById('pdfDiv').style.display = 'none';
+            document.getElementById('excelDiv').style.display = 'none';
         }
 
         function ref() {
             window.location.href = "http://localhost/semcom_portal/admin/admin_dashboard.php";
-        }
-
-        function searchTable() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.getElementById('student_body').getElementsByTagName('tr');
-
-            for (const row of rows) {
-                row.style.display = 'none';
-                const cells = row.getElementsByTagName('td');
-                for (const cell of cells) {
-                    if (cell.innerText.toLowerCase().includes(searchInput)) {
-                        row.style.display = '';
-                        break;
-                    }
-                }
-            }
         }
     </script>
     <script src="../assets/js/main.js"></script>

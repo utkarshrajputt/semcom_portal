@@ -20,6 +20,8 @@ try {
             $email = $_POST["email"];
             $aadhar = $_POST["aadhar"];
             $abcid = $_POST["abcid"];
+            $s_que = $_POST["security_question"];
+            $s_ans = $_POST["security_answer"];
 
 
             if (isset($_FILES['pfp'])) {
@@ -38,7 +40,7 @@ try {
 
                     if ($move == true) {
 
-                        $insert = mysqli_query($conn, "insert into stud_personal_details(adm_status, adm_date, spid, enroll_no,stud_course,roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic) values('$adm_status', '$adm_date', '$spid','$enroll','$course','$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename')");
+                        $insert = mysqli_query($conn, "insert into stud_personal_details(adm_status, adm_date, spid, enroll_no,stud_course,roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic, security_que, security_ans) values('$adm_status', '$adm_date', '$spid','$enroll','$course','$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename','$s_que','$s_ans')");
 
 
                         echo "<script>alert('Data Saved Successfully Go to next module!!');</script>";
@@ -261,6 +263,42 @@ try {
                                 ?>
                             </div>
                         </div>
+<br>
+<br>
+
+<div class="row text-center">
+        <div class="col-md-12">
+            <br>
+            <h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span class="span-lines">-----</span> SECURITY QUESTION <span class="span-lines">-----</span> </h4><br>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-6 mb-4 pb-2">
+        <!-- SECURITY QUESTION -->
+        <div data-mdb-input-init class="form-outline">
+            <label class="form-label" for="security_question">Security Question</label>
+            <select name="security_question" class="form-control form-control-lg" required>
+                <option value="" disabled selected>Select a security question</option>
+                <option value="pet_name">What is the name of your first pet?</option>
+                <option value="frnd_name">What is the name of your best friend name?</option>
+                <option value="mother_maiden">What is your mother's maiden name?</option>
+                <option value="first_school">What is the name of your first school?</option>
+                <option value="favorite_teacher">Who was your favorite teacher?</option>
+            </select>
+            <div class="invalid-feedback">Please select a security question!</div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4 pb-2">
+        <!-- SECURITY ANSWER -->
+        <div data-mdb-input-init class="form-outline">
+            <label class="form-label" for="security_answer">Security Answer</label>
+            <input type="text" name="security_answer" class="form-control form-control-lg" value="<?php echo isset($personalDetails['security_ans']) ? $personalDetails['security_ans'] : ''; ?>" required />
+            <div class="invalid-feedback">Please fill in the security answer!</div>
+        </div>
+    </div>
+</div>
+<p class="text-danger">Remember your security question and answer as it'll be helpful in changing your password in the future.</p>
+                        
                         <!-- SUBMIT & NEXT -->
                         <div class="mt-4 pt-2">
                             <input data-mdb-ripple-init class="btn btn-primary btn-lg" name="pers_submit" type="submit" value="Save" />

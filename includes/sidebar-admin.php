@@ -39,12 +39,12 @@
                     <span class="nav_name">Counselling Report</span>
                 </a>
             </div>
-            <!-- <div class="nav_list">
+            <div class="nav_list">
                 <a href="../admin/admin_report.php" class="nav_link">
-                    <i class="fa-solid fa-headset"></i>
+                <i class="fa-solid fa-file-lines"></i>
                     <span class="nav_name">Student Report</span>
                 </a>
-            </div> -->
+            </div>
             <div class="dropdown">
                 <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                     <i class="fa-solid fa-chalkboard-user"></i>
@@ -52,13 +52,14 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="../admin/assign_class.php">
-                        <i class="fa-solid fa-pen-ruler"></i>
-                        <span class="nav_name">Assign Class</span>
-                    </a>
+                    
                     <a class="dropdown-item" href="../admin/add_class.php">
                         <i class="fa-solid fa-school"></i>
                         <span class="nav_name">Add Class</span>
+                    </a>
+                    <a class="dropdown-item" href="../admin/assign_class.php">
+                        <i class="fa-solid fa-pen-ruler"></i>
+                        <span class="nav_name">Assign Class</span>
                     </a>
                 </div>
             </div>

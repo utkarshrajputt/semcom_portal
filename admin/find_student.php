@@ -98,7 +98,6 @@ if (!isset($admin_email)) {
                 dropdown.disabled = true;
             }
         });
-
     </script>
     <?php
     //php course,sem,div
@@ -135,6 +134,7 @@ if (!isset($admin_email)) {
     require '../includes/sidebar-admin.php';
     ?>
     <br>
+    <h2 class="text-center" style="font-weight:bolder;">Find Student Details</h2><br>
     <div id="councelTable" class="table-responsive mt-3">
         <div class="d-flex justify-content-end mt-3 mb-3">
             <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
@@ -177,13 +177,14 @@ if (!isset($admin_email)) {
         <table class="table table-bordered table-hover text-center">
             <thead class="table-light text-center">
                 <thead>
-                    <th>Id</th>
+                    <!-- <th>Id</th> -->
                     <th>Enroll</th>
                     <th>Name</th>
-                    <th>Student Image</th>
                     <th>Course</th>
                     <th>Semester</th>
                     <th>Division</th>
+                    <th>Roll No</th>
+                    <th>Student Image</th>
                 </thead>
             <tbody id="student_body">
                 <?php
@@ -196,7 +197,7 @@ if (!isset($admin_email)) {
                         if ($checkResult->num_rows > 0) {
                             $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,stud_course,stud_sem,stud_div,roll_no,pro_pic from stud_personal_details where enroll_no='$enroll'");
                             $enrollDtl = $enrollDtlResult->fetch_assoc();
-                         ?>
+                ?>
                             <tr data-course="<?php echo $enrollDtl['stud_course'] ?>" data-semester="<?php echo $enrollDtl['stud_sem'] ?>" data-division="<?php echo $enrollDtl['stud_div'] ?>">
                                 <td><?php echo $resultData['enroll_no']; ?></td>
 
@@ -212,7 +213,7 @@ if (!isset($admin_email)) {
                                     ?>
                                 </td>
                             </tr>
-                         <?php
+                <?php
                         }
                     }
                 } else {

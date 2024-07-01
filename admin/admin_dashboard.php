@@ -212,7 +212,7 @@ try {
                 window.location.href = "http://localhost/semcom_portal/admin/edit_staff.php";
             });
             document.getElementById('assign_btn').addEventListener('click', () => {
-                window.location.href = "http://localhost/semcom_portal/admin/assign_class.php";
+                window.location.href = "http://localhost/semcom_portal/admin/add_class.php";
             });
             document.getElementById('courses_btn').addEventListener('click', () => {
                 window.location.href = "http://localhost/semcom_portal/admin/assign_class.php";
