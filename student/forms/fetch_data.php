@@ -24,8 +24,12 @@ if (isset($_POST['enroll_no']) && isset($_POST['semester']) && isset($_POST['mon
             </tr>";
         }
         echo "</tbody></table>";
-    } else {
-        echo "<div class='alert alert-warning'>No attendance data found for the selected month.</div>";
+    } else{
+        echo "<table class='table table-bordered table-hover text-center'>";
+        echo "<thead class='table-light'><tr><th>Start Date</th><th>End Date</th><th>Attendance Percentage</th></tr></thead>";
+        echo "<tbody>";
+        echo "<tr><td colspan='3' class='alert alert-warning'>No attendance data found for the selected month.</td></tr>";
+        echo "</tbody></table>";
     }
     exit;
 }

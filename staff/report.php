@@ -100,6 +100,8 @@ if (isset($_POST['pdf_submit'])) {
 
 <body id="body-pd">
     <?php require '../includes/sidebar-staff.php'; ?>
+    <h2 class="text-center" style="font-weight:bolder;">Student Report</h2>
+
     <div class="container pt-5">
         <div class="mb-4">
             <button id="pdfBtn" class="btn btn-primary me-2">PDF</button>

@@ -247,7 +247,7 @@ try {
                         </div>
                         <div class="mt-4 pt-2">
                             <div data-mdb-input-init class="form-outline">
-                                <label class="form-label" for="filelbl">Upload Your Profile Picture</label>
+                                <label class="form-label" for="filelbl">Upload Your Profile Picture <span style="color:red;">(Image size must be less than 100kb)</span></label>
                                 <?php
                                 if (isset($personalDetails['pro_pic'])) {
                                     $src = "../assets/images/uploaded_images/" . $personalDetails['pro_pic'];
