@@ -69,8 +69,16 @@ $name = mysqli_fetch_assoc($stmt);
                     </div>
                 </div>
                 <a href="../../staff/report.php" class="nav_link mt-4">
-                    <i class="fa-solid fa-person-chalkboard"></i>
+                <i class="fa-solid fa-file-lines"></i>
                     <span class="nav_name">Report</span>
+                </a>
+                <a href="../../staff/attendance.php" class="nav_link mt-4">
+                <i class="fa-solid fa-id-card-clip"></i>
+                    <span class="nav_name">Attendance</span>
+                </a>
+                <a href="../../staff/attendance_report.php" class="nav_link mt-4">
+                <i class="fa-solid fa-address-book"></i>
+                    <span class="nav_name">Attendance Report</span>
                 </a>
 
             </div>

@@ -14,11 +14,13 @@ if (isset($_POST['month'])) {
         echo "<option value=''>--Select--</option>";
         $week_counter = 1;
         while ($row = $weeks_result->fetch_assoc()) {
-            echo "<option value='{$row['start_date']}_{$row['end_date']}'>Week $week_counter: {$row['start_date']} to {$row['end_date']}</option>";
+
+            $start_date_formatted = date('j M Y', strtotime($row['start_date']));
+            $end_date_formatted = date('j M Y', strtotime($row['end_date']));
+            echo "<option value='{$row['start_date']}_{$row['end_date']}'>Week $week_counter: {$start_date_formatted} to {$end_date_formatted}</option>";
             $week_counter++;
         }
     }
 }
 
 $conn->close();
-?>

@@ -105,24 +105,23 @@ if ($latest_weeks_result->num_rows > 0) {
         // Trigger change event on page load to load the latest week data
         $('#monthDropdown').trigger('change');
     });
-    
 </script>
 <style>
-        .table img {
-            max-width: 80px;
-            max-height: 80px;
-        }
-    </style>
+    .table img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+</style>
 </head>
 
 <body id="body-pd">
     <?php
-        require '../includes/sidebar-staff.php';
+    require '../includes/sidebar-staff.php';
     ?>
-     <h2 class="text-center" style="font-weight:bolder;">Attendance Report</h2>
-        <div class="container mt-5">
+    <h2 class="text-center" style="font-weight:bolder;">Attendance Report</h2>
+    <div class="container mt-5">
         <h3 class="mt-4 mb-4">Month and Week Selector</h3>
-        
+
         <div class="form-group">
             <label for="monthDropdown">Select Month:</label>
             <select id="monthDropdown" class="form-control">
@@ -146,7 +145,9 @@ if ($latest_weeks_result->num_rows > 0) {
                     $week_counter = 1;
                     $latest_weeks_result->data_seek(0); // Reset result pointer to the beginning
                     while ($row = $latest_weeks_result->fetch_assoc()) {
-                        echo "<option value='{$row['start_date']}_{$row['end_date']}'>Week $week_counter: {$row['start_date']} to {$row['end_date']}</option>";
+                        $start_date_formatted = date('j M Y', strtotime($row['start_date']));
+                        $end_date_formatted = date('j M Y', strtotime($row['end_date']));
+                        echo "<option value='{$row['start_date']}_{$row['end_date']}'>Week $week_counter: {$start_date_formatted} to {$start_date_formatted}</option>";
                         $week_counter++;
                     }
                 }
@@ -161,6 +162,10 @@ if ($latest_weeks_result->num_rows > 0) {
                 echo "<thead class='table-light'><tr><th>Enroll No</th><th>Name</th><th>Image</th><th>Semester</th><th>Division</th><th>Start Date</th><th>End Date</th><th>Attendance Percentage</th></tr></thead>";
                 echo "<tbody>";
                 while ($row = $first_week_data_result->fetch_assoc()) {
+                    $start_date_formatted = date('j M Y', strtotime($row['start_date']));
+                    $end_date_formatted = date('j M Y', strtotime($row['end_date']));
+
+
                     $enroll = $row['enroll_no'];
                     $result = mysqli_query($conn, "SELECT CONCAT(f_name, ' ', m_name, ' ', l_name) AS full_name, pro_pic FROM stud_personal_details WHERE enroll_no = '$enroll'");
                     if ($result->num_rows > 0) {
@@ -181,8 +186,8 @@ if ($latest_weeks_result->num_rows > 0) {
                     }
                     echo "<td>{$row['semester']}</td>
                             <td>{$row['division']}</td>
-                            <td>{$row['start_date']}</td>
-                            <td>{$row['end_date']}</td>
+                            <td>{$start_date_formatted}</td>
+                            <td>{$end_date_formatted}</td>
                             <td><b>{$row['at_percentage']}%</b></td>
                           </tr>";
                 }
@@ -191,7 +196,7 @@ if ($latest_weeks_result->num_rows > 0) {
             ?>
         </div>
     </div>
-        <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 

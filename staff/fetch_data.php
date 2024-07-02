@@ -11,10 +11,13 @@ if (isset($_POST['week'])) {
     $data_result = $conn->query($data_sql);
 
     if ($data_result->num_rows > 0) {
+
         echo "<table class='table table-bordered table-hover text-center'>";
         echo "<thead class='table-light'><tr><th>Enroll No</th><th>Name</th><th>Image</th><th>Semester</th><th>Division</th><th>Start Date</th><th>End Date</th><th>Attendance Percentage</th></tr></thead>";
         echo "<tbody>";
         while ($row = $data_result->fetch_assoc()) {
+            $start_date_formatted = date('j M Y', strtotime($row['start_date']));
+            $end_date_formatted = date('j M Y', strtotime($row['end_date']));
             $enroll = $row['enroll_no'];
             $result = mysqli_query($conn, "SELECT CONCAT(f_name, ' ', m_name, ' ', l_name) AS full_name, pro_pic FROM stud_personal_details WHERE enroll_no = '$enroll'");
             if ($result->num_rows > 0) {
@@ -35,8 +38,8 @@ if (isset($_POST['week'])) {
             }
             echo "<td>{$row['semester']}</td>
                     <td>{$row['division']}</td>
-                    <td>{$row['start_date']}</td>
-                    <td>{$row['end_date']}</td>
+                    <td>{$start_date_formatted}</td>
+                    <td>{$end_date_formatted}</td>
                     <td><b>{$row['at_percentage']}%</b></td>
                   </tr>";
         }
