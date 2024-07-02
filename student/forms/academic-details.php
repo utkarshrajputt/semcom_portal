@@ -210,7 +210,7 @@ try {
 
                 <div data-mdb-input-init class="form-outline">
                   <label class="form-label" for="achivements">Your Achievements</label>
-                  <input type="text" name="achievements" class="form-control form-control-lg" value="<?php echo isset($academic_dtl['stud_achieve']) ? $academic_dtl['stud_achieve'] : ''; ?>" pattern="^[A-Za-z][A-Za-z\s]*" oninput="this.value = this.value.replace(/^[^A-Za-z]+|[^A-Za-z\s]/g, '')" required />
+                  <input type="text" name="achievements" class="form-control form-control-lg" value="<?php echo isset($academic_dtl['stud_achieve']) ? $academic_dtl['stud_achieve'] : ''; ?>"  required />
                   <div class="invalid-feedback">Please fill Achievements !</div>
                 </div>
               </div>

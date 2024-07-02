@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Vast+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=DM+Serif+Display:ital@0;1&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 *{
   margin: 0;
   padding: 0;
@@ -41,9 +42,6 @@ body{
   transform-origin: left;
   transform-style: preserve-3d;
 }
-.container #flip:checked ~ .cover{
-  transform: rotateY(-180deg);
-}
  .container .cover .front,
  .container .cover .back{
   position: absolute;
@@ -52,10 +50,7 @@ body{
   height: 100%;
   width: 100%;
 }
-.cover .back{
-  transform: rotateY(180deg);
-  backface-visibility: hidden;
-}
+
 .container .cover::before,
 .container .cover::after{
   content: '';
@@ -90,20 +85,19 @@ body{
   
 }
 .cover .text .text-1{
-  font-size: 26px;
   font-weight: 600;
   color: #fff;
   text-align: center;
-  font-family: "Holtwood One SC", serif;
-  font-weight: 100;
-  font-size: 40px;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 500;
+  font-size: 50px;
   font-style: normal;
   /* font-family: "Comfortaa", sans-serif; */
   text-transform: uppercase;
  
 }
 .think{
-  font-family: "Vast Shadow", serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 900;
   font-style: normal;
   color: #000000;
@@ -254,3 +248,4 @@ body{
     margin-left: 7%;
   }
 }
+

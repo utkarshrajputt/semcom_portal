@@ -1,0 +1,311 @@
+<?php
+require('../includes/loader.php');
+require('../includes/session.php');
+require('../config/mysqli_db.php');
+require('../includes/fetchTableData.php');
+$admin_email = $_SESSION['admin_email'];
+
+if (!isset($admin_email)) {
+    header('location:admin_login.php');
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <title>SEMCOM</title>
+
+    <!-- BOOTSTRAP & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a79beb4099.js" crossorigin="anonymous"></script>
+
+    <!-- BOXICON -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!-- MAIN STUDENT CSS -->
+    <link rel="stylesheet" href="../assets/css/student.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <style>
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
+    </style>
+    <script>
+        //js edit course,sem,div filter
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('course').addEventListener('change', function() {
+                var course = this.value;
+                if (course) {
+                    fetchOptions('semesters', {
+                        course: course
+                    });
+                } else {
+                    resetDropdown('semester');
+                    resetDropdown('division');
+                }
+            });
+
+            document.getElementById('semester').addEventListener('change', function() {
+                var course = document.getElementById('course').value;
+                var semester = this.value;
+                if (semester) {
+                    fetchOptions('divisions', {
+                        course: course,
+                        semester: semester
+                    });
+                } else {
+                    resetDropdown('division');
+                }
+            });
+
+            function fetchOptions(type, data) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '', true); // Change to your backend endpoint
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    if (this.status == 200) {
+                        if (type == 'semesters') {
+                            updateDropdown('semester', this.responseText);
+                            resetDropdown('division');
+                        } else if (type == 'divisions') {
+                            updateDropdown('division', this.responseText);
+                        }
+                    }
+                };
+                var params = 'fetch=' + type + '&' + new URLSearchParams(data).toString();
+                xhr.send(params);
+            }
+
+            function updateDropdown(dropdownId, optionsHtml) {
+                var dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = optionsHtml;
+                dropdown.disabled = false;
+            }
+
+            function resetDropdown(dropdownId) {
+                var dropdown = document.getElementById(dropdownId);
+                dropdown.innerHTML = '<option value="">--Select--</option>';
+                dropdown.disabled = true;
+            }
+        });
+    </script>
+    <?php
+    //php course,sem,div
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['fetch']) && $_POST['fetch'] == 'semesters') {
+            $course = $_POST['course'];
+            $result = $conn->query("SELECT DISTINCT class_semester FROM course_class WHERE course_name = '$course'");
+            $options = '<option value="0" disabled selected hidden>--Select--</option>';
+            while ($row = $result->fetch_assoc()) {
+                $options .= '<option value="' . $row['class_semester'] . '">' . $row['class_semester'] . '</option>';
+            }
+            echo $options;
+            exit();
+        }
+
+        if (isset($_POST['fetch']) && $_POST['fetch'] == 'divisions') {
+            $course = $_POST['course'];
+            $semester = $_POST['semester'];
+            $result = $conn->query("SELECT DISTINCT class_div FROM course_class WHERE course_name = '$course' AND class_semester = '$semester'");
+            $options = '<option value="0" disabled selected hidden>--Select--</option>';
+            while ($row = $result->fetch_assoc()) {
+                $options .= '<option value="' . $row['class_div'] . '">' . $row['class_div'] . '</option>';
+            }
+            echo $options;
+            exit();
+        }
+    }
+    ?>
+
+</head>
+
+<body id="body-pd">
+    <?php
+    require '../includes/sidebar-admin.php';
+    ?>
+    <br>
+    <h2 class="text-center" style="font-weight:bolder;">Find Student Details</h2><br>
+    <div id="councelTable" class="table-responsive mt-3">
+        <div class="d-flex justify-content-end mt-3 mb-3">
+            <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
+        </div>
+
+        <div id="searchBox" class="mb-3 d-flex justify-content-end">
+            <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
+            <button class="btn btn-info" onclick="searchTable()">Search</button>
+        </div>
+        <div class="container mt-4">
+            <form method="post">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="course" class="form-label">Course:</label>
+                        <select id="course" name="course" class="form-control">
+                            <option value="" disabled selected hidden>--Select--</option>
+                            <?php
+                            $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="semester" class="form-label">Semester:</label>
+                        <select id="semester" name="semester" class="form-control" disabled>
+                            <option value="0" disabled selected hidden>--Select--</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="division" class="form-label">Division:</label>
+                        <select id="division" name="division" class="form-control" disabled>
+                            <option value="0" disabled selected hidden>--Select--</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-light text-center">
+                <thead>
+                    <!-- <th>Id</th> -->
+                    <th>Enroll</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Division</th>
+                    <th>Roll No</th>
+                    <th>Student Image</th>
+                </thead>
+            <tbody id="student_body">
+                <?php
+                $resultDataResult = mysqli_query($conn, "select * from stud_personal_details");
+                if ($resultDataResult->num_rows > 0) {
+                    while ($resultData = $resultDataResult->fetch_assoc()) {
+
+                        $enroll = $resultData['enroll_no'];
+                        $checkResult = mysqli_query($conn, "select * from stud_login where complete_register='yes' and enroll_no='$enroll'");
+                        if ($checkResult->num_rows > 0) {
+                            $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,stud_course,stud_sem,stud_div,roll_no,pro_pic from stud_personal_details where enroll_no='$enroll'");
+                            $enrollDtl = $enrollDtlResult->fetch_assoc();
+                ?>
+                            <tr data-course="<?php echo $enrollDtl['stud_course'] ?>" data-semester="<?php echo $enrollDtl['stud_sem'] ?>" data-division="<?php echo $enrollDtl['stud_div'] ?>">
+                                <td><?php echo $resultData['enroll_no']; ?></td>
+
+                                <td><?php echo $enrollDtl['full_name'] ?></td>
+                                <td><?php echo $enrollDtl['stud_course'] ?></td>
+                                <td><?php echo $enrollDtl['stud_sem'] ?></td>
+                                <td><?php echo $enrollDtl['stud_div'] ?></td>
+                                <td><?php echo $resultData['roll_no']; ?></td>
+                                <td>
+                                    <?php
+                                    $filepath = "../assets/images/uploaded_images/" . $enrollDtl['pro_pic'];
+                                    echo "<img src='$filepath' width='50' height='50'>";
+                                    ?>
+                                </td>
+                            </tr>
+                <?php
+                        }
+                    }
+                } else {
+                    echo "<tr class='text-center'><td colspan='2'>No Data Found in Table</td></tr>";
+                }
+
+                ?>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script>
+        document.getElementById('course').addEventListener('change', filterCourse);
+        document.getElementById('semester').addEventListener('change', filterSemester);
+        document.getElementById('division').addEventListener('change', filterDiv);
+
+        function filterCourse() {
+            var course = document.getElementById('course').value;
+            var rows = document.querySelectorAll('#student_body tr');
+
+            rows.forEach(function(row) {
+                var rowCourse = row.getAttribute('data-course');
+                if ((course === '' || course === rowCourse)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterSemester() {
+            var course = document.getElementById('course').value;
+            var semester = document.getElementById('semester').value;
+            var rows = document.querySelectorAll('#student_body tr');
+
+            rows.forEach(function(row) {
+                var rowCourse = row.getAttribute('data-course');
+                var rowSemester = row.getAttribute('data-semester');
+
+                if ((course === '' || course === rowCourse) &&
+                    (semester === '' || semester === rowSemester)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterDiv() {
+            var course = document.getElementById('course').value;
+            var semester = document.getElementById('semester').value;
+            var division = document.getElementById('division').value;
+            var rows = document.querySelectorAll('#student_body tr');
+
+            rows.forEach(function(row) {
+                var rowCourse = row.getAttribute('data-course');
+                var rowSemester = row.getAttribute('data-semester');
+                var rowDivision = row.getAttribute('data-division');
+
+                if ((course === '' || course === rowCourse) &&
+                    (semester === '' || semester === rowSemester) &&
+                    (division === '' || division === rowDivision)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function ref() {
+            window.location.href = "http://localhost/semcom_portal/admin/admin_dashboard.php";
+        }
+
+        function searchTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.getElementById('student_body').getElementsByTagName('tr');
+
+            for (const row of rows) {
+                row.style.display = 'none';
+                const cells = row.getElementsByTagName('td');
+                for (const cell of cells) {
+                    if (cell.innerText.toLowerCase().includes(searchInput)) {
+                        row.style.display = '';
+                        break;
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

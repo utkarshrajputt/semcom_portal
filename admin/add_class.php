@@ -77,6 +77,14 @@ if (!isset($admin_email)) {
             justify-content: flex-end;
             gap: 10px;
         }
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
     </style>
 </head>
 
@@ -138,6 +146,8 @@ if (!isset($admin_email)) {
     }
     ?>
     <div class="container mt-5">
+        <h2 class="text-center" style="font-weight:bolder;">Add Class Details</h2>
+
         <div class="d-flex justify-content-end mb-3">
             <button id="displayBtn" class="btn btn-primary me-2">Display</button>
             <button id="addBtn" class="btn btn-secondary">Add Class</button>
@@ -150,6 +160,7 @@ if (!isset($admin_email)) {
                         <th>Course</th>
                         <th>Semester</th>
                         <th>Division</th>
+                        <th>Staff Name</th>
                         <th>Enrollment No Start</th>
                         <th>Enrollment No End</th>
                         <th>Edit</th>
@@ -166,6 +177,28 @@ if (!isset($admin_email)) {
                             <td><?php echo $data['course_name']; ?></td>
                             <td><?php echo $data['class_semester']; ?></td>
                             <td><?php echo $data['class_div']; ?></td>
+                            <?php
+                            try {
+                                $course = $data['course_name'];
+                                $sem = $data['class_semester'];
+                                $div = $data['class_div'];
+                                $staff_qry = mysqli_query($conn, "select staff_email from staff_class_assign where course='$course' and semester='$sem' and division='$div'");
+                                if(mysqli_num_rows($staff_qry)>0)
+                                {
+                                    $staff = mysqli_fetch_assoc($staff_qry);
+                                    $staff_email = $staff["staff_email"];
+                                    $staff_dtl=mysqli_fetch_assoc(mysqli_query($conn, "select full_name from staff_dtl where clg_email='$staff_email'"));
+                                    $full_name=$staff_dtl["full_name"];
+                                }
+                                else
+                                {
+                                    $full_name = '<b>NOT ASSIGNED</b>';
+                                }
+                            } catch (mysqli_sql_exception $e) {
+                                $full_name = '<b>NOT ASSIGNED</b>';
+                            }
+                            ?>
+                            <td><?php echo $full_name ?></td> 
                             <td><?php echo $data['class_enroll_start']; ?></td>
                             <td><?php echo $data['class_enroll_end']; ?></td>
                             <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
@@ -179,7 +212,7 @@ if (!isset($admin_email)) {
 
         <div id="editForm" class="modal-form d-none">
             <button type="button" class="close-btn" onclick="closeForm('editForm')">&times;</button>
-            <h5>Edit Staff Member</h5>
+            <h5>Edit Class</h5>
             <form method="post" onsubmit="return up_validateForm()">
                 <div class="mb-3">
                     <label for="editCourse" class="form-label">Course</label>
@@ -221,7 +254,7 @@ if (!isset($admin_email)) {
                     <input type="text" class="form-control" id="addSemester" name="semester" pattern="[1-9]" title="Semester must be a single digit from 1 to 9" required>
                 </div>
                 <div class="mb-3">
-                    <label for="addDivision" class="form-label">Division <span style="color:red;">(Use '-' if no exist)</span></label>
+                    <label for="addDivision" class="form-label">Division <span style="color:red;">(Use '-' if doesn't exist)</span></label>
                     <input type="text" class="form-control" id="addDivision" name="division" pattern="[A-Z\-]" title="Division must be a single uppercase letter from A to Z or - " required>
                 </div>
                 <div class="mb-3">
@@ -306,8 +339,8 @@ if (!isset($admin_email)) {
             document.getElementById('editCourse').value = row.cells[0].innerText;
             document.getElementById('editSemester').value = row.cells[1].innerText;
             document.getElementById('editDivision').value = row.cells[2].innerText;
-            document.getElementById('editEnrollStart').value = row.cells[3].innerText;
-            document.getElementById('editEnrollEnd').value = row.cells[4].innerText;
+            document.getElementById('editEnrollStart').value = row.cells[4].innerText;
+            document.getElementById('editEnrollEnd').value = row.cells[5].innerText;
         }
 
         function closeForm(formId) {

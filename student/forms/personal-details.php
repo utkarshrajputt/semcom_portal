@@ -9,8 +9,8 @@ try {
             $adm_date = $_POST["ad_date"];
             $spid = $_POST["spid"];
             $course = $_POST["course"];
-            $sem = $_POST["semester"];
-            $div = $_POST["division"];
+            // $sem = $_POST["semester"];
+            // $div = $_POST["division"];
             $roll = $_POST["roll"];
             $f_name = $_POST["fname"];
             $m_name = $_POST["mname"];
@@ -20,6 +20,8 @@ try {
             $email = $_POST["email"];
             $aadhar = $_POST["aadhar"];
             $abcid = $_POST["abcid"];
+            $s_que = $_POST["security_question"];
+            $s_ans = $_POST["security_answer"];
 
 
             if (isset($_FILES['pfp'])) {
@@ -38,7 +40,7 @@ try {
 
                     if ($move == true) {
 
-                        $insert = mysqli_query($conn, "insert into stud_personal_details(adm_status, adm_date, spid, enroll_no,stud_course,stud_semester,stud_division, roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic) values('$adm_status', '$adm_date', '$spid','$enroll','$course','$sem','$div', '$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename')");
+                        $insert = mysqli_query($conn, "insert into stud_personal_details(adm_status, adm_date, spid, enroll_no,stud_course,roll_no, f_name, m_name, l_name, gender, mob_no, email_id, aadhar_no, abc_id, pro_pic, security_que, security_ans) values('$adm_status', '$adm_date', '$spid','$enroll','$course','$roll', '$f_name', '$m_name', '$l_name', '$gender', '$phone', '$email', '$aadhar', '$abcid', '$filename','$s_que','$s_ans')");
 
 
                         echo "<script>alert('Data Saved Successfully Go to next module!!');</script>";
@@ -52,6 +54,8 @@ try {
     echo "Failed Input! Please Refresh or Contact College!";
 }
 ?>
+
+
 <div class="container-fluid pt-3">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7 w-100">
@@ -59,6 +63,9 @@ try {
                 <div class="card-body p-4 p-md-5">
                     <!-- FORM START -->
                     <form class="personal-details-form <?php echo isset($personalDetails['adm_status']) ? 'disable-form' : ''; ?>" method="post" enctype="multipart/form-data" novalidate>
+                        <div style="color:red;">
+                            *Your semester and division will be updated by your class counsellor later
+                        </div><br>
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <!-- ADMISSION STATUS -->
@@ -103,7 +110,7 @@ try {
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <!-- CVM ENROLLMENT ID -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="enrol_id">CVM Enrollment ID</label>
@@ -112,7 +119,7 @@ try {
                                 </div>
 
                             </div>
-                            
+
                             <div class="col-md-4 mb-4">
                                 <!-- ROLL NUMBER -->
                                 <div data-mdb-input-init class="form-outline">
@@ -121,9 +128,7 @@ try {
                                     <div class="invalid-feedback">Please fill roll number !</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                        <div class="col-md-4 mb-4">
+                            <div class="col-md-4 mb-4">
                                 <!-- ROLL NUMBER -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="roll">Course</label>
@@ -134,60 +139,14 @@ try {
                                     ?>
                                         <select name="course" class="form-control form-control-lg" required>
                                             <option value="" disabled selected hidden>-- Select Course --</option>
-                                            <option value="BCA">BCA</option>
-                                            <option value="BCOM">BCOM</option>
-                                            <option value="BBA">BBA</option>
-                                            <option value="BBA-ITM">BBA-ITM</option>
-                                            <option value="MCOM">MCOM</option>
+                                            <?php
+                                            $result = $conn->query("SELECT DISTINCT course_name FROM course_class");
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo '<option value="' . $row['course_name'] . '">' . $row['course_name'] . '</option>';
+                                            }
+                                            ?>
                                         </select>
                                         <div class="invalid-feedback">Please fill roll number !</div>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <!-- ROLL NUMBER -->
-                                <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label" for="roll">Semester</label>
-                                    <br><span style='font-size:1.3rem;font-weight:bold'><?php echo isset($personalDetails['stud_semester']) ? $personalDetails['stud_semester'] : ''; ?></span>
-                                    <?php
-                                    if (!(isset($personalDetails['stud_semester']))) {
-
-                                    ?>
-                                        <select name="semester" class="form-control form-control-lg" required>
-                                            <option value="" disabled selected hidden>-- Select Semester --</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                        </select>
-                                        <div class="invalid-feedback">Please Select Semester !</div>
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <!-- ROLL NUMBER -->
-                                <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label" for="roll">Division</label>
-                                    <br><span style='font-size:1.3rem;font-weight:bold'><?php echo isset($personalDetails['stud_division']) ? $personalDetails['stud_division'] : ''; ?></span>
-                                    <?php
-                                    if (!(isset($personalDetails['stud_division']))) {
-
-                                    ?>
-                                        <select name="division" class="form-control form-control-lg" required>
-                                            <option value="" disabled selected hidden>-- Select Division --</option>
-                                            <option>-</option>
-                                            <option>A</option>
-                                            <option>B</option>
-                                        </select>
-                                        <div class="invalid-feedback">Please Select Division !</div>
                                     <?php
                                     }
                                     ?>
@@ -288,7 +247,7 @@ try {
                         </div>
                         <div class="mt-4 pt-2">
                             <div data-mdb-input-init class="form-outline">
-                                <label class="form-label" for="filelbl">Upload Your Profile Picture</label>
+                                <label class="form-label" for="filelbl">Upload Your Profile Picture <span style="color:red;">(Image size must be less than 100kb)</span></label>
                                 <?php
                                 if (isset($personalDetails['pro_pic'])) {
                                     $src = "../assets/images/uploaded_images/" . $personalDetails['pro_pic'];
@@ -304,6 +263,42 @@ try {
                                 ?>
                             </div>
                         </div>
+<br>
+<br>
+
+<div class="row text-center">
+        <div class="col-md-12">
+            <br>
+            <h4 style="letter-spacing: 0.2em;" class="lh-lg"> <span class="span-lines">-----</span> SECURITY QUESTION <span class="span-lines">-----</span> </h4><br>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-6 mb-4 pb-2">
+        <!-- SECURITY QUESTION -->
+        <div data-mdb-input-init class="form-outline">
+            <label class="form-label" for="security_question">Security Question</label>
+            <select name="security_question" class="form-control form-control-lg" required>
+                <option value="" disabled selected>Select a security question</option>
+                <option value="pet_name">What is the name of your first pet?</option>
+                <option value="frnd_name">What is the name of your best friend name?</option>
+                <option value="mother_maiden">What is your mother's maiden name?</option>
+                <option value="first_school">What is the name of your first school?</option>
+                <option value="favorite_teacher">Who was your favorite teacher?</option>
+            </select>
+            <div class="invalid-feedback">Please select a security question!</div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4 pb-2">
+        <!-- SECURITY ANSWER -->
+        <div data-mdb-input-init class="form-outline">
+            <label class="form-label" for="security_answer">Security Answer</label>
+            <input type="text" name="security_answer" class="form-control form-control-lg" value="<?php echo isset($personalDetails['security_ans']) ? $personalDetails['security_ans'] : ''; ?>" required />
+            <div class="invalid-feedback">Please fill in the security answer!</div>
+        </div>
+    </div>
+</div>
+<p class="text-danger">Remember your security question and answer as it'll be helpful in changing your password in the future.</p>
+                        
                         <!-- SUBMIT & NEXT -->
                         <div class="mt-4 pt-2">
                             <input data-mdb-ripple-init class="btn btn-primary btn-lg" name="pers_submit" type="submit" value="Save" />

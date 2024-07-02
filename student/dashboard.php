@@ -118,7 +118,7 @@ if (!isset($enroll)) {
                                     <div class="mt-3">
                                         <h4><?php echo $personalDetails['f_name']." ".$personalDetails['l_name'] ?></h4>
                                         <p class="text-secondary mb-3"><b>Course :</b> <?php echo $personalDetails['stud_course'] ?></p>
-                                        
+                                        <p class="text-secondary mb-3"><b>Semester-Class:</b> <?php echo $personalDetails['stud_sem'] ?>-<?php echo $personalDetails['stud_div'] ?></p>
                                         <p class="text-muted font-size-sm"><b>SPID. :</b> <?php echo $personalDetails['spid'] ?></p>
                                         <p class="text-muted font-size-sm"><b>Enroll No. :</b> <?php echo $personalDetails['enroll_no'] ?></p>
                                         <p class="text-muted font-size-sm mb-4"><b>Admission Date : </b><?php echo $personalDetails['adm_date'] ?></p>

@@ -8,7 +8,9 @@ $admin_email = $_SESSION['admin_email'];
 if (!isset($admin_email)) {
     header('location:admin_login.php');
 }
+
 if (isset($_POST["pers_submit"])) {
+    try{
     $prefix = $_POST["prefix"];
     $full_name = $_POST["name"];
     $gender = $_POST["gender"];
@@ -44,6 +46,10 @@ if (isset($_POST["pers_submit"])) {
                 // echo "<script>location.reload(true);</script>";
             }
         }
+        }
+    }
+    catch (mysqli_sql_exception $e) {
+        echo '' . $e->getMessage() . '';
     }
 }
 
@@ -162,6 +168,14 @@ if (isset($_POST["pers_submit"])) {
                 margin-left: 0;
             }
         }
+        .nav_link {
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            margin-top: 25px;
+            padding-top: 15px;
+        }
     </style>
 </head>
 
@@ -170,13 +184,15 @@ if (isset($_POST["pers_submit"])) {
     require '../includes/sidebar-admin.php';
     ?>
 
-    <div id="dashboard" class="text-dark">
+   
+
+    <div id="dashboard" class="container mt-5 pt-5 text-dark">
+            <div id="personalDetails" class="content active text-dark">
+                <div class="container">
+                    <h2 class="text-center" style="font-weight:bolder;">Add Staff Details</h2>
 
         <!-- PERSONAL DETIALS -->
-        <div id="personalDetails" class="content active text-dark mt-5">
-            <div class="pd col-md-10 mb-5 mt-4">
-                <h4>Staff Details</h4>
-            </div>
+
 
             <div class="container-fluid">
                 <div class="main-body">
@@ -265,6 +281,7 @@ if (isset($_POST["pers_submit"])) {
                                             <option>Graduate</option>
                                             <option>Post Graduate</option>
                                             <option>Ph.D</option>
+                                            <option>Diploma</option>
                                         </select>
                                         <div class="invalid-feedback">Please Select Highest Qualifaction !</div>
 
@@ -275,9 +292,9 @@ if (isset($_POST["pers_submit"])) {
                             <div class="row">
                                 <div class="col-md-4 mb-4 pb-2">
                                     <div data-mdb-input-init class="form-outline">
-                                        <label class="form-label" for="emailAddress">Skills</label>
-                                        <input type="text" name="skills" pattern="[A-Za-z0.9\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ ]/g,'');" class="form-control form-control-lg" required />
-                                        <div class="invalid-feedback">Please fill Skills !</div>
+                                        <label class="form-label" for="emailAddress">Experience</label>
+                                        <input type="text" name="exp" pattern="[A-Za-z0.9\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ ]/g,'');" class="form-control form-control-lg" required />
+                                        <div class="invalid-feedback">Please fill Experience !</div>
                                     </div>
 
                                 </div>
@@ -285,9 +302,9 @@ if (isset($_POST["pers_submit"])) {
                                     <!-- EMAIL -->
                                     <div data-mdb-input-init class="form-outline">
 
-                                        <label class="form-label" for="phoneNumber">Experience</label>
-                                        <input type="text" name="experience" pattern="[A-Za-z0-9\ \-]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ \-]/g,'');" class="form-control form-control-lg" required />
-                                        <div class="invalid-feedback">Please fill Experience !</div>
+                                        <label class="form-label" for="phoneNumber">Skills</label>
+                                        <input type="text" name="skills" pattern="[A-Za-z0-9\ \-]*" oninput="this.value=this.value.replace(/[^A-Za-z0-9\ \-]/g,'');" class="form-control form-control-lg" required />
+                                        <div class="invalid-feedback">Please fill Skills !</div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-4 pb-2">
@@ -323,7 +340,7 @@ if (isset($_POST["pers_submit"])) {
                             </div>
                             <div class="mt-1 pt-2">
                                 <div data-mdb-input-init class="form-outline">
-                                    <label class="form-label" for="filelbl">Upload Your Profile Picture</label>
+                                    <label class="form-label" for="filelbl">Upload Your Profile Picture <span style="color:red;">(Image size must be less than 100kb)</span></label>
                                     <input type="file" name="pfp" class="form-control" accept=".jpg, .jpeg" id="inputGroupFile02" required>
                                 </div>
                             </div>

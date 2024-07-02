@@ -1,10 +1,20 @@
 <header class="header" id="header">
     
-    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>&nbsp;&nbsp;
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    <div class="logos" style="margin-left:-105px;">
+        <img src="../assets/images/cvmu-logo.png" alt="cvmu" height="50px" width="170px">
+        <img src="../assets/images/semcom-logo.png" alt="cvmu" height="50px" width="170px">
+    </div>
+
+
     
-    <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
+    <p class="h4 p-5" style="color:#4723D9;font-weight:bolder;padding-right:5%;">SEMCOMITE Profile Registration</p>
+    
+
     <div id="link-title">Enroll : <?php echo $enroll; ?></div>
 </header>
+<br>
+<p class="px-5 mt-2 sem" style="color:#4723D9;font-weight:bolder;">SEMCOMITE Profile Registration</p>
 
 <div class="l-navbar" id="nav-bar">
     <!-- close button under 768px screen width -->
