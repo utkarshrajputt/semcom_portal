@@ -1,7 +1,7 @@
 <header class="header" id="header">
     
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
-    <div class="logos" style="margin-left:-135px;">
+    <div class="logos" style="margin-left:-105px;">
         <img src="../assets/images/cvmu-logo.png" alt="cvmu" height="50px" width="170px">
         <img src="../assets/images/semcom-logo.png" alt="cvmu" height="50px" width="170px">
     </div>

@@ -192,6 +192,8 @@ if (!isset($admin_email)) {
     require '../includes/sidebar-admin.php';
     ?>
     <br>
+    <h2 class="text-center" style="font-weight:bolder;">Counselling Report</h2>
+
     <div id="councelTable" class="table-responsive mt-3">
         <div class="d-flex justify-content-end mt-3 mb-3">
             <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>

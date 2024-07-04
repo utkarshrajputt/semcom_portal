@@ -162,6 +162,13 @@ $latest_data_result = $conn->query($latest_data_sql);
                 }
                 echo "</tbody></table>";
             }
+            else{
+                echo "<table class='table table-bordered table-hover text-center'>";
+                echo "<thead class='table-light'><tr><th>Start Date</th><th>End Date</th><th>Attendance Percentage</th></tr></thead>";
+                echo "<tbody>";
+                echo "<tr><td colspan='3' class='alert alert-warning'>No Data Found!</td></tr>";
+                echo "</tbody></table>";
+            }
             ?>
         </div>
 

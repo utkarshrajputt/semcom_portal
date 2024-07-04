@@ -60,6 +60,13 @@
             </div>
             <div class="nav_list">
                 <!-- PERSONAL DETAILS -->
+                <a href="../student/attendance.php" class="nav_link">
+                <i class="fa-solid fa-address-book"></i>
+                    <span class="nav_name">Attendance Report</span>
+                </a>
+            </div>
+            <div class="nav_list">
+                <!-- PERSONAL DETAILS -->
                 <a href="../student/changepass.php" class="nav_link">
                     <i class="fa-solid fa-user-lock"></i>
                     <span class="nav_name">Change Password</span>

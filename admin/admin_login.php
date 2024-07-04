@@ -25,6 +25,7 @@ if (isset($_COOKIE['admin_email']) && isset($_COOKIE['pass'])) {
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/a79beb4099.js" crossorigin="anonymous"></script>
   <style>
     main {
       flex: 1;
@@ -98,7 +99,7 @@ if (isset($_COOKIE['admin_email']) && isset($_COOKIE['pass'])) {
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" name="admin_email" value="<?php echo $admin_email ?>" placeholder="Enter Your Admin Email" title="Enrollment Number Should Be of 14 Digits Only" required>
+                <input type="text" name="admin_email" value="<?php echo $admin_email ?>" placeholder="Enter Your Admin Email" title="Enter your Admin Email" required>
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
@@ -124,7 +125,7 @@ if (isset($_COOKIE['admin_email']) && isset($_COOKIE['pass'])) {
 
   <footer>
     Designed and Developed by BCA(2021-2024)
-    <br> <a href="https://www.linkedin.com/in/utkarshrajputt/" target="_blank">Utkarsh</a> | <a href="https://www.linkedin.com/in/darshparikh11/" target="_blank">Darsh</a> | <a href="https://www.linkedin.com/in/diyapatel14/" target="_blank">Diya</a> | <a href="https://www.linkedin.com/in/kunjpatel11/" target="_blank">Kunj</a> | <a href="https://www.linkedin.com/in/manan-patel-4b31b8300/" target="_blank">Manan</a>
+    <br></i><a href="https://www.linkedin.com/in/utkarshrajputt/" target="_blank">Utkarsh</a> | <a href="https://www.linkedin.com/in/darshparikh11/" target="_blank">Darsh</a> | <a href="https://www.linkedin.com/in/diyapatel14/" target="_blank">Diya</a> | <a href="https://www.linkedin.com/in/kunjpatel11/" target="_blank">Kunj</a> | <a href="https://www.linkedin.com/in/manan-patel-4b31b8300/" target="_blank">Manan</a>
   </footer>
 </body>
 

@@ -195,7 +195,7 @@ try {
                                 <!-- Mother name -->
                                 <div data-mdb-input-init class="form-outline">
                                     <label class="form-label" for="motherName">Mother's Name</label>
-                                    <input type="text" name="motherName" class="form-control form-control-lg" pattern="[A-Za-z]*" value="<?php echo isset($parent_dtl['mothers_name']) ? $parent_dtl['mothers_name'] : ''; ?>"  oninput="this.value=this.value.replace(/[^A-Za-z]/g,'');" required />
+                                    <input type="text" name="motherName" class="form-control form-control-lg" pattern="[A-Za-z\ ]*" oninput="this.value=this.value.replace(/[^A-Za-z\ ]/g,'');" value="<?php echo isset($parent_dtl['mothers_name']) ? $parent_dtl['mothers_name'] : ''; ?>"   required />
                                     <div class="invalid-feedback">Please fill name !</div>
                                 </div>
                             </div>

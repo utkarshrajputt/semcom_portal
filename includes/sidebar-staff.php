@@ -2,9 +2,10 @@
 $stmt = mysqli_query($conn, "select full_name from staff_dtl where clg_email='$staff_email'");
 $name = mysqli_fetch_assoc($stmt);
 ?>
+
 <head>
     <style>
-        .dropdown{
+        .dropdown {
             color: red;
         }
     </style>
@@ -18,9 +19,14 @@ $name = mysqli_fetch_assoc($stmt);
     </div>
     <p class="h4" style="color:#1865A1;font-weight:bolder;padding-right:5%;">SEMCOMITE Staff Corner</p>
 
-
-    <h5 class="h4" style="color:#1865A1;font-weight:bolder;">Hello, <?php echo $name['full_name'] ?></h5>
-
+    <div>
+        <h5 class="h4" style="color:#1865A1;font-weight:bolder;">Hello, <?php echo $name['full_name'] ?></h5>
+        <?php
+        echo '<p class="mb-1" id="datetime">';
+        date_default_timezone_set("Asia/Kolkata");
+        echo  date('d-M-Y , h:i');
+        ?>
+    </div>
 </header>
 
 <div class="l-navbar" id="nav-bar" style="background-color:#4b524e;">
@@ -47,10 +53,10 @@ $name = mysqli_fetch_assoc($stmt);
                 </a>
                 <div class="dropdown">
                     <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        <i class="fas fa-pencil-alt"></i> 
+                        <i class="fas fa-pencil-alt"></i>
                         <span class="nav_name">Edit Student Detail</span>
                     </a>
-    
+
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="../staff/editForms/personal-details.php">
                             <i class="fa-solid fa-address-card"></i>
@@ -75,15 +81,15 @@ $name = mysqli_fetch_assoc($stmt);
                     </div>
                 </div>
                 <a href="../staff/report.php" class="nav_link mt-4" style="margin-left:2px">
-                <i class="fa-solid fa-file-lines"></i>
-                    <span class="nav_name">Report</span>
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span class="nav_name">Student Report</span>
                 </a>
                 <a href="../staff/attendance.php" class="nav_link mt-4">
-                <i class="fa-solid fa-id-card-clip"></i>
+                    <i class="fa-solid fa-id-card-clip"></i>
                     <span class="nav_name">Attendance</span>
                 </a>
                 <a href="../staff/attendance_report.php" class="nav_link mt-4">
-                <i class="fa-solid fa-address-book"></i>
+                    <i class="fa-solid fa-address-book"></i>
                     <span class="nav_name">Attendance Report</span>
                 </a>
             </div>
@@ -93,4 +99,22 @@ $name = mysqli_fetch_assoc($stmt);
     </nav>
 </div>
 <script>
-</script>
+        function updateTime() {
+            const dateElement = document.getElementById('datetime');
+            const now = new Date();
+            const options = { 
+                day: '2-digit', 
+                month: 'short', 
+                year: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                hour12: true 
+            };
+            const formatter = new Intl.DateTimeFormat('en-IN', options);
+            dateElement.textContent = formatter.format(now);
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call to set the time immediately on load
+    </script>
