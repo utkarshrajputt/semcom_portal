@@ -4,5 +4,11 @@
    $user_name = 'semcom';
    $user_password = 'semcom';
 
-   $conn = new PDO($db_name, $user_name, $user_password);
-
+   // Create connection
+   
+   try{
+      $conn = new PDO($db_name, $user_name, $user_password);
+   }catch(PDOException $e){
+      echo $e->getMessage();
+      header('location:../config/on_maintainance.php');
+   }
