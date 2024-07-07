@@ -99,63 +99,7 @@ if (!isset($admin_email)) {
             }
         });
 
-        //js assign course,sem,div filter
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('course').addEventListener('change', function() {
-                var course = this.value;
-                if (course) {
-                    fetchOptions('semesters', {
-                        course: course
-                    });
-                } else {
-                    resetDropdown('semester');
-                    resetDropdown('division');
-                }
-            });
 
-            document.getElementById('semester').addEventListener('change', function() {
-                var course = document.getElementById('course').value;
-                var semester = this.value;
-                if (semester) {
-                    fetchOptions('divisions', {
-                        course: course,
-                        semester: semester
-                    });
-                } else {
-                    resetDropdown('division');
-                }
-            });
-
-            function fetchOptions(type, data) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '', true); // Change to your backend endpoint
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.onload = function() {
-                    if (this.status == 200) {
-                        if (type == 'semesters') {
-                            updateDropdown('semester', this.responseText);
-                            resetDropdown('division');
-                        } else if (type == 'divisions') {
-                            updateDropdown('division', this.responseText);
-                        }
-                    }
-                };
-                var params = 'fetch=' + type + '&' + new URLSearchParams(data).toString();
-                xhr.send(params);
-            }
-
-            function updateDropdown(dropdownId, optionsHtml) {
-                var dropdown = document.getElementById(dropdownId);
-                dropdown.innerHTML = optionsHtml;
-                dropdown.disabled = false;
-            }
-
-            function resetDropdown(dropdownId) {
-                var dropdown = document.getElementById(dropdownId);
-                dropdown.innerHTML = '<option value="">--Select--</option>';
-                dropdown.disabled = true;
-            }
-        });
     </script>
     <?php
     //php course,sem,div
@@ -195,11 +139,7 @@ if (!isset($admin_email)) {
     <h2 class="text-center" style="font-weight:bolder;">Counselling Report</h2>
 
     <div id="councelTable" class="table-responsive mt-3">
-        <div class="d-flex justify-content-end mt-3 mb-3">
-            <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
-        </div>
-
-        <div id="searchBox" class="mb-3 d-flex justify-content-end">
+       <div id="searchBox" class="mb-3 d-flex justify-content-end">
             <input type="text" class="form-control w-50 me-2" id="searchInput" placeholder="Search...">
             <button class="btn btn-info" onclick="searchTable()">Search</buttonid>
         </div>

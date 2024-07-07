@@ -184,6 +184,8 @@ CREATE TABLE IF NOT EXISTS `stud_personal_details` (
   `aadhar_no` varchar(15) NOT NULL,
   `abc_id` varchar(15) NOT NULL,
   `pro_pic` varchar(35) NOT NULL,
+  `security_que` varchar(70) NOT NULL,
+  `security_ans` varchar(50) NOT NULL,
   PRIMARY KEY (`stud_id`),
   UNIQUE KEY `enroll_no` (`enroll_no`),
   UNIQUE KEY `enroll_no_2` (`enroll_no`)

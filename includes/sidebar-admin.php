@@ -107,6 +107,12 @@
                     <span class="nav_name">Transfer Data</span>
                 </a>
             </div>
+            <div class="nav_list mt-3" style="margin-left:3px;">
+                <a href="../admin/alumini_report.php" class="nav_link">
+                <i class="fa-solid fa-file-lines"></i>
+                    <span class="nav_name">Alumini Report</span>
+                </a>
+            </div>
         </div>
 
         <a class="lg" href="../includes/a_logout.php" onclick="return confirm('Do you really want to Logout?');"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>

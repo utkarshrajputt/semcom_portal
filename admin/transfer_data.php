@@ -230,6 +230,7 @@ try {
 
             foreach ($tables as $table) {
                 foreach ($enrollNos as $enroll_no) {
+                    
                     $sql = "SELECT * FROM $table WHERE enroll_no='$enroll_no'";
                     $result = mysqli_query($conn, $sql);
 

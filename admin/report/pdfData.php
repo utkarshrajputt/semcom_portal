@@ -7,8 +7,8 @@ if (isset($_POST['pdf_submit'])) {
 
 
     if ($choice == 'all') {
-        $start=$_POST['startPDF'];
-        $end=$_POST['endPDF'];
+        $start = $_POST['startPDF'];
+        $end = $_POST['endPDF'];
         ob_end_clean();
         header('location:../../includes/all_pdf.php?start=' . $start . '&end=' . $end . '');
         header('Content-Type: application/pdf');
@@ -36,8 +36,16 @@ if (isset($_POST['pdf_submit'])) {
         // Output the PDF
         exit; // Exit script after sending PDF
     }
+} else if (isset($_POST['alumini_sub'])) {
+    $enrollPDF = $_POST['alumini_enroll'];
+    $type = $_POST['type'];
+    ob_end_clean();
+    header('location:../../includes/pdf.php?enroll=' . $enrollPDF . '&type=' . $type . '');
+    header('Content-Type: application/pdf');
+    // Output the PDF
+
+    exit; // Exit script after sending PDF
 } else {
     echo "<script>alert('Contact admin!')</script>";
 }
 ob_end_flush();
-?>
