@@ -3,11 +3,13 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 
-$admin_email = $_SESSION['admin_email'];
+$admin_email = "";
 
-if (!isset($admin_email)) {
-    header('location:admin_login.php');
-    exit(); // Ensure script execution stops after redirect
+if (!isset($_SESSION['admin_email'])) {
+    header('location:index.php');
+}
+else{
+    $admin_email = $_SESSION['admin_email'];
 }
 
 function getUniqueSemesters($conn)

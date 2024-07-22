@@ -5,4 +5,4 @@ session_start();
 session_unset();
 session_destroy();
 
-header('location:../student/student_login.php');
+header('location:../student/index.php');

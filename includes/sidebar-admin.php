@@ -103,13 +103,13 @@
             </div>
             <div class="nav_list mt-4" style="margin-left:3px;">
                 <a href="../admin/transfer_data.php" class="nav_link">
-                <i class="fa-solid fa-file-lines"></i>
+                <i class="fa-solid fa-database"></i>
                     <span class="nav_name">Transfer Data</span>
                 </a>
             </div>
             <div class="nav_list mt-3" style="margin-left:3px;">
                 <a href="../admin/alumini_report.php" class="nav_link">
-                <i class="fa-solid fa-file-lines"></i>
+                <i class="fa-solid fa-magnifying-glass"></i>
                     <span class="nav_name">Alumini Report</span>
                 </a>
             </div>

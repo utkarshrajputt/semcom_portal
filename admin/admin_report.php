@@ -3,11 +3,13 @@
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$admin_email = $_SESSION['admin_email'];
+$admin_email = "";
 
-if (!isset($admin_email)) {
-    header('location:admin_login.php');
-    exit();
+if (!isset($_SESSION['admin_email'])) {
+    header('location:index.php');
+}
+else{
+    $admin_email = $_SESSION['admin_email'];
 }
 ?>
 <?php

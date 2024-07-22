@@ -2,11 +2,13 @@
 require('loader.php');
 require('../../includes/session.php');
 require('../../config/mysqli_db.php');
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
-    header('location:../../staff/staff_login.php');
-    exit;
+if (!isset($_SESSION['staff_email'])) {
+    header('location:index.php');
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
 }
 ?>
 <!DOCTYPE html>

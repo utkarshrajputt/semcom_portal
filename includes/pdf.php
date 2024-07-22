@@ -61,7 +61,7 @@ function createStudentPDF($studentData, $pdf, $type = '')
     $pdf->AddPage();
 
     // Set some content to print
-    $pdf->Image('../assets/images/semcom-logo.jpg', 170, 4, 25); // Path to the college logo
+    $pdf->Image('../assets/images/semcom-logo.jpg', 170, 4, 18); // Path to the college logo
     $img_path="";
     if($type=='alumini'){
         $img_path="../alumini/uploaded_images/";

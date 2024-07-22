@@ -9,10 +9,13 @@ require_once('../assets/libraries/pdf/tcpdf.php');
 ob_start();
 
 // Your existing PHP code here
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
-    header('location:staff_login.php');
+if (!isset($_SESSION['staff_email'])) {
+    header('location:index.php');
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
 }
 
 if (isset($_POST['pdf_submit'])) {

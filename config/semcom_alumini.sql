@@ -1,7 +1,28 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jul 22, 2024 at 08:32 PM
+-- Server version: 8.0.37
+-- PHP Version: 8.2.18
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Database: `semcom_alumini`
 --
+
 -- --------------------------------------------------------
+
 --
 -- Table structure for table `stud_academic_details`
 --
@@ -126,6 +147,12 @@ CREATE TABLE IF NOT EXISTS `stud_other_details` (
   KEY `enroll_no` (`enroll_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stud_parents_details`
+--
+
 DROP TABLE IF EXISTS `stud_parents_details`;
 CREATE TABLE IF NOT EXISTS `stud_parents_details` (
   `p_id` int NOT NULL AUTO_INCREMENT,
@@ -203,6 +230,7 @@ CREATE TABLE IF NOT EXISTS `stud_result` (
   `enroll_no` varchar(15) NOT NULL,
   `course` varchar(25) NOT NULL,
   `semester` varchar(5) NOT NULL,
+  `result_status` varchar(10) NOT NULL,
   `sgpa` varchar(6) NOT NULL,
   `cgpa` varchar(6) NOT NULL,
   `result_img` varchar(50) NOT NULL,
@@ -210,6 +238,10 @@ CREATE TABLE IF NOT EXISTS `stud_result` (
   PRIMARY KEY (`result_id`),
   KEY `enroll_no` (`enroll_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Constraints for dumped tables
+--
 
 --
 -- Constraints for table `stud_academic_details`
@@ -253,3 +285,7 @@ ALTER TABLE `stud_personal_details`
 ALTER TABLE `stud_result`
   ADD CONSTRAINT `stud_result_ibfk_1` FOREIGN KEY (`enroll_no`) REFERENCES `stud_login` (`enroll_no`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

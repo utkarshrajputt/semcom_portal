@@ -3,17 +3,18 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$enroll = $_SESSION['enroll'];
+$enroll = "";
 
-if (!isset($enroll)) {
-    header('location:student_login.php');
+if (!isset($_SESSION['enroll'])) {
+    header('location:index.php');
+    exit();
 } else {
-    $row=mysqli_fetch_row(mysqli_query($conn,"select complete_register from stud_login where enroll_no=$enroll"));
-    $bool=$row[0];
-    if($bool=='no')
-    {
+    $enroll = $_SESSION['enroll'];
+    $row = mysqli_fetch_row(mysqli_query($conn, "select complete_register from stud_login where enroll_no=$enroll"));
+    $bool = $row[0];
+    if ($bool == 'no') {
         header("location:profile_dashboard.php");
-    }    
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -58,9 +59,7 @@ if (!isset($enroll)) {
             <thead class="table-light text-center">
             <thead class="table-light">
                 <th>Id</th>
-                <th>Enroll</th>
                 <th>Name</th>
-                <th>Student Image</th>
                 <th>Councelling Date</th>
                 <th>Counselling Of</th>
                 <th>Mode Of Counselling</th>
@@ -74,19 +73,12 @@ if (!isset($enroll)) {
                             while ($resultData = $resultDataResult->fetch_assoc()) {
                                 ?>
                                     <td><?php echo $resultData['c_id']; ?></td>
-                                    <td><?php echo $resultData['enroll_no']; ?></td>
                                         <?php
                                         $enroll=$resultData['enroll_no'];
                                         $enrollDtlResult= mysqli_query($conn,"select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
                                         $enrollDtl = $enrollDtlResult->fetch_assoc();                                        
                                         ?>
                                     <td><?php echo $enrollDtl['full_name']?></td>
-                                    <td>
-                                        <?php
-                                            $filepath="../assets/images/uploaded_images/".$enrollDtl['pro_pic'];
-                                            echo "<img src='$filepath' width='50' height='50'>";
-                                        ?>
-                                    </td>
                                     <td><?php echo $resultData['c_date']; ?></td>
                                     <td><?php echo $resultData['counselling_of']; ?></td>
                                     <td><?php echo $resultData['mode_counsel']; ?></td>

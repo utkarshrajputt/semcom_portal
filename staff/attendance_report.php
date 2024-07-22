@@ -2,12 +2,13 @@
 require '../config/mysqli_db.php';
 require '../includes/session.php';
 
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
-    header('location: staff_login.php');
-    exit(); // Ensure script stops executing after redirection
-} else {
+if (!isset($_SESSION['staff_email'])) {
+    header('location:index.php');
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
     $select = mysqli_query($conn, "SELECT * FROM staff_class_assign WHERE staff_email='$staff_email'");
     if ($select->num_rows > 0) {
         $staffData = mysqli_fetch_assoc($select);

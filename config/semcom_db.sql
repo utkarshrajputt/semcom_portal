@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 02, 2024 at 05:48 PM
--- Server version: 8.3.0
+-- Generation Time: Jul 22, 2024 at 08:31 PM
+-- Server version: 8.0.37
 -- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -559,6 +559,7 @@ CREATE TABLE IF NOT EXISTS `stud_result` (
   `enroll_no` varchar(15) NOT NULL,
   `course` varchar(25) NOT NULL,
   `semester` varchar(5) NOT NULL,
+  `result_status` varchar(10) NOT NULL,
   `sgpa` varchar(6) NOT NULL,
   `cgpa` varchar(6) NOT NULL,
   `result_img` varchar(50) NOT NULL,
@@ -571,12 +572,12 @@ CREATE TABLE IF NOT EXISTS `stud_result` (
 -- Dumping data for table `stud_result`
 --
 
-INSERT INTO `stud_result` (`result_id`, `enroll_no`, `course`, `semester`, `sgpa`, `cgpa`, `result_img`, `add_request`) VALUES
-(1, '12101150801074', 'BCA', '1', '9.71', '9.71', '12101150801074_1.jpg', 'accepted'),
-(4, '12101150801038', 'BCA', '1', '5.5', '5.5', '12101150801038_1.jpg', 'pending'),
-(5, '12101150801017', 'BCA', '1', '9.54', '9.54', '12101150801017_1.jpeg', 'pending'),
-(6, '12101150801006', 'BCA', '1', '6.5', '6.5', '12101150801006_1.jpg', 'pending'),
-(7, '12101150801040', 'BCA', '1', '6.5', '6.5', '12101150801040_1.jpg', 'pending');
+INSERT INTO `stud_result` (`result_id`, `enroll_no`, `course`, `semester`, `result_status`, `sgpa`, `cgpa`, `result_img`, `add_request`) VALUES
+(1, '12101150801074', 'BCA', '1', '', '9.71', '9.71', '12101150801074_1.jpg', 'accepted'),
+(4, '12101150801038', 'BCA', '1', '', '5.5', '5.5', '12101150801038_1.jpg', 'pending'),
+(5, '12101150801017', 'BCA', '1', '', '9.54', '9.54', '12101150801017_1.jpeg', 'pending'),
+(6, '12101150801006', 'BCA', '1', '', '6.5', '6.5', '12101150801006_1.jpg', 'pending'),
+(7, '12101150801040', 'BCA', '1', '', '6.5', '6.5', '12101150801040_1.jpg', 'pending');
 
 --
 -- Constraints for dumped tables
