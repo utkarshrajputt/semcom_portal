@@ -7,7 +7,7 @@ $staff_email = "";
 if (!isset($_SESSION['staff_email'])) {
     header('location:staff_login.php');
     exit();
-} else {
+}else{
     $staff_email = $_SESSION['staff_email'];
 }
 

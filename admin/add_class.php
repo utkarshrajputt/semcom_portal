@@ -7,7 +7,8 @@ $admin_email = "";
 
 if (!isset($_SESSION['admin_email'])) {
     header('location:admin_login.php');
-} else {
+}
+else{
     $admin_email = $_SESSION['admin_email'];
 }
 ?>
