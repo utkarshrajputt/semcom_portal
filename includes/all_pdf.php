@@ -521,10 +521,28 @@ $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // Loop through each student and create a PDF page for them
-if ((isset($_GET['start'])) && (isset($_GET['end']))) {
-    $start = $_GET['start'];
-    $end = $_GET['end'];
-    $query = "SELECT enroll_no FROM stud_login WHERE enroll_no >= '$start' AND enroll_no <= '$end' AND complete_register = 'yes'";
+if ((isset($_GET['course'])) && (isset($_GET['sem'])) && (isset($_GET['div']))) {
+    $course = $_GET['course'];
+    $sem = $_GET['sem'];
+    $div = $_GET['div'];
+    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $course . "' and class_semester='" . $sem . "' and class_div='" . $div . "'");
+
+    $data = $dataResult->fetch_assoc();
+    $start = $data['class_enroll_start'];
+    $end = $data['class_enroll_end'];
+    $other_enrolls = $data['other_enrolls'];
+    $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+    // Merge the range enrollments with the additional enrollments
+    $all_enrolls = range($start, $end);
+    $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+    // Remove duplicates in case some enrollments are in both the range and the additional list
+    $all_enrolls = array_unique($all_enrolls);
+
+    // Convert the array to a comma-separated string for use in the SQL IN clause
+    $enroll_list = implode(',', $all_enrolls);
+
+    $query = "SELECT enroll_no FROM stud_login WHERE enroll_no IN ($enroll_list) AND complete_register = 'yes'";
     $result = $conn->query($query);
 
     while ($row = $result->fetch_assoc()) {

@@ -91,7 +91,7 @@
         <img src="../assets/images/semcom-logo.png" alt="College Logo" class="logo">
         
             <div class="dots-container">
-                <span id="label">Server is Offline</span>
+                <span id="label">Contact Admin</span>
                 <div class="dot"></div>
                 <div class="dot"></div>
                 <div class="dot"></div>

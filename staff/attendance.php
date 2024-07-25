@@ -7,11 +7,13 @@ require '../assets/libraries/vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
+if (!isset($_SESSION['staff_email'])) {
     header('location:staff_login.php');
-} else {
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
     $select = mysqli_query($conn, "select * from staff_class_assign where staff_email='$staff_email'");
     if ($select->num_rows > 0) {
         $staffData = mysqli_fetch_assoc($select);

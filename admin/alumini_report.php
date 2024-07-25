@@ -46,7 +46,7 @@ if (!isset($admin_email)) {
     require '../includes/sidebar-admin.php';
     ?>
     <br>
-    <h2 class="text-center" style="font-weight:bolder;">Alumini Report</h2>
+    <h2 class="text-center" style="font-weight:bolder;">Alumni Report</h2>
 
     <div id="councelTable" class="table-responsive mt-3">
 
@@ -83,33 +83,34 @@ if (!isset($admin_email)) {
                     <th>Action</th>
                 </thead>
             <tbody id="councel_body">
-                <form method="post"  action="../admin/report/pdfData.php">
+                <form method="post" action="../admin/report/pdfData.php">
                     <?php
                     try {
                         require '../config/alumini_db.php';
 
                         $enrollDtlResult = mysqli_query($conn, "select enroll_no,concat(f_name,' ',m_name,' ',l_name) as full_name,stud_course,adm_date,pro_pic from stud_personal_details");
                         if ($enrollDtlResult->num_rows > 0) {
-                            $enrollDtl = $enrollDtlResult->fetch_assoc();
+                            while ($enrollDtl = $enrollDtlResult->fetch_assoc()) {
                     ?>
-                            <tr data-course="<?php echo $enrollDtl['stud_course'] ?>">
-                                <td><input type="text" name="alumini_enroll" style="border:0;background:transparent;width:auto;" readonly value="<?php echo $enrollDtl['enroll_no']; ?>"></td>
+                                <tr data-course="<?php echo $enrollDtl['stud_course'] ?>">
+                                    <td><input type="text" name="alumini_enroll" style="border:0;background:transparent;width:auto;" readonly value="<?php echo $enrollDtl['enroll_no']; ?>"></td>
 
-                                <td><?php echo $enrollDtl['full_name'] ?></td>
-                                <td>
-                                    <?php
-                                    $filepath = "../alumini/uploaded_images/" . $enrollDtl['pro_pic'];
-                                    echo "<img src='$filepath' width='50' height='50'>";
-                                    ?>
-                                </td>
-                                <td><?php echo $enrollDtl['stud_course'] ?></td>
-                                <td><?php echo date('Y', strtotime($enrollDtl['adm_date'])); ?></td>
-                                <td>
-                                    <input type="hidden" name="type" value="alumini">
-                                    <button type="submit" name="alumini_sub" class="btn btn-primary">GET PDF</button>
-                                </td>
-                            </tr>
+                                    <td><?php echo $enrollDtl['full_name'] ?></td>
+                                    <td>
+                                        <?php
+                                        $filepath = "../alumini/uploaded_images/" . $enrollDtl['pro_pic'];
+                                        echo "<img src='$filepath' width='50' height='50'>";
+                                        ?>
+                                    </td>
+                                    <td><?php echo $enrollDtl['stud_course'] ?></td>
+                                    <td><?php echo date('Y', strtotime($enrollDtl['adm_date'])); ?></td>
+                                    <td>
+                                        <input type="hidden" name="type" value="alumini">
+                                        <button type="submit" name="alumini_sub" class="btn btn-primary">GET PDF</button>
+                                    </td>
+                                </tr>
                     <?php
+                            }
                         } else {
                             echo "<tr class='text-center'><td colspan='6'>No Data Found in Table</td></tr>";
                         }

@@ -3,11 +3,13 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 
-$admin_email = $_SESSION['admin_email'];
+$admin_email = "";
 
-if (!isset($admin_email)) {
+if (!isset($_SESSION['admin_email'])) {
     header('location:admin_login.php');
-    exit(); // Ensure script execution stops after redirect
+}
+else{
+    $admin_email = $_SESSION['admin_email'];
 }
 
 function getUniqueSemesters($conn)
@@ -15,9 +17,13 @@ function getUniqueSemesters($conn)
     $semesters = [];
     $query = "SELECT DISTINCT class_semester FROM course_class";
     if ($result = $conn->query($query)) {
+	if(mysqli_num_rows($result)>0){
         while ($row = $result->fetch_assoc()) {
             $semesters[] = $row['class_semester'];
         }
+	}else{
+		$semesters[]="";
+	}
         $result->free();
     } else {
         throw new Exception("Error fetching semesters: " . $conn->error);

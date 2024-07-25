@@ -18,14 +18,23 @@ function getAllStudentData($con, $staff_email)
         $staff = $selectResult->fetch_assoc();
 
         // Fetch enrollment number range based on course, semester, and division
-        $dataResult = mysqli_query($con, "SELECT class_enroll_start, class_enroll_end FROM course_class WHERE course_name='" . $staff['course'] . "' AND class_semester='" . $staff['semester'] . "' AND class_div='" . $staff['division'] . "'");
+        $dataResult = mysqli_query($con, "SELECT class_enroll_start, class_enroll_end,other_enrolls FROM course_class WHERE course_name='" . $staff['course'] . "' AND class_semester='" . $staff['semester'] . "' AND class_div='" . $staff['division'] . "'");
 
         if ($dataResult) {
             $enrollDtl = $dataResult->fetch_assoc();
-            $enrollNos = range($enrollDtl['class_enroll_start'], $enrollDtl['class_enroll_end']);
+            $start = $enrollDtl['class_enroll_start'];
+            $end = $enrollDtl['class_enroll_end'];
+            $other_enrolls = $enrollDtl['other_enrolls'];
+            $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
 
-            // Convert the enrollment number range to a comma-separated string
-            $enrollNosStr = implode(",", $enrollNos);
+            // Merge the range enrollments with the additional enrollments
+            $all_enrolls = range($start, $end);
+            $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+            // Remove duplicates in case some enrollments are in both the range and the additional list
+            $all_enrolls = array_unique($all_enrolls);
+
+            // Convert the array to a comma-separated string for use in the SQL IN clause
+            $enrollNosStr = implode(',', $all_enrolls);
 
             // Fetch main student data within the enrollment number range
             $query = "SELECT * FROM stud_personal_details spd
@@ -82,25 +91,25 @@ foreach ($students as $student) {
     // Personal Details
     $personalDetails[] = [
         'Enrollment No' => $student['enroll_no'],
-        'Admission Status'=> $student['adm_status'],
-        'Admission Date'=> $student['adm_date'],
-        'SPID'=> $student['spid'],
-        'Course'=> $student['stud_course'],
-        'Roll No'=> $student['roll_no'],
+        'Admission Status' => $student['adm_status'],
+        'Admission Date' => $student['adm_date'],
+        'SPID' => $student['spid'],
+        'Course' => $student['stud_course'],
+        'Roll No' => $student['roll_no'],
         'Name' => $student['f_name'] . ' ' . $student['m_name'] . ' ' . $student['l_name'],
         'Gender' => $student['gender'],
-        'Mobile No'=> $student['mob_no'],
+        'Mobile No' => $student['mob_no'],
         'Email ID' => $student['email_id'],
-        'Aadhaar No'=> $student['aadhar_no'],
-        'ABC ID'=> $student['abc_id'],
-        'Profile Pic'=> '../assets/images/uploaded_images/'.$student['pro_pic']
+        'Aadhaar No' => $student['aadhar_no'],
+        'ABC ID' => $student['abc_id'],
+        'Profile Pic' => '../assets/images/uploaded_images/' . $student['pro_pic']
     ];
 
     // Address Details
     $addressDetails[] = [
         'Enrollment No' => $student['enroll_no'],
         'Name' => $student['f_name'] . ' ' . $student['m_name'] . ' ' . $student['l_name'],
-        'Localite/Hostelite'=> $student['resident_type'],
+        'Localite/Hostelite' => $student['resident_type'],
         'Present Address Line 1' => $student['present_add'],
         'Present Address Line 2' => $student['present_add2'],
         'Present City' => $student['present_city'],
@@ -117,15 +126,15 @@ foreach ($students as $student) {
         'Name' => $student['f_name'] . ' ' . $student['m_name'] . ' ' . $student['l_name'],
         'Date of Birth' => $student['dob'],
         'Blood Group' => $student['blood_grp'],
-        'Height'=> $student['stud_height'],
-        'Weight'=> $student['stud_weight'],
-        'Hobbies'=> $student['stud_hobbies'],
-        'Category'=> $student['stud_category'],
-        'Religion'=> $student['stud_religion'],
-        'English Knowledge'=> $student['eng_know'],
-        'Hindi Knowledge'=> $student['hindi_know'],
-        'Gujarati Knowledge'=> $student['guj_know'],
-        'Other Language'=> $student['other_know']
+        'Height' => $student['stud_height'],
+        'Weight' => $student['stud_weight'],
+        'Hobbies' => $student['stud_hobbies'],
+        'Category' => $student['stud_category'],
+        'Religion' => $student['stud_religion'],
+        'English Knowledge' => $student['eng_know'],
+        'Hindi Knowledge' => $student['hindi_know'],
+        'Gujarati Knowledge' => $student['guj_know'],
+        'Other Language' => $student['other_know']
     ];
 
     // Parents Details
@@ -133,27 +142,27 @@ foreach ($students as $student) {
         'Enrollment No' => $student['enroll_no'],
         'Name' => $student['f_name'] . ' ' . $student['m_name'] . ' ' . $student['l_name'],
         'Father\'s Name' => $student['fathers_name'],
-        'Languages Known By Father'=> $student['lang_father'],
-        'Father\'s Mobile No'=> $student['fathers_mob'],
-        'Father\'s Uses Whatsapp?'=> $student['father_wp'],
-        'Father\'s Email'=> $student['fathers_email'],
-        'Father\'s Company'=> $student['fathers_co'],
-        'Father\'s Occupation'=> $student['fathers_occup'],
-        'Father\'s Annual Income'=> $student['fathers_annual_income'],
+        'Languages Known By Father' => $student['lang_father'],
+        'Father\'s Mobile No' => $student['fathers_mob'],
+        'Father\'s Uses Whatsapp?' => $student['father_wp'],
+        'Father\'s Email' => $student['fathers_email'],
+        'Father\'s Company' => $student['fathers_co'],
+        'Father\'s Occupation' => $student['fathers_occup'],
+        'Father\'s Annual Income' => $student['fathers_annual_income'],
         'Mother\'s Name' => $student['mothers_name'],
-        'Languages Known By Mother'=> $student['lang_mother'],
-        'Mother\'s Mobile No'=> $student['mothers_mob'],
-        'Mother\'s Uses Whatsapp?'=> $student['mother_wp'],
-        'Mother\'s Email'=> $student['mothers_email'],
-        'Mother\'s Company'=> $student['mothers_co'],
-        'Mother\'s Occupation'=> $student['mothers_occup'],
-        'Mother\'s Annual Income'=> $student['mothers_annual_income'],
-        'Emergency Mobile'=> $student['emergency_mob'],
-        'Emergency Person Name'=> $student['emergency_name'],
-        'Relationship With Person'=> $student['emergency_relationship'],
-        'Person Address'=> $student['emergency_add'],
-        'Person City'=> $student['emergency_city'],
-        'Person Pincode'=> $student['emergency_pincode']
+        'Languages Known By Mother' => $student['lang_mother'],
+        'Mother\'s Mobile No' => $student['mothers_mob'],
+        'Mother\'s Uses Whatsapp?' => $student['mother_wp'],
+        'Mother\'s Email' => $student['mothers_email'],
+        'Mother\'s Company' => $student['mothers_co'],
+        'Mother\'s Occupation' => $student['mothers_occup'],
+        'Mother\'s Annual Income' => $student['mothers_annual_income'],
+        'Emergency Mobile' => $student['emergency_mob'],
+        'Emergency Person Name' => $student['emergency_name'],
+        'Relationship With Person' => $student['emergency_relationship'],
+        'Person Address' => $student['emergency_add'],
+        'Person City' => $student['emergency_city'],
+        'Person Pincode' => $student['emergency_pincode']
     ];
 
     // Academic Details
@@ -170,7 +179,7 @@ foreach ($students as $student) {
         'HSC Percentage' => $student['hsc_percentage'],
         'HSC School Name' => $student['hsc_school'],
         'HSC Medium Of Study' => $student['hsc_medium'],
-        'Achievements'=>$student['stud_achieve']
+        'Achievements' => $student['stud_achieve']
     ];
 
     // Result Details
@@ -181,7 +190,7 @@ foreach ($students as $student) {
             'Semester' => $result['semester'],
             'SGPA' => $result['sgpa'],
             'CGPA' => $result['cgpa'],
-            'Result Image' => '../assets/images/result_images/'.$result['result_img']
+            'Result Image' => '../assets/images/result_images/' . $result['result_img']
         ];
     }
 
@@ -262,7 +271,8 @@ if (!empty($counselDetails)) {
 $spreadsheet->removeSheetByIndex(0);
 
 // Function to add data to a sheet
-function createSheet($spreadsheet, $data, $sheetName) {
+function createSheet($spreadsheet, $data, $sheetName)
+{
     $sheet = $spreadsheet->createSheet();
     $sheet->setTitle($sheetName);
 
@@ -299,7 +309,7 @@ function createSheet($spreadsheet, $data, $sheetName) {
                 // Set row height based on image height
                 $sheet->getRowDimension($row)->setRowHeight($drawing->getHeight() + 10); // Add extra for padding
 
-            }  else {
+            } else {
                 $sheet->setCellValueByColumnAndRow($col, $row, $value);
                 $col++;
             }
@@ -315,20 +325,18 @@ function createSheet($spreadsheet, $data, $sheetName) {
     // Center align all cells
     $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
         ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-    
+
     $sheet->getStyle('A1:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
         ->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-
 }
 
 // Set headers for download
 date_default_timezone_set('Asia/Kolkata'); // Set the timezone to IST
 $ExcelFileName = 'student_profiles_' . date('Ymd_hia') . '.xlsx';
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="'.$ExcelFileName.'"');
+header('Content-Disposition: attachment;filename="' . $ExcelFileName . '"');
 header('Cache-Control: max-age=0');
 
 // Save the Excel file to php://output (browser)
 $writer = new Xlsx($spreadsheet);
 $writer->save('php://output');
-?>

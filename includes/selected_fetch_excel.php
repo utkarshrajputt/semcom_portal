@@ -149,13 +149,24 @@ function getSelectedStudentData($con, $tables, $columns = [])
         $staff = $selectResult->fetch_assoc();
 
         // Fetch enrollment number range based on course, semester, and division
-        $dataResult = mysqli_query($con, "SELECT class_enroll_start, class_enroll_end FROM course_class WHERE course_name='" . $staff['course'] . "' AND class_semester='" . $staff['semester'] . "' AND class_div='" . $staff['division'] . "'");
+        $dataResult = mysqli_query($con, "SELECT class_enroll_start, class_enroll_end,other_enrolls FROM course_class WHERE course_name='" . $staff['course'] . "' AND class_semester='" . $staff['semester'] . "' AND class_div='" . $staff['division'] . "'");
 
         if ($dataResult) {
             $enrollDtl = $dataResult->fetch_assoc();
-            $enrollNos = range($enrollDtl['class_enroll_start'], $enrollDtl['class_enroll_end']);
+            $start = $enrollDtl['class_enroll_start'];
+            $end = $enrollDtl['class_enroll_end'];
+            $other_enrolls = $enrollDtl['other_enrolls'];
+            $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
 
-            $enrollNosStr = implode("','", $enrollNos);
+            // Merge the range enrollments with the additional enrollments
+            $all_enrolls = range($start, $end);
+            $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+            // Remove duplicates in case some enrollments are in both the range and the additional list
+            $all_enrolls = array_unique($all_enrolls);
+
+            // Convert the array to a comma-separated string for use in the SQL IN clause
+            $enrollNosStr = implode(',', $all_enrolls);
+
             foreach ($tables as $table) {
                 // Determine columns to select based on specified columns or default to all columns
                 if (empty($columns)) {
@@ -164,7 +175,7 @@ function getSelectedStudentData($con, $tables, $columns = [])
                     $columnsToSelect = array_intersect($columns, array_keys($tableColumnsMap[$table]));
                 }
 
-                $query = "SELECT enroll_no, " . implode(', ', $columnsToSelect) . " FROM $table WHERE enroll_no IN ('$enrollNosStr')";
+                $query = "SELECT enroll_no, " . implode(', ', $columnsToSelect) . " FROM $table WHERE enroll_no IN ($enrollNosStr)";
                 $result = $con->query($query);
 
                 // $i = 0;
@@ -185,7 +196,7 @@ function getSelectedStudentData($con, $tables, $columns = [])
             }
         }
     }
-
+    // print_r($query);
     return array_values($data); // Return indexed array
 
 }

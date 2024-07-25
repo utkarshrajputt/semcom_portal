@@ -3,11 +3,13 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$enroll = $_SESSION['enroll'];
+$enroll = "";
 
-if (!isset($enroll)) {
+if (!isset($_SESSION['enroll'])) {
     header('location:student_login.php');
-} else {
+    exit();
+}  else {
+    $enroll = $_SESSION['enroll'];
     $row=mysqli_fetch_row(mysqli_query($conn,"select complete_register from stud_login where enroll_no=$enroll"));
     $bool=$row[0];
     if($bool=='yes')

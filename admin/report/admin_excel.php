@@ -1,5 +1,5 @@
 <div id="excelDiv" class="container mt-5" style="display:none;">
-<h3 class="text-center"><u>EXCEL REPORT</u></h3>
+    <h3 class="text-center"><u>EXCEL REPORT</u></h3>
     <form method="get" action="../admin/report/selected_fetch_excel.php" onsubmit="return validateExcelForm()">
         <!-- Radio buttons for entry type -->
         <div class="mb-3">
@@ -35,8 +35,11 @@
                 <option value="stud_counsel">Counseling Details</option>
             </select>
             <div class="form-group col-md-6">
-                <input type="hidden" class="startEnroll" name="excel_start">
-                <input type="hidden" class="endEnroll" name="excel_end">
+                <input type="hidden" class="excel_course" name="excel_course">
+                <input type="hidden" class="excel_semester" name="excel_sem">
+                <input type="hidden" class="excel_division" name="excel_div">
+                <!-- <input type="hidden" class="excel_startEnroll" name="excel_start">
+                <input type="hidden" class="excel_endEnroll" name="excel_end"> -->
                 <button name="excel_submit" type="submit" class="btn btn-success mt-3">Submit</button>
             </div>
         </div>
@@ -79,15 +82,21 @@
                 </tbody>
             </table>
             <div class="form-group col-md-6">
-                <input type="hidden" class="startEnroll" name="excel_start">
-                <input type="hidden" class="endEnroll" name="excel_end">
+                <input type="hidden" class="excel_course" name="excel_course">
+                <input type="hidden" class="excel_semester" name="excel_sem">
+                <input type="hidden" class="excel_division" name="excel_div">
+                <!-- <input type="hidden" class="excel_startEnroll" name="excel_start">
+                <input type="hidden" class="excel_endEnroll" name="excel_end"> -->
                 <button name="excel_submit" type="submit" class="btn btn-success mt-3">Submit</button>
             </div>
         </div>
         <div class="form-group col-md-6" id="excelSelectAll" style="display: none;">
             <div class="form-group col-md-6">
-                <input type="hidden" id="all_start" class="startEnroll" name="excel_start">
-                <input type="hidden" id="all_end" class="endEnroll" name="excel_end">
+                <input type="hidden" class="excel_course" id="excel_course_txt" name="excel_course">
+                <input type="hidden" class="excel_semester" id="excel_semester_txt" name="excel_sem">
+                <input type="hidden" class="excel_division" id="excel_div_txt" name="excel_div">
+                <!-- <input type="hidden" id="all_start" class="startEnroll" name="excel_start">
+                <input type="hidden" id="all_end" class="endEnroll" name="excel_end"> -->
                 <button ID="all_submit" type="button" class="btn btn-success mt-3">Submit</button>
             </div>
         </div>
@@ -361,9 +370,10 @@
     }
     document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('all_submit').addEventListener('click', function() {
-            var start = document.getElementById('all_start').value;
-            var end = document.getElementById('all_end').value;
-            window.location.href = "../admin/report/all_excel.php?excel_start=" + start + "&excel_end=" + end + "";
+            var course_excel_var = document.getElementById('excel_course_txt').value;
+            var sem_excel_var = document.getElementById('excel_semester_txt').value;
+            var div_excel_var=document.getElementById('excel_div_txt').value;
+            window.location.href = "../admin/report/all_excel.php?excel_course="+course_excel_var+"&excel_sem="+sem_excel_var+"&excel_div="+div_excel_var+"";
         });
     });
 </script>

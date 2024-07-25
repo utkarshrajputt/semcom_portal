@@ -42,8 +42,11 @@
         <!-- All section -->
         <div class="form-group col-md-6" id="studentAllEntry" style="display: none;">
             <label for="studentAll">*All Students data get printed in pdf</label>
-            <input type="hidden" id="firstValue" name="startPDF">
-            <input type="hidden" id="lastValue" name="endPDF">
+            <!-- <input type="hidden" id="firstValue" name="startPDF">
+            <input type="hidden" id="lastValue" name="endPDF"> -->
+            <input type="hidden" id="course_txt" name="course_txt">
+            <input type="hidden" id="semester_txt" name="semester_txt">
+            <input type="hidden" id="division_txt" name="division_txt">
         </div>
 
         <!-- Submit button -->
@@ -129,30 +132,34 @@
         }
 
         if (entryType === 'all') {
-            var studentRangeStart = document.getElementById('studentRangeStart');
-            var options = studentRangeStart.options;
-            var firstValue = '';
-            var lastValue = '';
+            // var studentRangeStart = document.getElementById('studentRangeStart');
+            // var options = studentRangeStart.options;
+            // var firstValue = '';
+            // var lastValue = '';
 
-            // Find the first enabled option value
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].disabled === false) {
-                    firstValue = options[i].value;
-                    break;
-                }
-            }
+            // // Find the first enabled option value
+            // for (var i = 0; i < options.length; i++) {
+            //     if (options[i].disabled === false) {
+            //         firstValue = options[i].value;
+            //         break;
+            //     }
+            // }
 
-            // Find the last option value
-            for (var i = options.length - 1; i >= 0; i--) {
-                if (options[i].disabled === false) {
-                    lastValue = options[i].value;
-                    break;
-                }
-            }
+            // // Find the last option value
+            // for (var i = options.length - 1; i >= 0; i--) {
+            //     if (options[i].disabled === false) {
+            //         lastValue = options[i].value;
+            //         break;
+            //     }
+            // }
 
-            // Set the hidden input values
-            document.getElementById('firstValue').value = firstValue;
-            document.getElementById('lastValue').value = lastValue;
+            // // Set the hidden input values
+            // document.getElementById('firstValue').value = firstValue;
+            // document.getElementById('lastValue').value = lastValue;
+
+            document.getElementById('course_txt').value =  document.getElementById('course').value;
+            document.getElementById('semester_txt').value =  document.getElementById('semester').value;
+            document.getElementById('division_txt').value =  document.getElementById('division').value;
 
         }
     }

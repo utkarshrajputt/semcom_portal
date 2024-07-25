@@ -7,10 +7,11 @@ if (isset($_POST['pdf_submit'])) {
 
 
     if ($choice == 'all') {
-        $start = $_POST['startPDF'];
-        $end = $_POST['endPDF'];
+        $course=$_POST['course_txt'];
+        $semester=$_POST['semester_txt'];
+        $division=$_POST['division_txt'];
         ob_end_clean();
-        header('location:../../includes/all_pdf.php?start=' . $start . '&end=' . $end . '');
+        header('location:../../includes/all_pdf.php?course='.$course.'&sem='.$semester.'&div='.$division.'');
         header('Content-Type: application/pdf');
         // Output the PDF
         exit; // Exit script after sending PDF
