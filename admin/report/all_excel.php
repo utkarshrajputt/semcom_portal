@@ -46,9 +46,27 @@ function getAllStudentData($con, $enrollnos)
 
 
 // Example usage
-$start=$_GET['excel_start'];
-$end=$_GET['excel_end'];
-$enrollNos = range($start, $end);
+$course = $_GET['excel_course'];
+$sem = $_GET['excel_sem'];
+$div = $_GET['excel_div'];
+
+// Fetch enrollment number range based on course, semester, and division
+$dataResult = mysqli_query($conn, "SELECT class_enroll_start, class_enroll_end,other_enrolls FROM course_class WHERE course_name='" . $course . "' AND class_semester='" . $sem . "' AND class_div='" . $div . "'");
+
+$enrollDtl = $dataResult->fetch_assoc();
+$start = $enrollDtl['class_enroll_start'];
+$end = $enrollDtl['class_enroll_end'];
+$other_enrolls = $enrollDtl['other_enrolls'];
+$other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+// Merge the range enrollments with the additional enrollments
+$all_enrolls = range($start, $end);
+$all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+// Remove duplicates in case some enrollments are in both the range and the additional list
+$enrollNos = array_unique($all_enrolls);
+
+// Convert the array to a comma-separated string for use in the SQL IN clause
+// $enrollNosStr = implode(',', $all_enrolls);
 $students = getAllStudentData($conn, $enrollNos);
 
 // Separate arrays for each section of data

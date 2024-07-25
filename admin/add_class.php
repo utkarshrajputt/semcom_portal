@@ -3,10 +3,13 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$admin_email = $_SESSION['admin_email'];
+$admin_email = "";
 
-if (!isset($admin_email)) {
+if (!isset($_SESSION['admin_email'])) {
     header('location:admin_login.php');
+}
+else{
+    $admin_email = $_SESSION['admin_email'];
 }
 ?>
 <!DOCTYPE html>
@@ -77,6 +80,7 @@ if (!isset($admin_email)) {
             justify-content: flex-end;
             gap: 10px;
         }
+
         .nav_link {
             margin-bottom: 20px;
         }
@@ -99,7 +103,7 @@ if (!isset($admin_email)) {
         $division = $_POST['division'];
         $start = $_POST['enroll_start'];
         $end = $_POST['enroll_end'];
-
+        $other = $_POST['enroll_other'];
         try {
 
             $sql = "SELECT * FROM course_class WHERE course_name='$course' and class_semester='$semester' and class_div='$division'";
@@ -107,7 +111,7 @@ if (!isset($admin_email)) {
 
             $stmt = mysqli_query($conn, $sql);
             if (mysqli_num_rows($stmt) == 0) {
-                $stmt = mysqli_query($conn, "insert into course_class(course_name,class_semester,class_div,class_enroll_start,class_enroll_end) values('$course','$semester','$division',$start,$end)");
+                $stmt = mysqli_query($conn, "insert into course_class(course_name,class_semester,class_div,class_enroll_start,class_enroll_end,other_enrolls) values('$course','$semester','$division',$start,$end,'$other')");
 
                 echo "<script>alert('Data Saved Successfully!!');</script>";
             } else {
@@ -124,8 +128,10 @@ if (!isset($admin_email)) {
         $division = $_POST['editDivision'];
         $start = $_POST['editEnrollStart'];
         $end = $_POST['editEnrollEnd'];
+        $other = $_POST['editEnrollOther'];
+
         try {
-            $stmt = mysqli_query($conn, "update course_class set class_enroll_start='$start',class_enroll_end='$end' where course_name='$course' and class_semester='$semester' and class_div='$division'");
+            $stmt = mysqli_query($conn, "update course_class set class_enroll_start='$start',class_enroll_end='$end',other_enrolls='$other' where course_name='$course' and class_semester='$semester' and class_div='$division'");
 
             echo "<script>alert('Data Updated Successfully!!');</script>";
         } catch (mysqli_sql_exception $e) {
@@ -163,6 +169,7 @@ if (!isset($admin_email)) {
                         <th>Staff Name</th>
                         <th>Enrollment No Start</th>
                         <th>Enrollment No End</th>
+                        <th>Other Enrollment No</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -183,24 +190,22 @@ if (!isset($admin_email)) {
                                 $sem = $data['class_semester'];
                                 $div = $data['class_div'];
                                 $staff_qry = mysqli_query($conn, "select staff_email from staff_class_assign where course='$course' and semester='$sem' and division='$div'");
-                                if(mysqli_num_rows($staff_qry)>0)
-                                {
+                                if (mysqli_num_rows($staff_qry) > 0) {
                                     $staff = mysqli_fetch_assoc($staff_qry);
                                     $staff_email = $staff["staff_email"];
-                                    $staff_dtl=mysqli_fetch_assoc(mysqli_query($conn, "select full_name from staff_dtl where clg_email='$staff_email'"));
-                                    $full_name=$staff_dtl["full_name"];
-                                }
-                                else
-                                {
+                                    $staff_dtl = mysqli_fetch_assoc(mysqli_query($conn, "select full_name from staff_dtl where clg_email='$staff_email'"));
+                                    $full_name = $staff_dtl["full_name"];
+                                } else {
                                     $full_name = '<b>NOT ASSIGNED</b>';
                                 }
                             } catch (mysqli_sql_exception $e) {
                                 $full_name = '<b>NOT ASSIGNED</b>';
                             }
                             ?>
-                            <td><?php echo $full_name ?></td> 
+                            <td><?php echo $full_name ?></td>
                             <td><?php echo $data['class_enroll_start']; ?></td>
                             <td><?php echo $data['class_enroll_end']; ?></td>
+                            <td><?php echo $data['other_enrolls']; ?></td>
                             <td><button class="btn btn-warning btn-sm" onclick="editRecord(this)">Edit</button></td>
                         </tr>
                     <?php
@@ -227,12 +232,18 @@ if (!isset($admin_email)) {
                     <input type="text" class="form-control" id="editDivision" name="editDivision" style="pointer-events:none;background-color:#e9ecef;">
                 </div>
                 <div class="mb-3">
-                    <label for="editEnrollStart" class="form-label">Enrollment No Start</label>
+                    <label for="editEnrollStart" class="form-label">Enrollment No Start<br><span style="color:red;">*Enter NULL if you want to fill later! Dont Leave it as Blank</span></label>
                     <input type="text" class="form-control" id="editEnrollStart" name="editEnrollStart">
                 </div>
                 <div class="mb-3">
-                    <label for="editEnrollEnd" class="form-label">Enrollment No End</label>
+                    <label for="editEnrollEnd" class="form-label">Enrollment No End
+                    <br><span style="color:red;">*Enter NULL if you want to fill later! Dont Leave it as Blank</span>
+                    </label>
                     <input type="text" class="form-control" id="editEnrollEnd" name="editEnrollEnd">
+                </div>
+                <div class="mb-3">
+                    <label for="editEnrollOther" class="form-label">Other Enrollment No (Out Of Range)<br><span style="color:red;">*Enter NULL if not Else Enter All Nos with coma(,) seperated</span></label>
+                    <input type="text" class="form-control" id="editEnrollOther" name="editEnrollOther">
                 </div>
                 <div class="d-flex justify-content-between">
                     <button class="btn btn-success" name="btn_update">Update</button>
@@ -255,7 +266,7 @@ if (!isset($admin_email)) {
                 </div>
                 <div class="mb-3">
                     <label for="addDivision" class="form-label">Division <span style="color:red;">(Use '-' if doesn't exist)</span></label>
-                    <input type="text" class="form-control" id="addDivision" name="division" pattern="[A-Z\-]" title="Division must be a single uppercase letter from A to Z or - " required>
+                    <input type="text" class="form-control" id="addDivision" name="division" pattern="[A-Z0-9\-]+" title="Division must be like A,B or A1,A2 or - " required>
                 </div>
                 <div class="mb-3">
                     <label for="addEnrollStart" class="form-label">Enrollment No Start</label>
@@ -279,6 +290,17 @@ if (!isset($admin_email)) {
                         </div>
                     </div>
                 </div>
+                <div class="mb-3">
+                    <label for="addEnrollOther" class="form-label">Other Enrollment No (Out Of Range)<br><span style="color:red;">*Enter null if not Else Enter All Nos with coma(,) seperated</span></label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="addEnrollOther" pattern="[0-9]{14,}" title="Enroll must be at least 14 digits" name="enroll_other" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="enroll_other_chk" id="enroll_other_chk" aria-label="Fill Later?">&nbsp;&nbsp;<small class="form-text text-muted">Fill Later?</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="d-flex justify-content-between">
                     <button name="btn_add" type="submit" class="btn btn-primary">Add</button>
                 </div>
@@ -289,7 +311,9 @@ if (!isset($admin_email)) {
             function validateForm() {
                 const enrollStart = document.getElementById('addEnrollStart').value;
                 const enrollEnd = document.getElementById('addEnrollEnd').value;
-                if (!(document.getElementById('enroll_start_chk').checked || document.getElementById('enroll_end_chk').checked)) {
+                const enrollOther = document.getElementById('addEnrollOther').value;
+
+                if (!(document.getElementById('enroll_start_chk').checked || document.getElementById('enroll_end_chk').checked || document.getElementById('enroll_other_chk').checked)) {
 
                     if (isNaN(enrollStart) || isNaN(enrollEnd)) {
                         alert('Enrollment numbers must be numeric');
@@ -309,16 +333,17 @@ if (!isset($admin_email)) {
             function up_validateForm() {
                 const enrollStart = document.getElementById('editEnrollStart').value;
                 const enrollEnd = document.getElementById('editEnrollEnd').value;
-                if (isNaN(enrollStart) || isNaN(enrollEnd)) {
-                    alert('Enrollment numbers must be numeric');
-                    return false;
-                }
+                if (enrollStart != 'NULL' && enrollEnd != 'NULL') {
+                    if (isNaN(enrollStart) || isNaN(enrollEnd)) {
+                        alert('Enrollment numbers must be numeric');
+                        return false;
+                    }
 
-                if (parseInt(enrollEnd) <= parseInt(enrollStart)) {
-                    alert('Enrollment No End must be greater than Enrollment No Start');
-                    return false;
+                    if (parseInt(enrollEnd) <= parseInt(enrollStart)) {
+                        alert('Enrollment No End must be greater than Enrollment No Start');
+                        return false;
+                    }
                 }
-
 
                 return true;
             }
@@ -341,6 +366,7 @@ if (!isset($admin_email)) {
             document.getElementById('editDivision').value = row.cells[2].innerText;
             document.getElementById('editEnrollStart').value = row.cells[4].innerText;
             document.getElementById('editEnrollEnd').value = row.cells[5].innerText;
+            document.getElementById('editEnrollOther').value = row.cells[6].innerText;
         }
 
         function closeForm(formId) {
@@ -375,6 +401,17 @@ if (!isset($admin_email)) {
                 document.getElementById('addEnrollEnd').value = "";
                 document.getElementById('addEnrollEnd').style = "pointer-events:auto;background-color:white;";
                 document.getElementById('addEnrollEnd').removeAttribute('pattern');
+            }
+        });
+        document.getElementById('enroll_other_chk').addEventListener('click', () => {
+            if (document.getElementById('enroll_other_chk').checked) {
+                document.getElementById('addEnrollOther').value = "NULL";
+                document.getElementById('addEnrollOther').style = "pointer-events:none;background-color:#e9ecef;";
+                document.getElementById('addEnrollOther').removeAttribute('pattern');
+            } else {
+                document.getElementById('addEnrollOther').value = "";
+                document.getElementById('addEnrollOther').style = "pointer-events:auto;background-color:white;";
+                document.getElementById('addEnrollOther').removeAttribute('pattern');
             }
         });
 

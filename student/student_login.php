@@ -2,6 +2,8 @@
 require('../includes/loader.php');
 require('../config/mysqli_db.php');
 require('../includes/session.php');
+$enroll = "";
+
 if (isset($_COOKIE['enroll']) && isset($_COOKIE['pass'])) {
   $enroll = $_COOKIE['enroll'];
   $pass = $_COOKIE['pass'];
@@ -11,6 +13,19 @@ if (isset($_COOKIE['enroll']) && isset($_COOKIE['pass'])) {
   $enroll = "";
   $pass = "";
   $checked = "";
+}
+
+if (isset($_SESSION['enroll'])) {
+  $enroll = $_SESSION['enroll'];
+  $row = mysqli_fetch_row(mysqli_query($conn, "select complete_register from stud_login where enroll_no=$enroll"));
+  $bool = $row[0];
+  if($bool == 'no') {
+      header("location:profile_dashboard.php");
+      exit();
+  }else{
+    header("location:dashboard.php");
+    exit();
+  }
 }
 ?>
 

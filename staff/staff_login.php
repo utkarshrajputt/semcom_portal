@@ -2,6 +2,7 @@
 require('../includes/loader.php');
 require('../config/pdo_db.php');
 require('../includes/session.php');
+
 if (isset($_COOKIE['staff_email']) && isset($_COOKIE['staff_pass'])) {
   $staff_email = $_COOKIE['staff_email'];
   $staff_pass = $_COOKIE['staff_pass'];
@@ -12,7 +13,17 @@ if (isset($_COOKIE['staff_email']) && isset($_COOKIE['staff_pass'])) {
   $staff_pass = "";
   $checked = "";
 }
+if (isset($_SESSION['staff_email'])) {
+  $staff_email=$_SESSION['staff_email'];
+  $select_user = $conn->prepare("SELECT * FROM staff_dtl WHERE clg_email = ?");
+  $select_user->execute([$staff_email]);
+  $row = $select_user->fetch(PDO::FETCH_ASSOC);
 
+  if ($select_user->rowCount() > 0) {
+    header('location:dashboard.php');
+    exit();
+  }
+}
 ?>
 
 <!DOCTYPE html>

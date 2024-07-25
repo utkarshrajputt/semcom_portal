@@ -3,11 +3,13 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$enroll = $_SESSION['enroll'];
+$enroll = "";
 
-if (!isset($enroll)) {
+if (!isset($_SESSION['enroll'])) {
     header('location:student_login.php');
+    exit();
 } else {
+    $enroll = $_SESSION['enroll'];
     $row = mysqli_fetch_row(mysqli_query($conn, "select complete_register from stud_login where enroll_no=$enroll"));
     $bool = $row[0];
     if ($bool == 'no') {
@@ -19,7 +21,7 @@ if (isset($_POST['ach_submit'])) {
     $semester = $_POST['semester'];
     $event_date = $_POST['eventDate'];
     $event = $_POST['eventName'];
-    if ($event = "other") {
+    if ($event == "other") {
         $event = $_POST['otherEventName'];
     }
     $description = $_POST['description'];
@@ -154,12 +156,13 @@ if (isset($_POST['ach_submit'])) {
                                         <div class="form-group">
                                             <label for="eventName" class="text-dark">Event Name</label>
                                             <select class="form-control" id="eventName" name="eventName">
-                                                <option value="CVMU GYANOSTAV">CVMU GYANOSTAV</option>
-                                                <option value="CVMU HACKATHON">CVMU HACKATHON</option>
-                                                <option value="GREEN BUSINESS">GREEN BUSINESS</option>
-                                                <option value="GREEN BUSINESS">SMART EYE PHOTOGRAPHY</option>
-                                                <option value="GREEN BUSINESS">NOVELLUS AD-MAKING</option>
-                                                <option value="BBIC">BEST BESINESS IDEA CONTEST</option>
+                                                <option disabled selected>-- Select --</option>
+                                                <option>CVMU GYANOSTAV</option>
+                                                <option>CVMU HACKATHON</option>
+                                                <option>GREEN BUSINESS</option>
+                                                <option>SMART EYE PHOTOGRAPHY</option>
+                                                <option>NOVELLUS AD-MAKING</option>
+                                                <option>BEST BESINESS IDEA CONTEST</option>
                                                 <option value="other">Other</option>
                                             </select><br>
                                             <input type="text" class="form-control mt-2" id="otherEventName" name="otherEventName" placeholder="Enter other event name" style="display: none;">

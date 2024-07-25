@@ -2,11 +2,18 @@
 require '../includes/session.php';
 require '../config/mysqli_db.php';
 
-$enroll = $_SESSION['enroll']; // Assuming the student's enroll number is stored in the session
+$enroll = "";
 
-if (!isset($enroll)) {
-    header('location:student_login.php'); // Redirect to login page if not logged in
-    exit;
+if (!isset($_SESSION['enroll'])) {
+    header('location:student_login.php');
+    exit();
+} else {
+    $enroll = $_SESSION['enroll'];
+    $row = mysqli_fetch_row(mysqli_query($conn, "select complete_register from stud_login where enroll_no=$enroll"));
+    $bool = $row[0];
+    if ($bool == 'no') {
+        header("location:profile_dashboard.php");
+    }
 }
 
 // Fetch the latest semester and month data on page load

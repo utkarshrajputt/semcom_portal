@@ -55,13 +55,19 @@ function getStudentData($conn, $enroll_no)
 }
 
 // Function to create a PDF for a student
-function createStudentPDF($studentData, $pdf)
+function createStudentPDF($studentData, $pdf, $type = '')
 {
     // Add a page
     $pdf->AddPage();
 
     // Set some content to print
-    $pdf->Image('../assets/images/semcom-logo.jpg', 170, 4, 25); // Path to the college logo
+    $pdf->Image('../assets/images/semcom-logo.jpg', 170, 4, 18); // Path to the college logo
+    $img_path="";
+    if($type=='alumini'){
+        $img_path="../alumini/uploaded_images/";
+    }else{
+        $img_path="../assets/images/uploaded_images/";
+    }
     $html = '
 
         <h3 align="Center">STUDENT PROFILE</h3>
@@ -72,7 +78,7 @@ function createStudentPDF($studentData, $pdf)
                 <tr>
                     <td width="25%">
                     <br><br>
-                        <img src="../assets/images/uploaded_images/' . $studentData['personal_details']['pro_pic'] . '" alt="profile pic"  width="150" height="130" />
+                        <img src="'. $img_path . $studentData['personal_details']['pro_pic'] . '" alt="profile pic"  width="150" height="130" />
                     </td>
                     <td>
                         <table class="per-info" style="width: 100%; border-collapse: collapse;border-spacing:5px;">
@@ -620,16 +626,31 @@ if ((isset($_GET['start'])) && (isset($_GET['end']))) {
 
     // Fetch single enrollment number
     $enroll_no = $_GET['enroll'];
-    $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$enroll_no'");
-    $data = $enrollDtlResult->fetch_assoc();
 
-    // Fetch student data based on enrollment number
-    $studentData = getStudentData($conn, $enroll_no);
+    if (isset($_GET['type'])) {
+        if ($_GET['type'] == 'alumini') {
+            require '../config/alumini_db.php';
+            $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$enroll_no'");
+            $data = $enrollDtlResult->fetch_assoc();
 
-    createStudentPDF($studentData, $pdf);
+            // Fetch student data based on enrollment number
+            $studentData = getStudentData($conn, $enroll_no);
+
+            createStudentPDF($studentData,$pdf,'alumini');
+        }
+    } else {
+        $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$enroll_no'");
+        $data = $enrollDtlResult->fetch_assoc();
+
+        // Fetch student data based on enrollment number
+        $studentData = getStudentData($conn, $enroll_no);
+
+        createStudentPDF($studentData, $pdf);
+    }
+
 
     // Close and output PDF document
-    $pdfFileName = 'student_profile_' . $data['roll_no'].'-'.$data['full_name']. '.pdf';
+    $pdfFileName = 'student_profile_' . $data['roll_no'] . '-' . $data['full_name'] . '.pdf';
     $pdf->Output($pdfFileName, 'D');
 
     // Close the database connection

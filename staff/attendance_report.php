@@ -2,12 +2,13 @@
 require '../config/mysqli_db.php';
 require '../includes/session.php';
 
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
-    header('location: staff_login.php');
-    exit(); // Ensure script stops executing after redirection
-} else {
+if (!isset($_SESSION['staff_email'])) {
+    header('location:staff_login.php');
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
     $select = mysqli_query($conn, "SELECT * FROM staff_class_assign WHERE staff_email='$staff_email'");
     if ($select->num_rows > 0) {
         $staffData = mysqli_fetch_assoc($select);
@@ -47,7 +48,7 @@ if (!empty($course) && !empty($semester) && !empty($div)) {
         $first_week_end_date = $first_week['end_date'];
 
         $first_week_data_sql = "SELECT enroll_no, course, semester, division, start_date, end_date, at_percentage FROM stud_attendance 
-                                WHERE start_date = '$first_week_start_date' AND end_date = '$first_week_end_date' 
+                                WHERE start_date = '$first_week_start_date' AND end_date = '$first_week_end_date'  AND course = '$course' AND semester = '$semester' AND division = '$div'  
                                 ORDER BY enroll_no";
 
         $first_week_data_result = $conn->query($first_week_data_sql);

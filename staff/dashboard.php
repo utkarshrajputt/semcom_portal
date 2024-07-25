@@ -3,12 +3,15 @@ require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$staff_email = $_SESSION['staff_email'];
 
-if (!isset($staff_email)) {
+$staff_email = "";
+
+if (!isset($_SESSION['staff_email'])) {
     header('location:staff_login.php');
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,26 +84,36 @@ if (!isset($staff_email)) {
         $selectResult = $conn->query($selectQuery);
         if ($selectResult->num_rows > 0) {
             $row = $selectResult->fetch_assoc();
-            $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+            $dataResult = mysqli_query($conn, "SELECT class_enroll_start, class_enroll_end,other_enrolls FROM course_class WHERE course_name='" . $row['course'] . "' AND class_semester='" . $row['semester'] . "' AND class_div='" . $row['division'] . "'");
             try {
                 $data = $dataResult->fetch_assoc();
+                $other_enrolls = $data['other_enrolls'];
+                $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+                // Merge the range enrollments with the additional enrollments
+                $all_enrolls = range($data['class_enroll_start'], $data['class_enroll_end']);
+                $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+                // Remove duplicates in case some enrollments are in both the range and the additional list
+                $all_enrolls = array_unique($all_enrolls);
+
+                // Initialize counter
                 $i = 0;
-                $resultDataResult = mysqli_query($conn, "select * from stud_personal_details");
-                if ($resultDataResult->num_rows > 0) {
-                    while ($resultData = $resultDataResult->fetch_assoc()) {
-                        if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
-                            $enroll = $resultData['enroll_no'];
-                            $semester = $row['semester'];
-                            $div = $row['division'];
-                            $update_qry = mysqli_query($conn, "update stud_personal_details set stud_sem='$semester',stud_div='$div' where enroll_no='$enroll'");
-                            $i++;
-                        }
+
+                foreach ($all_enrolls as $enroll) {
+                    $resultDataResult = mysqli_query($conn, "SELECT * FROM stud_personal_details WHERE enroll_no='$enroll'");
+                    if ($resultDataResult->num_rows > 0) {
+                        $resultData = $resultDataResult->fetch_assoc();
+                        $semester = $row['semester'];
+                        $div = $row['division'];
+                        $update_qry = mysqli_query($conn, "UPDATE stud_personal_details SET stud_sem='$semester', stud_div='$div' WHERE enroll_no='$enroll'");
+                        $i++;
                     }
-                    if ($i > 0) {
-                        echo "<script>alert('Data Updated Successfully!!');</script>";
-                    }
+                }
+
+                if ($i > 0) {
+                    echo "<script>alert('".$i." Data Updated Successfully!!');</script>";
                 } else {
-                    echo "<tr class='text-center'><td colspan='2'>No Data Found in Result Table</td></tr>";
+                    echo "<tr class='text-center'><td colspan='2'>No Data Found in Result Table or Enrollment Not Assigned</td></tr>";
                 }
             } catch (mysqli_sql_exception $e) {
                 echo "<tr class='text-center'><td colspan='2'>Enrollment Not Assigned</td></tr>";
@@ -158,21 +171,34 @@ if (!isset($staff_email)) {
                 $selectResult = $conn->query($selectQuery);
                 if ($selectResult->num_rows > 0) {
                     $row = $selectResult->fetch_assoc();
-                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
                     try {
                         $data = $dataResult->fetch_assoc();
 
-                        $resultDataResult = mysqli_query($conn, "select * from stud_result where add_request='pending'");
+                        $start = $data['class_enroll_start'];
+                        $end = $data['class_enroll_end'];
+                        $other_enrolls = $data['other_enrolls'];
+                        $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+                        // Merge the range enrollments with the additional enrollments
+                        $all_enrolls = range($start, $end);
+                        $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+                        // Remove duplicates in case some enrollments are in both the range and the additional list
+                        $all_enrolls = array_unique($all_enrolls);
+
+                        // Convert the array to a comma-separated string for use in the SQL IN clause
+                        $enroll_list = implode(',', $all_enrolls);
+
+                        $resultDataResult = mysqli_query($conn, "SELECT * FROM stud_result WHERE add_request='pending' AND enroll_no IN ($enroll_list)");
                         if ($resultDataResult->num_rows > 0) {
                             while ($resultData = $resultDataResult->fetch_assoc()) {
-                                if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
                 ?>
-                <tr>
+                                <tr>
                                     <td><?php echo $resultData['result_id']; ?></td>
                                     <td><?php echo $resultData['enroll_no']; ?></td>
                                     <?php
                                     $enroll = $resultData['enroll_no'];
-                                    $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
+                                    $enrollDtlResult = mysqli_query($conn, "SELECT CONCAT(f_name, ' ', m_name, ' ', l_name) AS full_name, pro_pic FROM stud_personal_details WHERE enroll_no='$enroll'");
                                     $enrollDtl = $enrollDtlResult->fetch_assoc();
                                     ?>
                                     <td><?php echo $enrollDtl['full_name'] ?></td>
@@ -197,9 +223,8 @@ if (!isset($staff_email)) {
                                             <button name="res_reject" class='btn btn-danger'>REJECT</button>
                                         </form>
                                     </td>
-                                    </tr>
+                                </tr>
                 <?php
-                                }
                             }
                         } else {
                             echo "<tr class='text-center'><td colspan='2'>No Data Found in Result Table</td></tr>";
@@ -238,20 +263,35 @@ if (!isset($staff_email)) {
                 $selectResult = $conn->query($selectQuery);
                 if ($selectResult->num_rows > 0) {
                     $row = $selectResult->fetch_assoc();
-                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+
                     try {
                         $data = $dataResult->fetch_assoc();
 
-                        $resultDataResult = mysqli_query($conn, "select * from stud_counsel");
+                        $start = $data['class_enroll_start'];
+                        $end = $data['class_enroll_end'];
+                        $other_enrolls = $data['other_enrolls'];
+                        $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+                        // Merge the range enrollments with the additional enrollments
+                        $all_enrolls = range($start, $end);
+                        $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+                        // Remove duplicates in case some enrollments are in both the range and the additional list
+                        $all_enrolls = array_unique($all_enrolls);
+
+                        // Convert the array to a comma-separated string for use in the SQL IN clause
+                        $enroll_list = implode(',', $all_enrolls);
+
+                        $resultDataResult = mysqli_query($conn, "SELECT * FROM stud_counsel WHERE enroll_no IN ($enroll_list)");
                         if ($resultDataResult->num_rows > 0) {
                             while ($resultData = $resultDataResult->fetch_assoc()) {
-                                if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
                 ?>
+                                <tr>
                                     <td><?php echo $resultData['c_id']; ?></td>
                                     <td><?php echo $resultData['enroll_no']; ?></td>
                                     <?php
                                     $enroll = $resultData['enroll_no'];
-                                    $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$enroll'");
+                                    $enrollDtlResult = mysqli_query($conn, "SELECT CONCAT(f_name, ' ', m_name, ' ', l_name) AS full_name, pro_pic FROM stud_personal_details WHERE enroll_no='$enroll'");
                                     $enrollDtl = $enrollDtlResult->fetch_assoc();
                                     ?>
                                     <td><?php echo $enrollDtl['full_name'] ?></td>
@@ -266,15 +306,14 @@ if (!isset($staff_email)) {
                                     <td><?php echo $resultData['mode_counsel']; ?></td>
                                     <td><?php echo $resultData['c_time']; ?></td>
                                     <td><?php echo $resultData['counsel_session_info']; ?></td>
-                                    </tr>
+                                </tr>
                 <?php
-                                }
                             }
                         } else {
-                            echo "<tr class='text-center'><td colspan='2'>No Data Found in Table</td></tr>";
+                            echo "<tr class='text-center'><td colspan='9'>No Data Found in Table</td></tr>";
                         }
                     } catch (mysqli_sql_exception $e) {
-                        echo "<tr class='text-center'><td colspan='2'>Enrollment Not Assigned</td></tr>";
+                        echo "<tr class='text-center'><td colspan='9'>Enrollment Not Assigned</td></tr>";
                     }
                 } else {
                     echo "<tr class='text-center'><td colspan='2'>Class Not Assigned</td></tr>";

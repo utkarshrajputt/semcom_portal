@@ -6,5 +6,11 @@
    $dbname = "semcom_db";
 
    // Create connection
-   $conn = mysqli_connect($servername, $username, $password, $dbname);
+   
+   try{
+      $conn = mysqli_connect($servername, $username, $password, $dbname);
 
+   }catch(mysqli_sql_exception $e){
+      echo $e->getMessage();
+      header('location:../config/on_maintainance.php');
+   }

@@ -138,40 +138,59 @@ function getSelectedStudentData($con, $tables, $columns = [])
 
     $data = [];
 
-    $start=$_GET['excel_start'];
-    $end=$_GET['excel_end'];
-    $enrollNos = range($start, $end);
+        $course=$_GET['excel_course'];
+        $sem=$_GET['excel_sem'];
+        $div=$_GET['excel_div'];
 
-    $enrollNosStr = implode("','", $enrollNos);
-    foreach ($tables as $table) {
-        // Determine columns to select based on specified columns or default to all columns
-        if (empty($columns)) {
-            $columnsToSelect = array_keys($tableColumnsMap[$table]);
-        } else {
-            $columnsToSelect = array_intersect($columns, array_keys($tableColumnsMap[$table]));
-        }
+        // Fetch enrollment number range based on course, semester, and division
+        $dataResult = mysqli_query($con, "SELECT class_enroll_start, class_enroll_end,other_enrolls FROM course_class WHERE course_name='" . $course . "' AND class_semester='" . $sem . "' AND class_div='" . $div . "'");
 
-        $query = "SELECT enroll_no, " . implode(', ', $columnsToSelect) . " FROM $table WHERE enroll_no IN ('$enrollNosStr')";
-        $result = $con->query($query);
+        if ($dataResult) {
+            $enrollDtl = $dataResult->fetch_assoc();
+            $start = $enrollDtl['class_enroll_start'];
+            $end = $enrollDtl['class_enroll_end'];
+            $other_enrolls = $enrollDtl['other_enrolls'];
+            $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
 
-        // $i = 0;
-        while ($row = $result->fetch_assoc()) {
-            $enroll_no = $row['enroll_no'];
+            // Merge the range enrollments with the additional enrollments
+            $all_enrolls = range($start, $end);
+            $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+            // Remove duplicates in case some enrollments are in both the range and the additional list
+            $all_enrolls = array_unique($all_enrolls);
 
-            // Use enrollment number as the unique key
-            if (!isset($data[$enroll_no])) {
-                $data[$enroll_no] = [
-                    'Enrollment Number' => $enroll_no // Force as text to avoid scientific notation
-                ];
+            // Convert the array to a comma-separated string for use in the SQL IN clause
+            $enrollNosStr = implode(',', $all_enrolls);
+
+            foreach ($tables as $table) {
+                // Determine columns to select based on specified columns or default to all columns
+                if (empty($columns)) {
+                    $columnsToSelect = array_keys($tableColumnsMap[$table]);
+                } else {
+                    $columnsToSelect = array_intersect($columns, array_keys($tableColumnsMap[$table]));
+                }
+
+                $query = "SELECT enroll_no, " . implode(', ', $columnsToSelect) . " FROM $table WHERE enroll_no IN ($enrollNosStr)";
+                $result = $con->query($query);
+
+                // $i = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $enroll_no = $row['enroll_no'];
+
+                    // Use enrollment number as the unique key
+                    if (!isset($data[$enroll_no])) {
+                        $data[$enroll_no] = [
+                            'Enrollment Number' => $enroll_no // Force as text to avoid scientific notation
+                        ];
+                    }
+
+                    foreach ($columnsToSelect as $column) {
+                        $data[$enroll_no][$tableColumnsMap[$table][$column]] = isset($row[$column]) ? $row[$column] : ''; // Handle missing values
+                    }
+                }
             }
-
-            foreach ($columnsToSelect as $column) {
-                $data[$enroll_no][$tableColumnsMap[$table][$column]] = isset($row[$column]) ? $row[$column] : ''; // Handle missing values
-            }
         }
-    }
-
-
+    
+    // print_r($query);
     return array_values($data); // Return indexed array
 
 }
@@ -215,7 +234,7 @@ if (isset($_GET['entryExcelType'])) {
             }
             $rowIndex++;
         }
-
+        
 
 
         // Set headers for download

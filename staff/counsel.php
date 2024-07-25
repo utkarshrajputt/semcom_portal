@@ -2,26 +2,28 @@
 require('../includes/loader.php');
 require('../includes/session.php');
 require('../config/mysqli_db.php');
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
+if (!isset($_SESSION['staff_email'])) {
     header('location:staff_login.php');
-    exit;
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
 }
 
 if (isset($_POST["counsel_submit"])) {
     $enroll_no = $_POST['enroll_no'];
     $c_date = $_POST['c_date'];
     $counselling_of = $_POST['counselling_of'];
-    $mode=$_POST['session_mode'];
-    $c_time=$_POST['session_time'];
+    $mode = $_POST['session_mode'];
+    $c_time = $_POST['session_time'];
     // if ($counselling_of == "Other") {
     //     $counsel = $_POST['relation-counsel'];
     // }
     $counsel_session_info = $_POST['counsel_session_info'];
-  
-        $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,mode_counsel,c_time,counsel_session_info) VALUES ('$enroll_no', '$c_date', '$counselling_of', '$mode', '$c_time', '$counsel_session_info')";
-    
+
+    $insertQuery = "INSERT INTO stud_counsel (enroll_no,c_date,counselling_of,mode_counsel,c_time,counsel_session_info) VALUES ('$enroll_no', '$c_date', '$counselling_of', '$mode', '$c_time', '$counsel_session_info')";
+
     $stmt = mysqli_query($conn, $insertQuery);
 
     if ($stmt) {
@@ -155,17 +157,34 @@ if (isset($_POST["counsel_submit"])) {
                     $selectResult = $conn->query($selectQuery);
                     if ($selectResult->num_rows > 0) {
                         $row = $selectResult->fetch_assoc();
-                        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
-                        try {
-                            $data = $dataResult->fetch_assoc();
+                        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                        $data = $dataResult->fetch_assoc();
 
-                            for ($i = $data['class_enroll_start']; $i <= $data['class_enroll_end']; $i++) {
-                                $summaryQuery = "SELECT COUNT(stud_counsel.enroll_no) AS session_count FROM stud_counsel where stud_counsel.enroll_no=$i GROUP BY stud_counsel.enroll_no";
+                        $class_enroll_start = $data['class_enroll_start'];
+                        $class_enroll_end = $data['class_enroll_end'];
+                        $other_enrolls = $data['other_enrolls'];
+
+                        // Convert the comma-separated string to an array
+                        $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+                        // Merge the range enrollments with the additional enrollments
+                        $all_enrolls = range($class_enroll_start, $class_enroll_end);
+                        $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+
+                        // Remove duplicates in case some enrollments are in both the range and the additional list
+                        $all_enrolls = array_unique($all_enrolls);
+                        if (!(($class_enroll_start == 'NULL' || $class_enroll_start == '') && ($class_enroll_end == 'NULL' || $class_enroll_end == ''))) {
+                            // Initialize counter
+                            $i = 0;
+
+                            foreach ($all_enrolls as $i) {
+                                $summaryQuery = "SELECT COUNT(stud_counsel.enroll_no) AS session_count FROM stud_counsel WHERE stud_counsel.enroll_no=$i GROUP BY stud_counsel.enroll_no";
                                 $summaryResult = $conn->query($summaryQuery);
                                 $summary = $summaryResult->fetch_assoc();
 
-                                $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,pro_pic from stud_personal_details where enroll_no='$i'");
+                                $enrollDtlResult = mysqli_query($conn, "SELECT CONCAT(f_name,' ',m_name,' ',l_name) AS full_name, pro_pic FROM stud_personal_details WHERE enroll_no='$i'");
                                 $enrollDtl = $enrollDtlResult->fetch_assoc();
+
                                 echo "<tr>";
                                 echo "<td>{$i}</td>";
 
@@ -178,20 +197,23 @@ if (isset($_POST["counsel_submit"])) {
                                 echo "</td>";
 
                                 echo "<td>";
-                                $enrollDtlResult->num_rows > 0 ? $filepath = "../assets/images/uploaded_images/" . $enrollDtl['pro_pic'] : $filepath = '';
-                                echo $enrollDtlResult->num_rows > 0 ? "<img src='$filepath' width='50' height='50'>" : '';
+                                $filepath = ($enrollDtlResult->num_rows > 0) ? "../assets/images/uploaded_images/" . $enrollDtl['pro_pic'] : '';
+                                echo ($enrollDtlResult->num_rows > 0) ? "<img src='$filepath' width='50' height='50'>" : '';
                                 echo "</td>";
+
                                 echo "<td>";
-                                echo $summaryResult->num_rows == 0 ? '0' : $summary['session_count'];
+                                echo ($summaryResult->num_rows == 0) ? '0' : $summary['session_count'];
                                 echo "</td>";
-                                echo $enrollDtlResult->num_rows > 0 ? "<td><button class='btn btn-primary' onclick='showForm(this)'>Add New Session</button></td>" : "<td></td>";
+
+                                echo ($enrollDtlResult->num_rows > 0) ? "<td><button class='btn btn-primary' onclick='showForm(this)'>Add New Session</button></td>" : "<td></td>";
                                 echo "</tr>";
                             }
-                        } catch (mysqli_sql_exception $e) {
-                            echo "<tr class='text-center'><td colspan='2'>Enrollment Not Assigned</td></tr>";
+                        }
+                        else{
+                            echo "<tr class='text-center'><td colspan='4'>Enrollment Not Assigned</td></tr>";
                         }
                     } else {
-                        echo "<tr class='text-center'><td colspan='2'>Class Not Assigned</td></tr>";
+                        echo "<tr class='text-center'><td colspan='4'>Class Not Assigned</td></tr>";
                     }
                     // Fetch summary data
 

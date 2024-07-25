@@ -3,11 +3,12 @@
 require('../includes/session.php');
 require('../config/mysqli_db.php');
 require('../includes/fetchTableData.php');
-$admin_email = $_SESSION['admin_email'];
+$admin_email = "";
 
-if (!isset($admin_email)) {
+if (!isset($_SESSION['admin_email'])) {
     header('location:admin_login.php');
-    exit();
+} else {
+    $admin_email = $_SESSION['admin_email'];
 }
 ?>
 <?php
@@ -40,19 +41,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $course = $_POST['course'];
         $semester = $_POST['semester'];
         $division = $_POST['division'];
-        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $course . "' and class_semester='" . $semester . "' and class_div='" . $division . "'");
+        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $course . "' and class_semester='" . $semester . "' and class_div='" . $division . "'");
         try {
             $data = $dataResult->fetch_assoc();
-            $start = $data["class_enroll_start"];
-            $end = $data["class_enroll_end"];
+            $start = $data['class_enroll_start'];
+            $end = $data['class_enroll_end'];
+            $other_enrolls = $data['other_enrolls'];
+            $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+            // Merge the range enrollments with the additional enrollments
+            $all_enrolls = range($start, $end);
+            $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+            // Remove duplicates in case some enrollments are in both the range and the additional list
+            $all_enrolls = array_unique($all_enrolls);
+
+            // Convert the array to a comma-separated string for use in the SQL IN clause
+            // $enroll_list = implode(',', $all_enrolls);
 
             $options = "<option value='' disabled hidden selected>--Select--</option>";
 
-            for ($i = $start; $i <= $end; $i++) {
-                $enrollDtlResult = mysqli_query($conn, "SELECT roll_no, CONCAT(f_name, ' ', m_name, ' ', l_name) AS full_name FROM stud_personal_details WHERE enroll_no='$i'");
+            echo "<option value='' disabled hidden selected>--Select--</option>";
+            foreach ($all_enrolls as $enroll) {
+                $enrollDtlResult = mysqli_query($conn, "SELECT roll_no, CONCAT(f_name, ' ', m_name, ' ', l_name) AS full_name FROM stud_personal_details WHERE enroll_no='$enroll'");
                 if ($enrollDtlResult->num_rows > 0) {
                     $enrollDtl = $enrollDtlResult->fetch_assoc();
-                    $options .= "<option value='" . $i . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
+                    $options .= "<option value='" . $enroll . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
                 }
             }
         } catch (mysqli_sql_exception $e) {
@@ -164,21 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             document.getElementById('studentRangeEnd').innerHTML = '';
                             document.getElementById('studentRangeEnd').innerHTML = this.responseText;
 
-                        } else if (type == 'fetchDataExcel') {
-                            var data = JSON.parse(this.responseText);
-                            var start = data.start;
-                            var end = data.end;
-
-                            var enrollStart = document.getElementsByClassName('startEnroll');
-                            for (var i = 0; i < enrollStart.length; i++) {
-                                enrollStart[i].value = start;
-                            }
-
-                            var enrollEnd = document.getElementsByClassName('endEnroll');
-                            for (var i = 0; i < enrollEnd.length; i++) {
-                                enrollEnd[i].value = end;
-                            }
-
                         }
 
 
@@ -236,17 +234,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body id="body-pd">
     <?php
-        require '../includes/sidebar-admin.php';
+    require '../includes/sidebar-admin.php';
     ?>
     <br>
     <div id="reportTable" class="table-responsive mt-3">
-        <div class="d-flex justify-content-end mt-3 mb-4">
-            <button class="btn btn-info" onclick="ref()"><i class="fa-solid fa-arrow-left-long"></i> Back To Dashboard</button>
-        </div>
+
         <h2 class="text-center">Student Report</h2>
         <div class="container mt-4">
-        <p style="font-size:1.2rem;color:red;">*If you didnt get result as you want, try refreshing page one time</p>
-           
+            <p style="font-size:1.2rem;color:red;">*If you didnt get result as you want, try refreshing page one time</p>
+
             <form method="post">
                 <div class="row mb-3">
                     <div class="col-md-3">
@@ -275,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-info mt-4" id="fetchPDFBtn" type="button" style="pointer-events:none;background-color:grey;">Fetch PDF</button>
-                        <button class="btn btn-info mt-4" id="fetchEXCELBtn" type="button" style="pointer-events:none;background-color:grey;">Fetch EXCEL</button>
+                        <button class="btn btn-info mt-4" id="fetchEXCELBtn" onclick="fetchExcelData()" type="button" style="pointer-events:none;background-color:grey;">Fetch EXCEL</button>
                     </div>
                 </div>
             </form>
@@ -283,17 +279,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     </div>
 
-    
-        <?php
-            require('report/admin_pdf.php');
-        ?>
-    
-    
-        <?php
-            require('report/admin_excel.php');
-            ob_end_flush();
-        ?>
-    
+
+    <?php
+    require('report/admin_pdf.php');
+    ?>
+
+
+    <?php
+    require('report/admin_excel.php');
+    ob_end_flush();
+    ?>
+
 
 
     <script>
@@ -316,11 +312,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             document.getElementById('excelDiv').style.display = 'none';
         }
 
+        function fetchExcelData() {
+            $excel = document.getElementById('excelDiv');
+
+            var course_var = document.getElementsByClassName('excel_course');
+            for (var i = 0; i < course_var.length; i++) {
+                course_var[i].value = document.getElementById('course').value;
+            }
+
+            var semester_var = document.getElementsByClassName('excel_semester');
+            for (var i = 0; i < semester_var.length; i++) {
+                semester_var[i].value = document.getElementById('semester').value;
+            }
+
+            var division_var = document.getElementsByClassName('excel_division');
+            for (var i = 0; i < division_var.length; i++) {
+                division_var[i].value = document.getElementById('division').value;
+            }
+
+
+
+
+        }
+
         function ref() {
             window.location.href = "http://localhost/semcom_portal/admin/admin_dashboard.php";
         }
     </script>
-   
+
 </body>
 <script src="../assets/js/main.js"></script>
+
 </html>

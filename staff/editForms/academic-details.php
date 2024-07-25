@@ -2,11 +2,13 @@
 require('loader.php');
 require('../../includes/session.php');
 require('../../config/mysqli_db.php');
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
-    header('location:../../staff/staff_login.php');
-    exit;
+if (!isset($_SESSION['staff_email'])) {
+    header('location:staff_login.php');
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
 }
 ?>
 <!DOCTYPE html>
@@ -163,15 +165,27 @@ if (!isset($staff_email)) {
                     $selectResult = $conn->query($selectQuery);
                     if ($selectResult->num_rows > 0) {
                         $row = $selectResult->fetch_assoc();
-                        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
                         try {
                             $data = $dataResult->fetch_assoc();
-
-                            $resultDataResult = mysqli_query($conn, "select * from stud_academic_details order by enroll_no");
+                            $start = $data['class_enroll_start'];
+                            $end = $data['class_enroll_end'];
+                            $other_enrolls = $data['other_enrolls'];
+                            $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+                        
+                            // Merge the range enrollments with the additional enrollments
+                            $all_enrolls = range($start, $end);
+                            $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+                            // Remove duplicates in case some enrollments are in both the range and the additional list
+                            $all_enrolls = array_unique($all_enrolls);
+                        
+                            // Convert the array to a comma-separated string for use in the SQL IN clause
+                            $enroll_list = implode(',', $all_enrolls);
+                        
+                            $resultDataResult = mysqli_query($conn, "select * from stud_academic_details where enroll_no IN ($enroll_list)");
                             if ($resultDataResult->num_rows > 0) {
                                 while ($resultData = $resultDataResult->fetch_assoc()) {
-                                    if ($resultData['enroll_no'] >= $data['class_enroll_start'] && $resultData['enroll_no'] <= $data['class_enroll_end']) {
-                                        $enroll = $resultData['enroll_no'];
+                                         $enroll = $resultData['enroll_no'];
                                         $enrollDtlResult = mysqli_query($conn, "select concat(f_name,' ',m_name,' ',l_name) as full_name,roll_no from stud_personal_details where enroll_no='$enroll'");
                                         $enrollDtl = $enrollDtlResult->fetch_assoc();
                     ?>
@@ -193,7 +207,6 @@ if (!isset($staff_email)) {
                                         <td><?php echo $resultData['stud_achieve']; ?></td>
                                         </tr>
                     <?php
-                                    }
                                 }
                             } else {
                                 echo "<tr class='text-center'><td colspan='2'>No Data Found in Table</td></tr>";

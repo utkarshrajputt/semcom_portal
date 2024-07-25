@@ -9,10 +9,13 @@ require_once('../assets/libraries/pdf/tcpdf.php');
 ob_start();
 
 // Your existing PHP code here
-$staff_email = $_SESSION['staff_email'];
+$staff_email = "";
 
-if (!isset($staff_email)) {
+if (!isset($_SESSION['staff_email'])) {
     header('location:staff_login.php');
+    exit();
+}else{
+    $staff_email = $_SESSION['staff_email'];
 }
 
 if (isset($_POST['pdf_submit'])) {
@@ -21,54 +24,37 @@ if (isset($_POST['pdf_submit'])) {
     $selectQuery = "select course,semester,division from staff_class_assign where staff_email='$staff_email'";
     $selectResult = $conn->query($selectQuery);
 
-    // IF class is assigned then fetch enrollment no start and end range to get student data
-    if ($selectResult->num_rows > 0) {
-        $row = $selectResult->fetch_assoc();
-        $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
-        $data = mysqli_fetch_assoc($dataResult);
+    if ($choice == 'all') {
+        $sel=mysqli_fetch_assoc($selectResult);
+        header('location:../includes/all_pdf.php?course='.$sel['course'].'&sem='.$sel['semester'].'&div='.$sel['division'].'');
+        header('Content-Type: application/pdf');
+        // Output the PDF
 
-        $start = $data["class_enroll_start"];
-        $end = $data["class_enroll_end"];
-    } else {
-        $start = "";
-        $end = "";
-    }
+        ob_end_flush(); // Flush output buffer and send PDF
+        exit; // Exit script after sending PDF
 
-    if ($start != "" && $end != "") {
-        if ($choice == 'all') {
-            
-            header('location:../includes/all_pdf.php?start='.$start.'&end='.$end.'');           
-            header('Content-Type: application/pdf');
-            // Output the PDF
-            
-            ob_end_flush(); // Flush output buffer and send PDF
-            exit; // Exit script after sending PDF
+    } else if ($choice == 'single') {
+        // Handle single entry case
 
-        } else if ($choice == 'single') {
-            // Handle single entry case
+        $enrollPDF = $_POST['studentSingle'];
+        header('location:../includes/pdf.php?enroll=' . $enrollPDF . '');
+        header('Content-Type: application/pdf');
+        // Output the PDF
 
-            $enrollPDF=$_POST['studentSingle'];
-            header('location:../includes/pdf.php?enroll='.$enrollPDF.'');           
-            header('Content-Type: application/pdf');
-            // Output the PDF
-            
-            ob_end_flush(); // Flush output buffer and send PDF
-            exit; // Exit script after sending PDF
+        ob_end_flush(); // Flush output buffer and send PDF
+        exit; // Exit script after sending PDF
 
-        } else if ($choice == 'range') {
-            // Handle range entry case
-            $startVal=$_POST['studentRangeStart'];
-            $endVal=$_POST['studentRangeEnd'];
+    } else if ($choice == 'range') {
+        // Handle range entry case
+        $startVal = $_POST['studentRangeStart'];
+        $endVal = $_POST['studentRangeEnd'];
 
-            header('location:../includes/pdf.php?start='.$startVal.'&end='.$endVal.'');           
-            header('Content-Type: application/pdf');
-            // Output the PDF
-            
-            ob_end_flush(); // Flush output buffer and send PDF
-            exit; // Exit script after sending PDF
-        }
-    } else {
-        echo "<script>alert('Contact admin!')</script>";
+        header('location:../includes/pdf.php?start=' . $startVal . '&end=' . $endVal . '');
+        header('Content-Type: application/pdf');
+        // Output the PDF
+
+        ob_end_flush(); // Flush output buffer and send PDF
+        exit; // Exit script after sending PDF
     }
 }
 ?>
@@ -139,16 +125,30 @@ if (isset($_POST['pdf_submit'])) {
 
                         //IF class is assigned then fetch enrollment no start and end range to get student data
                         if ($selectResult->num_rows > 0) {
-                                $row = $selectResult->fetch_assoc();
-                                $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
-                                try {
+                            $row = $selectResult->fetch_assoc();
+                            $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                            try {
                                 $data = $dataResult->fetch_assoc();
+                                $start = $data['class_enroll_start'];
+                                $end = $data['class_enroll_end'];
+                                $other_enrolls = $data['other_enrolls'];
+                                $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+                                // Merge the range enrollments with the additional enrollments
+                                $all_enrolls = range($start, $end);
+                                $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+                                // Remove duplicates in case some enrollments are in both the range and the additional list
+                                $all_enrolls = array_unique($all_enrolls);
+
+                                // Convert the array to a comma-separated string for use in the SQL IN clause
+                                // $enroll_list = implode(',', $all_enrolls);
+
                                 echo "<option value='' disabled hidden selected>--Select--</option>";
-                                for ($i = $data['class_enroll_start']; $i <= $data['class_enroll_end']; $i++) {
-                                    $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$i'");
+                                foreach ($all_enrolls as $enroll) {
+                                    $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$enroll'");
                                     if ($enrollDtlResult->num_rows > 0) {
                                         $enrollDtl = $enrollDtlResult->fetch_assoc();
-                                        echo "<option value='" . $i . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
+                                        echo "<option value='" . $enroll . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
                                     }
                                 }
                             } catch (mysqli_sql_exception $e) {
@@ -178,15 +178,29 @@ if (isset($_POST['pdf_submit'])) {
                                 //IF class is assigned then fetch enrollment no start and end range to get student data
                                 if ($selectResult->num_rows > 0) {
                                     $row = $selectResult->fetch_assoc();
-                                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
                                     try {
                                         $data = $dataResult->fetch_assoc();
+                                        $start = $data['class_enroll_start'];
+                                        $end = $data['class_enroll_end'];
+                                        $other_enrolls = $data['other_enrolls'];
+                                        $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+                                        // Merge the range enrollments with the additional enrollments
+                                        $all_enrolls = range($start, $end);
+                                        $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+                                        // Remove duplicates in case some enrollments are in both the range and the additional list
+                                        $all_enrolls = array_unique($all_enrolls);
+
+                                        // Convert the array to a comma-separated string for use in the SQL IN clause
+                                        // $enroll_list = implode(',', $all_enrolls);
+
                                         echo "<option value='' disabled hidden selected>--Select--</option>";
-                                        for ($i = $data['class_enroll_start']; $i <= $data['class_enroll_end']; $i++) {
-                                            $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$i'");
+                                        foreach ($all_enrolls as $enroll) {
+                                            $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$enroll'");
                                             if ($enrollDtlResult->num_rows > 0) {
                                                 $enrollDtl = $enrollDtlResult->fetch_assoc();
-                                                echo "<option value='" . $i . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
+                                                echo "<option value='" . $enroll . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
                                             }
                                         }
                                     } catch (mysqli_sql_exception $e) {
@@ -211,15 +225,29 @@ if (isset($_POST['pdf_submit'])) {
                                 //IF class is assigned then fetch enrollment no start and end range to get student data
                                 if ($selectResult->num_rows > 0) {
                                     $row = $selectResult->fetch_assoc();
-                                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
+                                    $dataResult = mysqli_query($conn, "select class_enroll_start,class_enroll_end,other_enrolls from course_class where course_name='" . $row['course'] . "' and class_semester='" . $row['semester'] . "' and class_div='" . $row['division'] . "'");
                                     try {
                                         $data = $dataResult->fetch_assoc();
+                                        $start = $data['class_enroll_start'];
+                                        $end = $data['class_enroll_end'];
+                                        $other_enrolls = $data['other_enrolls'];
+                                        $other_enrolls_array = array_map('trim', explode(',', $other_enrolls));
+
+                                        // Merge the range enrollments with the additional enrollments
+                                        $all_enrolls = range($start, $end);
+                                        $all_enrolls = array_merge($all_enrolls, $other_enrolls_array);
+                                        // Remove duplicates in case some enrollments are in both the range and the additional list
+                                        $all_enrolls = array_unique($all_enrolls);
+
+                                        // Convert the array to a comma-separated string for use in the SQL IN clause
+                                        // $enroll_list = implode(',', $all_enrolls);
+
                                         echo "<option value='' disabled hidden selected>--Select--</option>";
-                                        for ($i = $data['class_enroll_start']; $i <= $data['class_enroll_end']; $i++) {
-                                            $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$i'");
+                                        foreach ($all_enrolls as $enroll) {
+                                            $enrollDtlResult = mysqli_query($conn, "select roll_no,concat(f_name,' ',m_name,' ',l_name) as full_name from stud_personal_details where enroll_no='$enroll'");
                                             if ($enrollDtlResult->num_rows > 0) {
                                                 $enrollDtl = $enrollDtlResult->fetch_assoc();
-                                                echo "<option value='" . $i . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
+                                                echo "<option value='" . $enroll . "'>" . $enrollDtl['roll_no'] . "-" . $enrollDtl['full_name'] . "</option>";
                                             }
                                         }
                                     } catch (mysqli_sql_exception $e) {
