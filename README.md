@@ -64,7 +64,7 @@ semcom\_portal/
 1. **Clone this Repository**
    ```bash
    git clone https://github.com/utkarshrajputt/semcom_portal.git
-````
+
 
 2. **Set Up XAMPP or LAMP**
 
