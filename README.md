@@ -122,9 +122,6 @@ semcom\_portal/
 
 ---
 
-## 📸 Screenshots
-
-> *(Add screenshots of the Admin, Staff, and Student dashboards here for better visual appeal!)*
 
 ---
 
